@@ -57,4 +57,4 @@ build/
 .vscode/
 
 ### Properties ###
-/resources/application.properties
+application.properties
