@@ -55,3 +55,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Properties ###
+/resources/application.properties
