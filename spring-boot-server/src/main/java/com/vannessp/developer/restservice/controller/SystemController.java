@@ -13,7 +13,7 @@ public class SystemController {
 
     @PostMapping("/signup") // Map ONLY POST Requests
     @ResponseBody
-    public String signupuser (@RequestParam String id, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String email) {
+    public String signupuser (@RequestParam Long id, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String email) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
