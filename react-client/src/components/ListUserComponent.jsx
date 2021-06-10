@@ -11,7 +11,6 @@ class ListUser extends Component {
     componentDidMount(){
         UserService.getUsers().then((res) => {
             this.setState({ users: res.data});
-
         });
     }
     
@@ -20,12 +19,12 @@ class ListUser extends Component {
             <div>
                 <h2 className="text-center">User Information</h2>
 
-                    <table>
+                    <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <td> First Name</td>
-                                <td> Last Name</td>
-                                <td> Email</td>
+                                <th> First Name</th>
+                                <th> Last Name</th>
+                                <th> Email</th>
                             </tr>
                         </thead>
 
@@ -34,9 +33,9 @@ class ListUser extends Component {
                                 this.state.users.map(
                                     user => 
                                     <tr key = {user.id}>
-                                        <td>{user.firstname}</td>
-                                        <td>{user.lastname}</td>
-                                        <td>{user.useremail}</td>
+                                        <td> {user.firstName} </td>
+                                        <td> {user.lastName} </td>
+                                        <td> {user.userEmail} </td>
                                     </tr>
                                 )
                             }

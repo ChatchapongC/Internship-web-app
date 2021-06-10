@@ -1,12 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-import ListUser from './components/ListUser';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import ListUserComponent from './components/ListUserComponent';
 
 function App() {
   return (
-    <div className="container">
-      <ListUser />
-    </div> 
+    <div>
+      <Router>
+      <div className="container">
+        <Switch> 
+            <Route path = "/users" component = {ListUserComponent}></Route>
+        </Switch>
+      </div> 
+      </Router>
+    </div>
   );
 }
 
