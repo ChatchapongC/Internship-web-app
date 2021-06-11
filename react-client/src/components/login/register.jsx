@@ -9,7 +9,7 @@ export class Register extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Sign Up</div>
+        <div className="header">SIGN UP</div>
         <div className="content">
           <div className="image">
             <img src={loginImg} />
@@ -34,7 +34,7 @@ export class Register extends React.Component {
             Sign up
           </button>
         </div>
-        <div className="footer">-------------------- or --------------------</div>
+        <div className="footer"> or </div>
         <div className="footer">
           <button type="button" className="btn">
             Sign in with Facebook

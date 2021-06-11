@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.scss";
-import { Login, Register } from "./components/login/index";
+import "./App.css";
+import { Login, Register, Navbar } from "./components/login";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -30,10 +32,11 @@ class App extends React.Component {
 
   render() {
     const { isLogginActive } = this.state;
-    const current = isLogginActive ? "Register" : "Login";
-    const currentActive = isLogginActive ? "login" : "register";
+    const current = isLogginActive ? "SIGN UP" : "SIGN IN";
+    const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
     return (
       <div className="App">
+      <Navbar />
         <div className="login">
           <div className="container" ref={ref => (this.container = ref)}>
             {isLogginActive && (
@@ -54,6 +57,7 @@ class App extends React.Component {
     );
   }
 }
+
 
 const RightSide = props => {
   return (
