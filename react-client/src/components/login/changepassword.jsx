@@ -1,7 +1,6 @@
 import React from "react";
-import loginImg from "../../login.svg";
 
-export class Login extends React.Component {
+export class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -9,11 +8,8 @@ export class Login extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">SIGN IN</div>
+        <div className="header">FORGET PASSWORD</div>
         <div className="content">
-          <div className="image">
-            <img src={loginImg} />
-          </div>
           <div className="form">
             <div className="form-group">
               <label htmlFor="Email"></label>
