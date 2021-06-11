@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import UserService from '../services/UserService'
 
-class ListUser extends Component {
+export class ListUser extends Component {
     constructor(props) {
         super(props)
 

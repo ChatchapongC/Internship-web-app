@@ -1,12 +1,18 @@
 import React from "react";
 import "./App.scss";
-import { Login, Register } from "./components/login/index";
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import {Register} from "../constants/index";
+import ListUserComponent from '../components/ListUserComponent';
+import Login from "../user/login/login";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogginActive: true
+      isLogginActive: true,
+      authenticated: false,
+      currentUser: null,
+      loading: false
     };
   }
 
@@ -34,22 +40,24 @@ class App extends React.Component {
     const currentActive = isLogginActive ? "login" : "register";
     return (
       <div className="App">
-        <div className="login">
-          <div className="container" ref={ref => (this.container = ref)}>
-            {isLogginActive && (
-              <Login containerRef={ref => (this.current = ref)} />
-            )}
-            {!isLogginActive && (
-              <Register containerRef={ref => (this.current = ref)} />
-            )}
+        <div>
+            <div className="login">
+              <div className="container" ref={ref => (this.container = ref)}>
+                {isLogginActive && (
+                  <Login containerRef={ref => (this.current = ref)} />
+                )}
+                {!isLogginActive && (
+                  <Register containerRef={ref => (this.current = ref)} />
+                )}
+              </div>
+              <RightSide
+                current={current}
+                currentActive={currentActive}
+                containerRef={ref => (this.rightSide = ref)}
+                onClick={this.changeState.bind(this)}
+              />
+            </div>
           </div>
-          <RightSide
-            current={current}
-            currentActive={currentActive}
-            containerRef={ref => (this.rightSide = ref)}
-            onClick={this.changeState.bind(this)}
-          />
-        </div>
       </div>
     );
   }
