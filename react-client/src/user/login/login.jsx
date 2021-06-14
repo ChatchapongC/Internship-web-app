@@ -7,6 +7,7 @@ import { login } from "../../util/APIUtils";
 import googleLogo from '../../img/google-logo.png';
 import "../../constants/style.scss";
 
+
 class Login extends Component {
 //   componentDidMount() {
 //     // If the OAuth2 login encounters an error, the user is redirected to the /login page with an error.
@@ -34,32 +35,27 @@ class Login extends Component {
     }
 
     return (
-      <div className="base-container" ref={this.props.containerRef}>
+      <div className="base-container" >
         <div className="header">Sign In</div>
         <div className="content">
           <div className="image">
             <img src={loginImg} />
           </div>
           <LoginForm/>
-          <div className="or-separator">
-          <span className="or-text">OR</span>
+          <div className="footer">
+            <div className="or">
+            <span className="or-text">OR</span>
+          </div>
           </div>
         </div>
-        <div className="footer">-------------------- or --------------------</div>
         <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Facebook
-          </button>
-        </div>
-        <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Google
-          </button>
+          <SocialLogin/>
         </div>
       </div>
     );
   }
 }
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -98,25 +94,25 @@ class LoginForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="form">
-          <div className="form-group">
-            <label htmlFor="Email"></label>
-            <input type="text" name="Email" placeholder="Email" 
-            value={this.state.email} onChange={this.state.handleInputChange} required/>
+        <div className="content">
+          <div className="form">
+            <div className="form-group">
+              <label htmlFor="Email"></label>
+              <input type="email" name="email" placeholder="Email" 
+              value={this.state.email} onChange={this.handleInputChange} required/>
+            </div>
+            <div className="form-group">
+              <label htmlFor="Password"></label>
+              <input type="password" name="password" placeholder="Password" 
+              value={this.state.password} onChange={this.handleInputChange} required/>
+              <a href="?">Forget password</a>
+            </div> 
+            <div className="footer">
+              <button type="button" className="btn">
+                Sign in
+              </button>
+            </div> 
           </div>
-
-          <div className="form-group">
-            <label htmlFor="Password"></label>
-            <input type="password" name="password" placeholder="Password" 
-            value={this.state.password} onChange={this.handleInputChange} required/>
-            <a href="?">Forget password</a>
-          </div> 
-          <div className="footer">
-            <button type="button" className="btn">
-              Sign in
-            </button>
-          </div> 
-
         </div>
       </form>       
     );

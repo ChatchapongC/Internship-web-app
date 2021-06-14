@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import {Register} from "../constants/index";
+import Register from "../user/signup/register";
 import ListUserComponent from '../components/ListUserComponent';
 import Login from "../user/login/login";
 
@@ -36,8 +36,8 @@ class App extends React.Component {
 
   render() {
     const { isLogginActive } = this.state;
-    const current = isLogginActive ? "Register" : "Login";
-    const currentActive = isLogginActive ? "login" : "register";
+    const current = isLogginActive ? "SIGN UP" : "SIGN IN";
+    const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
     return (
       <div className="App">
         <div>
@@ -62,6 +62,7 @@ class App extends React.Component {
     );
   }
 }
+
 
 const RightSide = props => {
   return (

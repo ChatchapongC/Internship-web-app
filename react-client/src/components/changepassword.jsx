@@ -1,7 +1,6 @@
 import React from "react";
-import loginImg from "../../img/login.svg";
 
-class Register extends React.Component {
+export class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -9,11 +8,8 @@ class Register extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">SIGN UP</div>
+        <div className="header">FORGET PASSWORD</div>
         <div className="content">
-          <div className="image">
-            <img src={loginImg} />
-          </div>
           <div className="form">
             <div className="form-group">
               <label htmlFor="Email"></label>
@@ -21,17 +17,14 @@ class Register extends React.Component {
             </div>
             <div className="form-group">
               <label htmlFor="Password"></label>
-              <input type="password" name="Password" placeholder="Password" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="Confirm Password"></label>
-              <input type="password" name="Confirm Password" placeholder="Confirm Password" />
+              <input type="password" name="password" placeholder="Password" />
+              <a href="?">Forget password</a>
             </div>
           </div>
         </div>
         <div className="footer">
           <button type="button" className="btn">
-            Sign up
+            Sign in
           </button>
         </div>
         <div className="footer"> or </div>
@@ -49,4 +42,3 @@ class Register extends React.Component {
     );
   }
 }
-export default Register
