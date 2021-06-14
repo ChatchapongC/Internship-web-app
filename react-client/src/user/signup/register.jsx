@@ -1,5 +1,10 @@
-import React from "react";
+import React, { Component } from 'react';
+import { Redirect, Link } from "react-router";
+import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from "../../constants";
 import loginImg from "../../img/login.svg";
+import { login } from "../../util/APIUtils";
+import googleLogo from '../../img/google-logo.png';
+import "../../constants/style.scss";
 
 class Register extends React.Component {
   constructor(props) {
@@ -36,17 +41,22 @@ class Register extends React.Component {
         </div>
         <div className="footer"> or </div>
         <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Facebook
-          </button>
-        </div>
-        <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Google
-          </button>
+          <SocialLogin/>
         </div>
       </div>
     );
+  }
+}
+class SocialLogin extends React.Component { 
+  render() {
+      return (
+          <div className="social-login">
+            <button type="button" className="btn">
+              <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                <img src={googleLogo} alt="Google"/>Sign in with Google</a>
+                </button>
+          </div>
+      );
   }
 }
 export default Register

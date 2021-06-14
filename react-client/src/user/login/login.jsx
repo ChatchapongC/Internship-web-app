@@ -1,4 +1,3 @@
-import { Alert } from "bootstrap";
 import React, { Component } from 'react';
 import { Redirect, Link } from "react-router";
 import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from "../../constants";
@@ -36,7 +35,7 @@ class Login extends Component {
 
     return (
       <div className="base-container" >
-        <div className="header">Sign In</div>
+        <div className="header">SIGN IN</div>
         <div className="content">
           <div className="image">
             <img src={loginImg} />
@@ -44,7 +43,7 @@ class Login extends Component {
           <LoginForm/>
           <div className="footer">
             <div className="or">
-            <span className="or-text">OR</span>
+            <span className="or-text">or</span>
           </div>
           </div>
         </div>
@@ -85,10 +84,10 @@ class LoginForm extends Component {
       login(loginRequest)
       .then(response => {
           localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-          Alert.success("You're successfully logged in!");
+          //Alert.success("You're successfully logged in!");
           this.props.history.push("/");
       }).catch(error => {
-          Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
+          //Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
       });
   }
   render() {
@@ -118,13 +117,14 @@ class LoginForm extends Component {
     );
   }
 }
-
-class SocialLogin extends Component {
+class SocialLogin extends React.Component { 
   render() {
       return (
           <div className="social-login">
+            <button type="button" className="btn">
               <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-                <img src={googleLogo} alt="Google" />Log in with Google</a>
+                <img src={googleLogo} alt="Google"/>Sign in with Google</a>
+                </button>
           </div>
       );
   }

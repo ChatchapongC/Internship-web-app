@@ -63,7 +63,6 @@ class App extends React.Component {
   }
 }
 
-
 const RightSide = props => {
   return (
     <div
