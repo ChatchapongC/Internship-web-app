@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
-//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -29,10 +27,5 @@ public class UserController {
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal){
         return userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
-    }
-
-    @GetMapping("/users")
-    public List<User> getAllUser(){
-        return userRepository.findAll();
     }
 }

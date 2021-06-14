@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import './AppHeader.css';
+import { BrowserRouter , Link, NavLink, withRouter } from 'react-router-dom';
+import './AppHeader.scss';
 
 class AppHeader extends Component {
     render() {

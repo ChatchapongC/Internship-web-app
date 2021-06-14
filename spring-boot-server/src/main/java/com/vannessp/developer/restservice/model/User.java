@@ -15,8 +15,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
+
+//    @Column(nullable = false)
+//    private String lastName;
 
     @Email
     @Column(nullable = false)
@@ -24,7 +27,7 @@ public class User {
 
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column
     private Boolean emailVerified = false;
 
     @JsonIgnore
@@ -51,6 +54,14 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
 
     public String getEmail() {
         return email;
