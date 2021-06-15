@@ -1,21 +1,18 @@
 import React, {Component} from "react";
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import loginImg from "../../img/login.svg";
 import { signup } from '../../util/APIUtils'
 import Alert from 'react-s-alert';
-import { GOOGLE_AUTH_URL } from "../../constants";
+import { GOOGLE_AUTH_URL } from "../../constants/index";
 import googleLogo from '../../img/google-logo.png';
 
 class Register extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     if(this.props.authenticated) {
       return <Redirect
           to={{
-          pathname: "/api",
+          pathname: "/",
           state: { from: this.props.location }
       }}/>;            
     } 

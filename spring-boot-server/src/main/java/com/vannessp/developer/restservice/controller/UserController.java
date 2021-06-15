@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
     //get all users
-    @GetMapping("/users/me")
+    @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal){
         return userRepository.findById(userPrincipal.getId())

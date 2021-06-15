@@ -1,16 +1,14 @@
 import React from "react";
 import "./App.scss";
-import {BrowserRouter,Route, Switch, Link, Router} from 'react-router-dom';
-import Register from "../user/signup/register";
+import {BrowserRouter,Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
-import ListUserComponent from '../components/ListUserComponent';
 import AppHeader from '../common/AppHeader.jsx';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import Home from '../home/Home';
 import PrivateRoute from '../common/PrivateRoute';
-import OAuth2RedirectHandler from '../user/oauth2/oauth2redirect';
+import OAuth2Redirect from '../user/oauth2/OAuth2Redirect';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
@@ -82,9 +80,9 @@ class App extends React.Component {
       return <LoadingIndicator />
     }
 
-    const { isLogginActive } = this.state;
-    const current = isLogginActive ? "SIGN UP" : "SIGN IN";
-    const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
+    // const { isLogginActive } = this.state;
+    // const current = isLogginActive ? "SIGN UP" : "SIGN IN";
+    // const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
 
     return (
       <div className="app-top-box">
@@ -102,7 +100,7 @@ class App extends React.Component {
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+              <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route>  
               <Route component={NotFound}></Route>
             </Switch>
             
@@ -112,21 +110,21 @@ class App extends React.Component {
       </div>
     );
   }
-}
-
-
-const RightSide = props => {
-  return (
-    <div
-      className="right-side"
-      ref={props.containerRef}
-      onClick={props.onClick}
-    >
-      <div className="inner-container">
-        <div className="text">{props.current}</div>
-      </div>
-    </div>
-  );
 };
+
+
+// const RightSide = props => {
+//   return (
+//     <div
+//       className="right-side"
+//       ref={props.containerRef}
+//       onClick={props.onClick}
+//     >
+//       <div className="inner-container">
+//         <div className="text">{props.current}</div>
+//       </div>
+//     </div>
+//   );
+// };
 
 export default App;
