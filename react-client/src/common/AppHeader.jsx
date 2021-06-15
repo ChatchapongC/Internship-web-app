@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import './AppHeader.css';
+import {Link, NavLink} from 'react-router-dom';
+import './AppHeader.scss';
 
 class AppHeader extends Component {
     render() {
@@ -8,7 +8,7 @@ class AppHeader extends Component {
             <header className="app-header">
                 <div className="container">
                     <div className="app-branding">
-                        <Link to="/" className="app-title">Spring Social</Link>
+                        <Link to="/" className="app-title">Internship Web App</Link>
                     </div>
                     <div className="app-options">
                         <nav className="app-nav">
