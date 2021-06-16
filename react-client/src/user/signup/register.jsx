@@ -31,12 +31,14 @@ class Register extends Component {
 class SocialSignUp extends Component {
   render() {
     return (
-      <div className="social-login">
-      <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-        <img src={googleLogo} alt="Google" />Sign up with Google</a>
-  </div>
+        <div className="social-login">
+          <button type="button" className="btn">
+            <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+              <img src={googleLogo} alt="Google"/>Sign in with Google</a>
+              </button>
+        </div>
     );
-  }
+}
 }
 
 class SignUpForm extends Component {
@@ -96,6 +98,13 @@ class SignUpForm extends Component {
                       value={this.state.password} onChange={this.handleInputChange} required/>
             </div>
 
+            <div className="form-group">
+              <label htmlFor="Password"></label>
+              <input type="password" name="confirmpassword" placeholder="Confirm Password"
+                      className="form-control" 
+                      value={this.state.confirmpassword} onChange={this.handleInputChange} required/>
+            </div>
+
            
             <div className="footer">
               <button type="submit" className="btn">
@@ -108,18 +117,6 @@ class SignUpForm extends Component {
 
     );
 }
+}
 
-}
-class SocialLogin extends React.Component { 
-  render() {
-      return (
-          <div className="social-login">
-            <button type="button" className="btn">
-              <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-                <img src={googleLogo} alt="Google"/>Sign in with Google</a>
-                </button>
-          </div>
-      );
-  }
-}
 export default Register
