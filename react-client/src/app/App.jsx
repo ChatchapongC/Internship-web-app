@@ -9,7 +9,7 @@ import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import Home from '../home/Home';
 import PrivateRoute from '../common/PrivateRoute';
-import OAuth2Redirect from '../user/oauth2/OAuth2Redirect';
+import OAuth2Redirect from '../user/oauth2/oauth2redirect';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
