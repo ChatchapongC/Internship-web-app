@@ -18,8 +18,11 @@ public class User {
     @Column
     private String name;
 
-//    @Column(nullable = false)
-//    private String lastName;
+    @Column(nullable = false)
+    private String firstname;
+
+    @Column(nullable = false)
+    private String lastName;
 
     @Email
     @Column(nullable = false)
@@ -53,6 +56,7 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+        splitName(name);
     }
 
 //    public String getLastName() {
@@ -109,5 +113,19 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+    public void splitName(String name){
+        String[] temp = name.split(" ");
+
+        this.firstname = temp[0];
+        for(int i = 1; i<temp.length; i++)
+        {
+            if(i!=1)
+            {
+                this.lastName = lastName.concat(" ");
+            }
+            this.lastName = lastName.concat(temp[i]);
+        }
     }
 }
