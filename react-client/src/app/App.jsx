@@ -1,4 +1,5 @@
 import React from "react";
+import { Navbar } from '../components/Navbar.jsx';
 import "./App.scss";
 import {BrowserRouter,Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
@@ -87,11 +88,10 @@ class App extends React.Component {
     return (
       <div className="app-top-box">
         <div>
+          <Navbar/>
           <BrowserRouter>
               <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
       <div className="App">
-        
-
             <Switch>
               <Route exact path="/" component={Home}></Route>           
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
@@ -125,5 +125,7 @@ class App extends React.Component {
 //     </div>
 //   );
 // };
+
+
 
 export default App;
