@@ -18,10 +18,10 @@ public class User {
     @Column
     private String name;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String firstname;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String lastName;
 
     @Email
