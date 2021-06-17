@@ -2,11 +2,24 @@ import React, { Component } from 'react';
 import './profile.scss';
 
 class Profile extends Component {
+
     constructor(props) {
         super(props);
+        // this.state = {groups: [], isLoading: true};
         console.log(props);
     }
+
+    // async componentDidMount() {
+    //     fetch('/job/1')
+    //   .then(response => response.json())
+    //   .then(data => this.setState({groups: data, isLoading: false}));
+    // }
+
     render() {
+        // const {groups, isLoading} = this.state;
+
+        
+
         return (
             <div className="profile-container">
                 <div className="container">
@@ -25,9 +38,13 @@ class Profile extends Component {
                         <div className="profile-name">
                            <h2>{this.props.currentUser.name}</h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
+                           {/* <p>1{groups.id}</p>
+                           <p>2{groups.business_name}</p>
+                           <p>3{groups.title}</p> */}
                         </div>
                     </div>
-                </div>    
+                </div>  
+
             </div>
         );
     }
