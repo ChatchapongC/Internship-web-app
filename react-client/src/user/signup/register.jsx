@@ -71,7 +71,7 @@ class SignUpForm extends Component {
   handleSubmit(event) {
       event.preventDefault();   
       const { password, confirmPassword} = this.state;
-      if( password !== confirmPassword) {
+      if( password != confirmPassword) {
         Alert.error("Password doesn't match")
       } else {
         const signUpRequest = Object.assign({}, this.state);
@@ -112,7 +112,7 @@ class SignUpForm extends Component {
 
             <div className="form-group">
               <label htmlFor="Password"></label>
-              <input type="password" name="confirmpassword" placeholder="Confirm Password"
+              <input type="password" name="confirmPassword" placeholder="Confirm Password"
                       className="form-control" 
                       value={this.state.confirmpassword} onChange={this.handleInputChange} required/>
             </div>
