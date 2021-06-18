@@ -81,6 +81,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.loadCurrentlyLoggedInUser();
+    this.loadjobList();
   }
 
   render() {
