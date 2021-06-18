@@ -6,6 +6,7 @@ import LoadingIndicator from '../common/LoadingIndicator';
 import AppHeader from '../common/AppHeader.jsx';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
+import { getCurrentJob } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import Home from '../home/Home';
 import PrivateRoute from '../common/PrivateRoute';
@@ -22,10 +23,12 @@ class App extends React.Component {
      // isLogginActive: true,
       authenticated: false,
       currentUser: null,
+      jobList: null,
       loading: false
     }
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
+    this.loadjobList = this.loadjobList.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
 
@@ -47,10 +50,29 @@ class App extends React.Component {
     });    
   }
 
+  loadjobList(){
+    this.setState({
+      loading: true
+    });
+    getCurrentJob()
+    .then(response => {
+      this.setState({
+        jobList: response,
+        authenticated: true,
+        loading: false
+      });
+    }).catch(error => {
+      this.setState({
+        loading: false
+      });  
+    });
+  }
+
   handleLogout() {
     localStorage.removeItem(ACCESS_TOKEN);
     this.setState({
       authenticated: false,
+      jobList: null,
       currentUser: null
     });
     Alert.success("You're safely logged out!");
@@ -59,6 +81,7 @@ class App extends React.Component {
   componentDidMount() {
     //Add .right by default
     this.loadCurrentlyLoggedInUser();
+    this.loadjobList();
     //this.rightSide.classList.add("right");
   }
 
@@ -94,7 +117,7 @@ class App extends React.Component {
       <div className="App">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
-              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+              <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} jobList={this.state.jobList}
                 component={Profile}></PrivateRoute>
               <Route path="/login"
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>

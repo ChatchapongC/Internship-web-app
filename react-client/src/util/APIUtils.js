@@ -50,13 +50,13 @@ export function signup(signupRequest) {
     });
 }
 
-export function getCurrentJobById(id) {
+export function getCurrentJob() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
 
     return request({
-        url: API_BASE_URL + "/job/"+id,
+        url: API_BASE_URL + "/job/1",
         method: 'GET'
     });
 }
