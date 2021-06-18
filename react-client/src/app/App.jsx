@@ -1,9 +1,8 @@
 import React from "react";
-import { Navbar } from '../components/Navbar.jsx';
+import  Navbar  from '../components/Navbar.jsx';
 import "./App.scss";
 import {BrowserRouter,Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
-import AppHeader from '../common/AppHeader.jsx';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
@@ -16,6 +15,7 @@ import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import ForgotPassword from "../components/forgetpassword.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -70,8 +70,7 @@ class App extends React.Component {
     return (
       <div className="app-top-box">
         <div>
-          <Navbar/>
-              <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
       <div className="App">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
@@ -81,14 +80,15 @@ class App extends React.Component {
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route>  
+              <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
+              <Route path="/forgotpassword" component={ForgotPassword}></Route> 
               <Route component={NotFound}></Route>
             </Switch>
             
           </div>
       </div>
       <Alert stack={{limit: 3}} 
-          timeout = {3000}
+          timeout = {5000}
           position='top-right' effect='slide' offset={65} />
       </div>
     );

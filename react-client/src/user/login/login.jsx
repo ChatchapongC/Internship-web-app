@@ -1,12 +1,12 @@
 import Alert from 'react-s-alert';
 import React, { Component } from 'react';
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from "../../constants/index";
 import loginImg from "../../img/login.svg";
 import { login } from "../../util/APIUtils";
 import googleLogo from '../../img/google-logo.png';
 import "../../components/style.scss";
-
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   componentDidMount() {
@@ -29,13 +29,14 @@ class Login extends Component {
     if(this.props.authenticated) {
       return <Redirect
           to={{
-          pathname: "/",
+          pathname: "/profile",
           state: { from: this.props.location }
       }}/>;            
     }
 
     return (
       <div className="base-container" >
+         <div className="footer"/>
         <div className="header">SIGN IN</div>
         <div className="content">
           <div className="image">
@@ -43,9 +44,7 @@ class Login extends Component {
           </div>
           <LoginForm {...this.props}/>
           <div className="footer">
-            <div className="or">
-            <span className="or-text">or</span>
-          </div>
+          <div className="or"><span>or</span></div>
           </div>
         </div>
         <div className="footer">
@@ -108,7 +107,7 @@ class LoginForm extends Component {
               <input type="password" name="password" placeholder="Password"
                 className="form-control"  
               value={this.state.password} onChange={this.handleInputChange} required/>
-              <a href="?">Forget password</a>
+              <Link to="/forgotpassword">Forgot password?</Link>
             </div> 
             <div className="footer">
               <button type="submit" className="btn">
