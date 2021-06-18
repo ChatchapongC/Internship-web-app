@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ACCESS_TOKEN } from '../../constants/index';
 import { Redirect } from 'react-router-dom'
 
-class OAuth2Redirect extends Component {
+class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -33,4 +33,4 @@ class OAuth2Redirect extends Component {
     }
 }
 
-export default OAuth2Redirect;
+export default OAuth2RedirectHandler;

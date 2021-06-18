@@ -1,6 +1,6 @@
 import React from "react";
 
-export class ForgotPassword extends React.Component {
+class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -8,7 +8,11 @@ export class ForgotPassword extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">FORGET PASSWORD</div>
+        <div className="footer"/>
+        <div className="header">FORGOT YOUR PASSWORD?</div>
+        <p>Please input your email,</p> 
+        <p>we will send you a reset password link to your email</p>
+        <div className="footer"/>
         <div className="content">
           <div className="form">
             <div className="form-group">
@@ -26,3 +30,4 @@ export class ForgotPassword extends React.Component {
     );
   }
 }
+export default ForgotPassword;
