@@ -9,17 +9,18 @@ import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import Home from '../home/Home';
 import PrivateRoute from '../common/PrivateRoute';
-import OAuth2Redirect from '../user/oauth2/OAuth2Redirect';
+import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     // isLogginActive: true,
       authenticated: false,
       currentUser: null,
       loading: false
@@ -57,23 +58,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //Add .right by default
     this.loadCurrentlyLoggedInUser();
-    //this.rightSide.classList.add("right");
   }
-
-  // changeState() {
-  //   const { isLogginActive } = this.state;
-
-  //   if (isLogginActive) {
-  //     this.rightSide.classList.remove("right");
-  //     this.rightSide.classList.add("left");
-  //   } else {
-  //     this.rightSide.classList.remove("left");
-  //     this.rightSide.classList.add("right");
-  //   }
-  //   this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
-  // }
 
   render() {
 
@@ -81,15 +67,10 @@ class App extends React.Component {
       return <LoadingIndicator />
     }
 
-    // const { isLogginActive } = this.state;
-    // const current = isLogginActive ? "SIGN UP" : "SIGN IN";
-    // const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
-
     return (
       <div className="app-top-box">
         <div>
           <Navbar/>
-          <BrowserRouter>
               <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
       <div className="App">
             <Switch>
@@ -105,27 +86,13 @@ class App extends React.Component {
             </Switch>
             
           </div>
-      </BrowserRouter>
       </div>
+      <Alert stack={{limit: 3}} 
+          timeout = {3000}
+          position='top-right' effect='slide' offset={65} />
       </div>
     );
   }
 };
-
-// const RightSide = props => {
-//   return (
-//     <div
-//       className="right-side"
-//       ref={props.containerRef}
-//       onClick={props.onClick}
-//     >
-//       <div className="inner-container">
-//         <div className="text">{props.current}</div>
-//       </div>
-//     </div>
-//   );
-// };
-
-
 
 export default App;

@@ -85,10 +85,11 @@ class LoginForm extends Component {
       login(loginRequest)
       .then(response => {
           localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-          //Alert.success("You're successfully logged in!");
-          this.props.history.push("/");
+          Alert.success("You're successfully logged in!");
+          this.props.history.push("/profile");
+          window.location.reload();
       }).catch(error => {
-          Alert.info((error && error.message) || 'Oops! Something went wrong. Please try again!');
+          Alert.error((error && error.message+': Email or password is incorrect') || 'Oops! Something went wrong. Please try again!');
       });
   }
   render() {

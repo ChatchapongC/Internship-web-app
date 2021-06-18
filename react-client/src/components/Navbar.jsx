@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import './Navbar.scss';
-
 import {
   Nav,
   NavbarContainer,
@@ -42,12 +41,13 @@ export function Navbar() {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
+        <BrowserRouter>
           <NavbarContainer>
-            <BrowserRouter>
             <NavLogo to='/' onClick={closeMobileMenu}>
-              <NavIcon />
+              <NavIcon/>
               INTERNSHIP
             </NavLogo>
+         
             <MobileIcon onClick={handleClick}>
               {click ? <FaTimes /> : <FaBars />}
             </MobileIcon>
@@ -74,11 +74,11 @@ export function Navbar() {
               </NavItem>
               <NavItemBtn>
                 {button ? (
-                  <NavBtnLink to='/sign-up'>
+                  <NavBtnLink to='/signup'>
                     <button className="btn">SIGN UP</button>
                   </NavBtnLink>
                 ) : (
-                  <NavBtnLink to='/sign-up'>
+                  <NavBtnLink to='/signup'>
                     <button className="btn" onClick={closeMobileMenu} >
                       SIGN UP
                     </button>
@@ -87,11 +87,11 @@ export function Navbar() {
               </NavItemBtn>
               <NavItemBtn>
                 {button ? (
-                  <NavBtnLink to='/sign-in'>
+                  <NavBtnLink to='/signin'>
                     <button className="btn">SIGN IN</button>
                   </NavBtnLink>
                 ) : (
-                  <NavBtnLink to='/sign-in'>
+                  <NavBtnLink to='/signin'>
                     <button className="btn" onClick={closeMobileMenu} >
                       SIGN IN
                     </button>
@@ -99,11 +99,12 @@ export function Navbar() {
                 )}
               </NavItemBtn>
             </NavMenu>
-            </BrowserRouter>
           </NavbarContainer>
+          </BrowserRouter>
         </Nav>
       </IconContext.Provider>
     </>
   );
 }
 
+export default Navbar;

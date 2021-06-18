@@ -46,8 +46,10 @@ class SignUpForm extends Component {
     super(props);
     this.state = {
         email: '',
-        password: ''
+        password: '',
+        confirmPassword:''
     }
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -63,15 +65,19 @@ class SignUpForm extends Component {
 
   handleSubmit(event) {
       event.preventDefault();   
-
-      const signUpRequest = Object.assign({}, this.state);
-      signup(signUpRequest)
-      .then(response => {
-          Alert.success("You're successfully registered. Please login to continue!");
-          this.props.history.push("/login");
-      }).catch(error => {
-          Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
-      });
+      const { password, confirmPassword} = this.state;
+      if( password !== confirmPassword) {
+        Alert.error("Password doesn't match")
+      } else {
+        const signUpRequest = Object.assign({}, this.state);
+        signup(signUpRequest)
+        .then(response => {
+            Alert.success("You're successfully registered. Please login to continue!");
+            this.props.history.push("/login");
+        }).catch(error => {
+            Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
+        });
+      }
   }
   render() {
     return (
