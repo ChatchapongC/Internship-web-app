@@ -30,6 +30,9 @@ public class User {
     @Column
     private Boolean emailVerified = false;
 
+    @Column
+    private String resetPasswordToken;
+
     @JsonIgnore
     private String password;
 
@@ -55,13 +58,6 @@ public class User {
         this.name = name;
     }
 
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 
     public String getEmail() {
         return email;
@@ -109,5 +105,13 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 }

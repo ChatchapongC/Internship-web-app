@@ -81,7 +81,8 @@ class App extends React.Component {
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
-              <Route path="/forgotpassword" component={ForgotPassword}></Route> 
+              <Route path="/forgotpassword"
+                render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route component={NotFound}></Route>
             </Switch>
             
