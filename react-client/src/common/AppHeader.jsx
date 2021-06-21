@@ -24,10 +24,10 @@ class AppHeader extends Component {
                                 ): (
                                     <ul>
                                         <li>
-                                            <NavLink to="/login">SignIn</NavLink>        
+                                            <NavLink to="/login">Login</NavLink>        
                                         </li>
                                         <li>
-                                            <NavLink to="/signup">SignUp</NavLink>        
+                                            <NavLink to="/signup">Signup</NavLink>        
                                         </li>
                                     </ul>
                                 )}

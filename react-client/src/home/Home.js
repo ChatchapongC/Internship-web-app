@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
 import { InfoSection } from '../components/InfoSection/InfoSection';
 
-
 class Home extends Component {
     render() {
         return (

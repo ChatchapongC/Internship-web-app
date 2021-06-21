@@ -49,3 +49,11 @@ export function signup(signupRequest) {
         body: JSON.stringify(signupRequest)
     });
 }
+
+export function forgotpassword(forgotPassword) {
+    return request({
+        url: API_BASE_URL + "/forgotpassword",
+        method: 'POST',
+        body: JSON.stringify(forgotPassword)
+    });
+}

@@ -5,12 +5,11 @@ import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
 import {BrowserRouter, Route, Router, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
-import AppHeader from '../common/AppHeader.jsx';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRoute';
-import OAuth2Redirect from '../user/oauth2/OAuth2Redirect';
+import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
@@ -18,12 +17,14 @@ import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
 
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import ForgotPassword from "../components/forgetpassword.jsx";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     // isLogginActive: true,
       authenticated: false,
       currentUser: null,
       loading: false
@@ -61,23 +62,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //Add .right by default
     this.loadCurrentlyLoggedInUser();
-    //this.rightSide.classList.add("right");
   }
-
-  // changeState() {
-  //   const { isLogginActive } = this.state;
-
-  //   if (isLogginActive) {
-  //     this.rightSide.classList.remove("right");
-  //     this.rightSide.classList.add("left");
-  //   } else {
-  //     this.rightSide.classList.remove("left");
-  //     this.rightSide.classList.add("right");
-  //   }
-  //   this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
-  // }
 
   render() {
 
@@ -85,32 +71,11 @@ class App extends React.Component {
       return <LoadingIndicator />
     }
 
-    // const { isLogginActive } = this.state;
-    // const current = isLogginActive ? "SIGN UP" : "SIGN IN";
-    // const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
-
-    function App() {
-      return (
-        <Router>
-          <GlobalStyle />
-          <ScrollToTop />
-          <Navbar />
-          <Switch>
-            <Route path='/' exact component={Home} />
-          </Switch>
-          <Footer />
-        </Router>
-      );
-    }
-    
     return (
       <div>
       <div className="app-top-box">
-         <GlobalStyle />
-          <div>
-          <Navbar/>
-          
-              <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+        <div>
+          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
       <div className="App">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
@@ -120,32 +85,21 @@ class App extends React.Component {
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route>  
+              <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
+              <Route path="/forgotpassword"
+                render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
       </div>
+      <Alert stack={{limit: 3}} 
+          timeout = {5000}
+          position='top-right' effect='slide' offset={65} />
       </div>
       <Footer />
       </div>
     );
   }
 };
-
-// const RightSide = props => {
-//   return (
-//     <div
-//       className="right-side"
-//       ref={props.containerRef}
-//       onClick={props.onClick}
-//     >
-//       <div className="inner-container">
-//         <div className="text">{props.current}</div>
-//       </div>
-//     </div>
-//   );
-// };
-
-
 
 export default App;

@@ -5,6 +5,7 @@ import { signup } from '../../util/APIUtils'
 import Alert from 'react-s-alert';
 import { GOOGLE_AUTH_URL } from "../../constants/index";
 import googleLogo from '../../img/google-logo.png';
+import "../../components/style.scss";
 
 class Register extends Component {
 
@@ -18,10 +19,14 @@ class Register extends Component {
     } 
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <SignUpForm {...this.props}/>
-        <div className="footer"> or </div>
-        <div className="footer">
-          <SocialSignUp />
+        <div className="content">
+          <SignUpForm {...this.props}/>
+          <div className="footer">
+            <div className="or"><span>or</span></div>
+          </div>
+          <div className="footer">
+            <SocialSignUp />
+          </div>
         </div>
       </div>
     );
@@ -34,7 +39,7 @@ class SocialSignUp extends Component {
         <div className="social-login">
           <button type="button" className="btn">
             <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-              <img src={googleLogo} alt="Google"/>Sign in with Google</a>
+              <img src={googleLogo} alt="Google"/>Sign up with Google</a>
               </button>
         </div>
     );
@@ -46,8 +51,10 @@ class SignUpForm extends Component {
     super(props);
     this.state = {
         email: '',
-        password: ''
+        password: '',
+        confirmPassword:''
     }
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -63,19 +70,24 @@ class SignUpForm extends Component {
 
   handleSubmit(event) {
       event.preventDefault();   
-
-      const signUpRequest = Object.assign({}, this.state);
-      signup(signUpRequest)
-      .then(response => {
-          Alert.success("You're successfully registered. Please login to continue!");
-          this.props.history.push("/login");
-      }).catch(error => {
-          Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
-      });
+      const { password, confirmPassword} = this.state;
+      if( password != confirmPassword) {
+        Alert.error("Password doesn't match")
+      } else {
+        const signUpRequest = Object.assign({}, this.state);
+        signup(signUpRequest)
+        .then(response => {
+            Alert.success("You're successfully registered. Please login to continue!");
+            this.props.history.push("/login");
+        }).catch(error => {
+            Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
+        });
+      }
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <div className="footer"/>
              <div className="header">SIGN UP</div>
         <div className="content">
           <div className="image">
@@ -100,7 +112,7 @@ class SignUpForm extends Component {
 
             <div className="form-group">
               <label htmlFor="Password"></label>
-              <input type="password" name="confirmpassword" placeholder="Confirm Password"
+              <input type="password" name="confirmPassword" placeholder="Confirm Password"
                       className="form-control" 
                       value={this.state.confirmpassword} onChange={this.handleInputChange} required/>
             </div>
