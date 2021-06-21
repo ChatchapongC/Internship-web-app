@@ -1,11 +1,10 @@
 import Alert from 'react-s-alert';
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { GOOGLE_AUTH_URL, ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants/index";
+import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from "../../constants/index";
 import loginImg from "../../img/login.svg";
 import { login } from "../../util/APIUtils";
 import googleLogo from '../../img/google-logo.png';
-import fbLogo from '../../img/fb-logo.png'
 import "../../components/style.scss";
 import { Link } from 'react-router-dom';
 
@@ -41,7 +40,7 @@ class Login extends Component {
         <div className="header">SIGN IN</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            <img src={loginImg} alt="Logo"/>
           </div>
           <LoginForm {...this.props}/>
           <div className="footer">
@@ -131,10 +130,6 @@ class SocialLogin extends React.Component {
             </button>
             <div classname = "footer"/>
             <br/>
-            <button type="button" className="btn">
-              <a className="btn btn-block social-btn google" href={FACEBOOK_AUTH_URL}>
-                <img src={fbLogo} alt="Google"/>Sign in with Facebook</a>
-            </button>
           </div>
       );
   }

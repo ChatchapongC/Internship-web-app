@@ -91,7 +91,7 @@ class SignUpForm extends Component {
              <div className="header">SIGN UP</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            <img src={loginImg} alt="Logo"/>
           </div>
 
           

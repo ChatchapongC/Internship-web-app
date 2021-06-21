@@ -101,7 +101,6 @@ public class ForgotPasswordController {
         userServices.updatePassword(user,newPassword);
 
         return ResponseEntity.ok(new ApiResponse(true,"You have successfully changed your password."));
-
     }
 
 }

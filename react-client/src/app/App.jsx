@@ -1,7 +1,7 @@
 import React from "react";
 import  Navbar  from '../components/Navbar.jsx';
 import "./App.scss";
-import {BrowserRouter,Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';

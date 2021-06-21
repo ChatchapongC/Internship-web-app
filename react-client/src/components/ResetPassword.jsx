@@ -52,7 +52,8 @@ class ResetPasswordForm extends Component {
 
 
   handleSubmit(event) {      
-      event.preventDefault();   
+      event.preventDefault(); 
+        
       const { newPassword, confirmPassword} = this.state;
       if( newPassword !== confirmPassword) {
         Alert.error("Password doesn't match")
@@ -69,7 +70,7 @@ class ResetPasswordForm extends Component {
         });
       }
   }
-  
+
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
