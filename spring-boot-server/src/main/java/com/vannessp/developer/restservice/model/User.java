@@ -33,6 +33,9 @@ public class User {
     @Column
     private Boolean emailVerified = false;
 
+    @Column
+    private String resetPasswordToken;
+
     @JsonIgnore
     private String password;
 
@@ -59,13 +62,6 @@ public class User {
         splitName(name);
     }
 
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 
     public String getEmail() {
         return email;
@@ -115,6 +111,7 @@ public class User {
         this.providerId = providerId;
     }
 
+<<<<<<< HEAD
     public void splitName(String name){
         String[] temp = name.split(" ");
 
@@ -127,5 +124,13 @@ public class User {
             }
             this.lastName = lastName.concat(temp[i]);
         }
+=======
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+>>>>>>> origin/chad
     }
 }
