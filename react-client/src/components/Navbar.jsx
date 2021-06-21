@@ -1,36 +1,164 @@
-import React, { Component } from 'react';
-import { MenuItems } from "./MenuItems.jsx"
-import { Button } from "./Button.jsx"
-import './Navbar.scss'
+import React, { useState, useEffect } from 'react';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import { IconContext } from 'react-icons/lib';
+import { BrowserRouter, Link } from 'react-router-dom';
+import './Navbar.scss';
+import {
+  Nav,
+  NavbarContainer,
+  NavLogo,
+  NavIcon,
+  MobileIcon,
+  NavMenu,
+  NavItem,
+  NavItemBtn,
+  NavLinks,
+  NavBtnLink
+} from './Navbar.elements';
 
-export class Navbar extends React.Component {
-    state = { clicked: false }
+export function Navbar(props) {
+  const [click, setClick] = useState(false);
+  const [button, setButton] = useState(true);
 
-    handleClick = () => {
-        this.setState({ clicked: !this.state.clicked })
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
+  const showButton = () => {
+    if (window.innerWidth <= 960) {
+      setButton(false);
+    } else {
+      setButton(true);
     }
+  };
 
-    render() {
-        return(
-            <nav className="NavbarItems">
-                <h1 className="navbar-logo">React<i className="fab fa-react"></i></h1>
-                <div className="menu-icon" onClick={this.handleClick}>
-                    <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
-                </div>
-                <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
-                    {MenuItems.map((item, index) => {
-                        return (
-                            <li key={index}>
-                                <a className={item.cName} href={item.url}>
-                                {item.title}
-                                </a>
-                            </li>
-                        )
-                    })}
-                </ul>
-                <Button>Sign Up</Button>
-            </nav>
-        )
-    }
+  useEffect(() => {
+    showButton();
+  }, []);
+
+  window.addEventListener('resize', showButton);
+
+  return (
+    <IconContext.Provider value={{ color: '#fff' }}>
+      
+        {props.authenticated ? (
+          <Nav>
+            <NavbarContainer>
+              <NavLogo to='/' onClick={closeMobileMenu}>
+                <NavIcon/>
+                INTERNSHIP
+              </NavLogo>
+          
+              <MobileIcon onClick={handleClick}>
+                {click ? <FaTimes /> : <FaBars />}
+              </MobileIcon>
+              <NavMenu onClick={handleClick} click={click}>
+                <NavItem>
+                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                    Homepage
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/search applicants' onClick={closeMobileMenu}>
+                    Search Applicants
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/varieties' onClick={closeMobileMenu}>
+                    Varieties
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/blog' onClick={closeMobileMenu}>
+                    Blog
+                  </NavLinks>
+                </NavItem>
+                <NavItemBtn>
+                  {button ? (
+                    <NavBtnLink to='/profile'>
+                      <button className="btn">My Profile</button>
+                    </NavBtnLink>
+                  ) : (
+                    <NavItem>
+                      <NavLinks to='/profile' onClick={closeMobileMenu}>
+                        My Profile
+                      </NavLinks>
+                    </NavItem>
+                  )}
+                </NavItemBtn>
+                <NavItem>
+                  <NavLinks onClick={props.onLogout}>
+                    Logout
+                  </NavLinks>
+                </NavItem>
+              </NavMenu>
+            </NavbarContainer>
+          </Nav>
+
+        ):(
+
+          <Nav>
+            <NavbarContainer>
+              <NavLogo to='/' onClick={closeMobileMenu}>
+                <NavIcon/>
+                INTERNSHIP
+              </NavLogo>
+          
+              <MobileIcon onClick={handleClick}>
+                {click ? <FaTimes /> : <FaBars />}
+              </MobileIcon>
+              <NavMenu onClick={handleClick} click={click}>
+                <NavItem>
+                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                    Homepage
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/search applicants' onClick={closeMobileMenu}>
+                    Search Applicants
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/varieties' onClick={closeMobileMenu}>
+                    Varieties
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
+                  <NavLinks to='/blog' onClick={closeMobileMenu}>
+                    Blog
+                  </NavLinks>
+                </NavItem>
+                <NavItemBtn>
+                  {button ? (
+                    <NavBtnLink to='/signup'>
+                      <button className="btn">SIGN UP</button>
+                    </NavBtnLink>
+                  ) : (
+                    <NavBtnLink to='/signup'>
+                      <button className="btn" onClick={closeMobileMenu} >
+                        SIGN UP
+                      </button>
+                    </NavBtnLink>
+                  )}
+                </NavItemBtn>
+                <NavItemBtn>
+                  {button ? (
+                    <NavBtnLink to='/login'>
+                      <button className="btn">SIGN IN</button>
+                    </NavBtnLink>
+                  ) : (
+                    <NavBtnLink to='/login'>
+                      <button className="btn" onClick={closeMobileMenu} >
+                        SIGN IN
+                      </button>
+                    </NavBtnLink>
+                  )}
+                </NavItemBtn>
+              </NavMenu>
+            </NavbarContainer>
+          </Nav>
+        )}
+    </IconContext.Provider>
+   )
 }
 
+export default Navbar;
