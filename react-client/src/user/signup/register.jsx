@@ -71,7 +71,7 @@ class SignUpForm extends Component {
   handleSubmit(event) {
       event.preventDefault();   
       const { password, confirmPassword} = this.state;
-      if( password != confirmPassword) {
+      if( password !== confirmPassword) {
         Alert.error("Password doesn't match")
       } else {
         const signUpRequest = Object.assign({}, this.state);
