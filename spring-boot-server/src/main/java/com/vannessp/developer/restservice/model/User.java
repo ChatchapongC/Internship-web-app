@@ -111,7 +111,7 @@ public class User {
         this.providerId = providerId;
     }
 
-<<<<<<< HEAD
+
     public void splitName(String name){
         String[] temp = name.split(" ");
 
@@ -124,13 +124,14 @@ public class User {
             }
             this.lastName = lastName.concat(temp[i]);
         }
-=======
+    }
+    
     public String getResetPasswordToken() {
         return resetPasswordToken;
     }
 
     public void setResetPasswordToken(String resetPasswordToken) {
         this.resetPasswordToken = resetPasswordToken;
->>>>>>> origin/chad
     }
+
 }
