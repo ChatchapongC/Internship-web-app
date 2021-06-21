@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public interface JobRespository extends JpaRepository<Job, Long> {
 
-    @Query(value = "select * from jobs j where j.business_name = ?1", nativeQuery = true)
+    @Query(value = "select * from jobs j where j.business_name LIKE %?1%", nativeQuery = true)
     Job findByBusiness_name(String business_name);
+
+    @Query(value = "select * from jobs j where j.business_name LIKE ?1% order by j.business_name", nativeQuery = true)
+    List<Job> findWithfirstCharacter(String c);
 }

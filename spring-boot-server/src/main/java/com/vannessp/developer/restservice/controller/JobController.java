@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 //@RequestMapping("/api")
@@ -15,6 +16,12 @@ public class JobController {
 
     @Autowired
     private JobRespository jobRepository;
+
+    @GetMapping("/job/all")
+    public ResponseEntity<List<Job>> getAllJob(){
+        List<Job> allJob = jobRepository.findAll();
+        return ResponseEntity.ok(allJob);
+    }
 
     @GetMapping("/job/{id}")
     public ResponseEntity<Job> getJobbyId(@PathVariable Long id){
@@ -25,6 +32,13 @@ public class JobController {
     @GetMapping("/job/bus_name/{business_name}")
     public ResponseEntity<Job> getJobByBusinessName(@PathVariable String business_name){
         Job job = jobRepository.findByBusiness_name(business_name);
+        return ResponseEntity.ok(job);
+    }
+
+    @GetMapping("/job/startwith/{keyword}")
+    public ResponseEntity<List<Job>> getJobbyFirstCharacter(@PathVariable String keyword){
+        //String keyword = "b";
+        List<Job> job = jobRepository.findWithfirstCharacter(keyword);
         return ResponseEntity.ok(job);
     }
 

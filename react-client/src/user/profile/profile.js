@@ -38,9 +38,9 @@ class Profile extends Component {
                         <div className="profile-name">
                            <h2>{this.props.currentUser.name}</h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
-                           <p>1{this.props.jobList.id}</p>
+                           {/* <p>1{this.props.jobList.id}</p>
                            <p>2{this.props.jobList.business_name}</p>
-                           <p>3{this.props.jobList.title}</p>
+                           <p>3{this.props.jobList.title}</p> */}
                         </div>
                     </div>
                 </div>  
