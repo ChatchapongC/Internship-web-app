@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
-import { BrowserRouter, Link } from 'react-router-dom';
 import './Navbar.scss';
 import {
   Nav,
@@ -18,6 +17,7 @@ import {
 
 export function Navbar(props) {
   const [click, setClick] = useState(false);
+  const [state, setState] = useState({});
   const [button, setButton] = useState(true);
 
   const handleClick = () => setClick(!click);
@@ -33,6 +33,9 @@ export function Navbar(props) {
 
   useEffect(() => {
     showButton();
+    return () => {
+      setState({});
+    }
   }, []);
 
   window.addEventListener('resize', showButton);

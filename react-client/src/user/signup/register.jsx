@@ -71,7 +71,7 @@ class SignUpForm extends Component {
   handleSubmit(event) {
       event.preventDefault();   
       const { password, confirmPassword} = this.state;
-      if( password != confirmPassword) {
+      if( password !== confirmPassword) {
         Alert.error("Password doesn't match")
       } else {
         const signUpRequest = Object.assign({}, this.state);
@@ -91,7 +91,7 @@ class SignUpForm extends Component {
              <div className="header">SIGN UP</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            <img src={loginImg} alt="Logo"/>
           </div>
 
           

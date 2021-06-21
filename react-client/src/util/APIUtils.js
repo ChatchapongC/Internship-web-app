@@ -69,3 +69,11 @@ export function forgotpassword(forgotPassword) {
         body: JSON.stringify(forgotPassword)
     });
 }
+
+export function resetpassword(resetPasswordRequest, token) {
+    return request({
+        url: API_BASE_URL + "/resetpassword?token=" + token,
+        method: 'PUT',
+        body: JSON.stringify(resetPasswordRequest)
+    });
+}

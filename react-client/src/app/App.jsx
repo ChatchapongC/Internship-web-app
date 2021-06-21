@@ -3,7 +3,7 @@ import GlobalStyle from '../globalStyles.js';
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
-import {BrowserRouter, Route, Router, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
@@ -21,6 +21,7 @@ import { Footer } from '../components/Footer/Footer';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
+import ResetPassword from "../components/ResetPassword.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -111,6 +112,8 @@ class App extends React.Component {
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
               <Route path="/forgotpassword"
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/resetpassword"
+                render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>

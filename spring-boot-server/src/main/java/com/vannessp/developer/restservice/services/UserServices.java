@@ -4,7 +4,6 @@ import com.vannessp.developer.restservice.exception.BadRequestException;
 import com.vannessp.developer.restservice.model.User;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +28,12 @@ public class UserServices {
     }
 
     public User getByResetPasswordToken(String token) {
-        return userRepository.findByResetPasswordToken(token);
+        return userRepository.findByResetPasswordToken(token)
+                .orElseThrow(() -> new BadRequestException("Invvalid token"));
     }
 
     public void updatePassword(User user, String newPassword) {
-        user.setPassword(newPassword);
+        user.setPassword((newPassword));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         user.setResetPasswordToken(null);

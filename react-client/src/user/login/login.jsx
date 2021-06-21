@@ -40,7 +40,7 @@ class Login extends Component {
         <div className="header">SIGN IN</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} />
+            <img src={loginImg} alt="Logo"/>
           </div>
           <LoginForm {...this.props}/>
           <div className="footer">
@@ -127,7 +127,9 @@ class SocialLogin extends React.Component {
             <button type="button" className="btn">
               <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
                 <img src={googleLogo} alt="Google"/>Sign in with Google</a>
-                </button>
+            </button>
+            <div classname = "footer"/>
+            <br/>
           </div>
       );
   }
