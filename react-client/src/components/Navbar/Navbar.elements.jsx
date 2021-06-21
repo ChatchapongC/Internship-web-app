@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FaMagento } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Container } from '../globalStyles.js';
+import { Container } from '../../globalStyles.js';
 
 export const Nav = styled.nav`
   background: #6a5acd;

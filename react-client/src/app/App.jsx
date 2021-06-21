@@ -1,19 +1,23 @@
 import React from "react";
-import { Navbar } from '../components/Navbar.jsx';
+import GlobalStyle from '../globalStyles.js';
+import Home from '../home/Home.js';
+import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
-import {BrowserRouter,Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Router, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import AppHeader from '../common/AppHeader.jsx';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
-import Home from '../home/Home';
 import PrivateRoute from '../common/PrivateRoute';
 import OAuth2Redirect from '../user/oauth2/OAuth2Redirect';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
+import ScrollToTop from '../components/ScrollToTop.js';
+import { Footer } from '../components/Footer/Footer';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -85,11 +89,27 @@ class App extends React.Component {
     // const current = isLogginActive ? "SIGN UP" : "SIGN IN";
     // const currentActive = isLogginActive ? "SIGN IN" : "SIGN UP";
 
+    function App() {
+      return (
+        <Router>
+          <GlobalStyle />
+          <ScrollToTop />
+          <Navbar />
+          <Switch>
+            <Route path='/' exact component={Home} />
+          </Switch>
+          <Footer />
+        </Router>
+      );
+    }
+    
     return (
+      <div>
       <div className="app-top-box">
-        <div>
+         <GlobalStyle />
+          <div>
           <Navbar/>
-          <BrowserRouter>
+          
               <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
       <div className="App">
             <Switch>
@@ -103,10 +123,10 @@ class App extends React.Component {
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route>  
               <Route component={NotFound}></Route>
             </Switch>
-            
           </div>
-      </BrowserRouter>
       </div>
+      </div>
+      <Footer />
       </div>
     );
   }
