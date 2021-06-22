@@ -8,34 +8,22 @@ export class ForgotPassword extends React.Component {
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">FORGET PASSWORD</div>
+        <div className="header">CHANGE PASSWORD</div>
         <div className="content">
           <div className="form">
             <div className="form-group">
-              <label htmlFor="Email"></label>
-              <input type="text" name="Email" placeholder="Email" />
+              <label htmlFor="New Password"></label>
+              <input type="password" name="new password" placeholder="new password" />
             </div>
             <div className="form-group">
-              <label htmlFor="Password"></label>
-              <input type="password" name="password" placeholder="Password" />
-              <a href="?">Forget password</a>
+              <label htmlFor="Confirm Password"></label>
+              <input type="password" name="confirm password" placeholder="confirm password" />
             </div>
           </div>
         </div>
         <div className="footer">
           <button type="button" className="btn">
-            Sign in
-          </button>
-        </div>
-        <div className="footer"> or </div>
-        <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Facebook
-          </button>
-        </div>
-        <div className="footer">
-          <button type="button" className="btn">
-            Sign in with Google
+            Change Password
           </button>
         </div>
       </div>

@@ -19,7 +19,7 @@
       flex-direction: column;
   
       .image {
-        width: 21em;
+        width: 20em;
         img {
           width: 80%;
           height: 80%;
@@ -85,60 +85,28 @@
     .social-btn.facebook img {
       height: 30px;
       margin-left: 3px;
-  }    
+    } 
+    .or{
+      width: 100%; 
+      text-align: center; 
+      border-bottom: 1px solid rgba(161, 84, 224, 0.945); 
+      line-height: 0.1em;
+      margin: 10px 0 20px; 
+      font-family: 'Poppins', sans-serif;
+      color:#2c2c2cef;
+    }
+    .or span{
+      background:#fff; 
+      padding:0 10px; 
+    }
+    a {
+      text-decoration: none !important;
+    }
+    
 }
 
-.or{
-  width: 100%; 
-  text-align: center; 
-  border-bottom: 1px solid rgba(161, 84, 224, 0.945); 
-  line-height: 0.1em;
-  margin: 10px 0 20px; 
-  font-family: 'Poppins', sans-serif;
-  color:#2c2c2cef;
-}
-.or span{
-  background:#fff; 
-  padding:0 10px; 
-}
-a {
-  text-decoration: none !important;
-}
 
-.button {
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-}
 
-.button1 {
-  background-color: white; 
-  color: black; 
-  border: 2px solid #4CAF50;
-}
-
-.button1:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.button2 {
-  background-color: white; 
-  color: black; 
-  border: 2px solid #008CBA;
-}
-
-.button2:hover {
-  background-color: #008CBA;
-  color: white;
-}
   
 
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import profileLogo from '../../img/profile-logo.png'
 import './profile.scss';
 
 class Profile extends Component {
@@ -16,9 +17,7 @@ class Profile extends Component {
                                 this.props.currentUser.imageUrl ? (
                                     <img src={this.props.currentUser.imageUrl} alt={this.props.currentUser.name}/>
                                 ) : (
-                                    <div className="text-avatar">
-                                        <span>{this.props.currentUser.name && this.props.currentUser.name[0]}</span>
-                                    </div>
+                                    <img src={profileLogo}></img>
                                 )
                             }
                         </div>

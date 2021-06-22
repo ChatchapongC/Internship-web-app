@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
-import './Navbar.scss';
+import profileLogo from '../../img/profile-logo.png'
+import './Myprofile.scss';
+import '../Button.scss';
 import {
   Nav,
   NavbarContainer,
@@ -12,33 +14,34 @@ import {
   NavItem,
   NavItemBtn,
   NavLinks,
-  NavBtnLink
+  NavBtnLink,
+  NavProfileBtnLink
 } from './Navbar.elements';
 
 export function Navbar(props) {
   const [click, setClick] = useState(false);
   const [state, setState] = useState({});
-  const [button, setButton] = useState(true);
+  const [button, setbutton] = useState(true);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
-  const showButton = () => {
+  const showbutton = () => {
     if (window.innerWidth <= 960) {
-      setButton(false);
+      setbutton(false);
     } else {
-      setButton(true);
+      setbutton(true);
     }
   };
 
   useEffect(() => {
-    showButton();
+    showbutton();
     return () => {
       setState({});
     }
   }, []);
 
-  window.addEventListener('resize', showButton);
+  window.addEventListener('resize', showbutton);
 
   return (
     <IconContext.Provider value={{ color: '#fff' }}>
@@ -56,7 +59,7 @@ export function Navbar(props) {
               </MobileIcon>
               <NavMenu onClick={handleClick} click={click}>
                 <NavItem>
-                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                  <NavLinks to='/' onClick={closeMobileMenu}>
                     Homepage
                   </NavLinks>
                 </NavItem>
@@ -78,7 +81,14 @@ export function Navbar(props) {
                 <NavItemBtn>
                   {button ? (
                     <NavBtnLink to='/profile'>
-                      <button className="btn">My Profile</button>
+                      <div className="container">
+                        <div className="outer">
+                          <div className="inner">
+                            <label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                     </NavBtnLink>
                   ) : (
                     <NavItem>
@@ -88,6 +98,9 @@ export function Navbar(props) {
                     </NavItem>
                   )}
                 </NavItemBtn>
+
+               
+
                 <NavItem>
                   <NavLinks onClick={props.onLogout}>
                     Logout
@@ -111,7 +124,7 @@ export function Navbar(props) {
               </MobileIcon>
               <NavMenu onClick={handleClick} click={click}>
                 <NavItem>
-                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                  <NavLinks to='/' onClick={closeMobileMenu}>
                     Homepage
                   </NavLinks>
                 </NavItem>
