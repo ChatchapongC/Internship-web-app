@@ -24,7 +24,7 @@ public interface JobRespository extends JpaRepository<Job, Long> {
     List<Job> findByJobType(String jobtype);
 
     @Query(value = "select * from jobs j where j.jobtype LIKE %?1%", nativeQuery = true)
-    List<Job> findByTags(String jobtype);
+    List<Job> findByTags(String tags);
 
     @Query(value = "select * from jobs j where j.business_name LIKE ?1% order by j.business_name", nativeQuery = true)
     List<Job> findWithfirstCharacter(String c);
@@ -36,5 +36,11 @@ public interface JobRespository extends JpaRepository<Job, Long> {
     //Find by LocalDate format /*LocalDate.parse("2019-12-31")*/
     @Query(value = "select * from jobs j where j.upload_date = ?1", nativeQuery = true)
     List<Job> findByUploadDate(LocalDate dtime);
+
+    @Query(value = "select * from jobs j where j.benefit = ?1", nativeQuery = true)
+    List<Job> findByBenefit(String benefit);
+
+    @Query(value = "select * from jobs j where j.location LIKE %?1%", nativeQuery = true)
+    List<Job> findByLocation(String location);
 
 }
