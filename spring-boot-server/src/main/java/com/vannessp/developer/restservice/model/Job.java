@@ -1,9 +1,10 @@
 package com.vannessp.developer.restservice.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -47,8 +48,8 @@ public class Job {
 
     //"2019-02-03"
     @Column
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date upload_date;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate upload_date;
 
 
     public Job() {
@@ -119,11 +120,11 @@ public class Job {
         this.location = location;
     }
 
-    public Date getUpload_date() {
+    public LocalDate getUpload_date() {
         return upload_date;
     }
 
-    public void setUpload_date(Date upload_date) {
+    public void setUpload_date(LocalDate upload_date) {
         this.upload_date = upload_date;
     }
 

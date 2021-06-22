@@ -30,8 +30,8 @@ public class JobController {
     }
 
     @GetMapping("/job/bus_name/{business_name}")
-    public ResponseEntity<Job> getJobByBusinessName(@PathVariable String business_name){
-        Job job = jobRepository.findByBusiness_name(business_name);
+    public ResponseEntity<List<Job>> getJobByBusinessName(@PathVariable String business_name){
+        List<Job> job = jobRepository.findByBusiness_name(business_name);
         return ResponseEntity.ok(job);
     }
 
