@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
-//@RequestMapping("/api")
+@RequestMapping("/api")
 public class JobController {
 
     @Autowired

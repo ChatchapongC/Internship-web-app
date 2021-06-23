@@ -1,10 +1,12 @@
 package com.vannessp.developer.restservice.controller;
 
+import com.vannessp.developer.restservice.exception.BadRequestException;
 import com.vannessp.developer.restservice.model.Business;
 import com.vannessp.developer.restservice.repository.BusinessRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,12 @@ public class BusinessController {
         business.setContact_number("023456789");
         business.setEmail("business1@mail.com");
         businessRespository.save(business);
+        return ResponseEntity.ok(business);
+    }
+
+    @GetMapping("/business/{id}")
+    public ResponseEntity<Business> getBusinessById(@PathVariable Long id){
+        Business business = businessRespository.findById(id).orElseThrow(() -> new BadRequestException("Error bussiness is not found!!"));
         return ResponseEntity.ok(business);
     }
 

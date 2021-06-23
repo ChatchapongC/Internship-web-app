@@ -51,6 +51,9 @@ public class Job {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate upload_date;
 
+    @ManyToOne
+    @JoinColumn(name="business_id")
+    private Business business;
 
     public Job() {
 
@@ -128,4 +131,11 @@ public class Job {
         this.upload_date = upload_date;
     }
 
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
 }

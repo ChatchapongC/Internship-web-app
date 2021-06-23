@@ -50,17 +50,29 @@ export function signup(signupRequest) {
     });
 }
 
+//Just for smaple data for job
 export function getCurrentJob() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
 
     return request({
-        url: API_BASE_URL + "/job/1",
+        url: API_BASE_URL + "/api/job/1",
         method: 'GET'
     });
 }
 
+
+// export function getBusinessInfo(){
+//     if(!localStorage.getItem(ACCESS_TOKEN)) {
+//         return Promise.reject("No access token set.");
+//     }
+
+//     return request({
+//         url: API_BASE_URL + "/api/business/all",
+//         method: 'GET'
+//     });
+// }
 
 export function forgotpassword(forgotPassword) {
     return request({

@@ -2,6 +2,7 @@ package com.vannessp.developer.restservice.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @Entity
 @Table(name = "businesses"
@@ -17,6 +18,9 @@ public class Business {
     private String name;
     private String type;
     private String contact_number;
+
+    @OneToMany(mappedBy = "business")
+    private List<Job> jobs;
 
     @Email
     private String email;
@@ -63,5 +67,13 @@ public class Business {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 }
