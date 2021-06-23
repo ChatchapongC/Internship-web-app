@@ -96,11 +96,11 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className="app">
       <div className="app-top-box">
-        <div>
           <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
-      <div className="App">
+      </div>
+      <div className="app-body">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} jobList={this.state.jobList}
@@ -117,11 +117,9 @@ class App extends React.Component {
               <Route component={NotFound}></Route>
             </Switch>
           </div>
-      </div>
       <Alert stack={{limit: 3}} 
           timeout = {5000}
           position='top-right' effect='slide' offset={65} />
-      </div>
       <Footer />
       </div>
     );

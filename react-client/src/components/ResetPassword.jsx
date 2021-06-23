@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Redirect } from 'react-router-dom'
 import Alert from 'react-s-alert';
-import "../components/style.scss";
+import "../components/formstyle.scss";
 import { resetpassword } from "../util/APIUtils";
 
 class ResetPassword extends Component {
@@ -53,7 +53,7 @@ class ResetPasswordForm extends Component {
 
   handleSubmit(event) {      
       event.preventDefault(); 
-        
+
       const { newPassword, confirmPassword} = this.state;
       if( newPassword !== confirmPassword) {
         Alert.error("Password doesn't match")
@@ -94,6 +94,7 @@ class ResetPasswordForm extends Component {
             </div>
 
             <div className="footer">
+            <div className="content">
                {this.props.disableBtn ? (
                 <button type="button" className="btn">
                    Done! Please wait
@@ -103,7 +104,7 @@ class ResetPasswordForm extends Component {
                     Reset Password
                 </button>
                )} 
-              
+              </div>
             </div>
       </form>                    
 

@@ -5,13 +5,12 @@ import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from "../../constants/index";
 import loginImg from "../../img/login.svg";
 import { login } from "../../util/APIUtils";
 import googleLogo from '../../img/google-logo.png';
-import "../../components/style.scss";
+import "../../components/formstyle.scss";
+import "../../components/Button.scss"
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
   componentDidMount() {
-        // If the OAuth2 login encounters an error, the user is redirected to the /login page with an error.
-        // Here we display the error and then remove the error query parameter from the location.
         if(this.props.location.state && this.props.location.state.error) {
             setTimeout(() => {
                 Alert.error(this.props.location.state.error, {
@@ -36,12 +35,10 @@ class Login extends Component {
 
     return (
       <div className="base-container" >
-         <div className="footer"/>
+        <div className="footer"/>
         <div className="header">SIGN IN</div>
         <div className="content">
-          <div className="image">
-            <img src={loginImg} alt="Logo"/>
-          </div>
+          <img src={loginImg} alt="Logo" className="image"/>
           <LoginForm {...this.props}/>
           <div className="footer">
           <div className="or"><span>or</span></div>
@@ -124,12 +121,10 @@ class SocialLogin extends React.Component {
   render() {
       return (
           <div className="social-login">
-            <button type="button" className="btn">
-              <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+            <button type="button" className="btn btn-block social-btn google">
+            <a style={{color:'white'}} href={GOOGLE_AUTH_URL}>
                 <img src={googleLogo} alt="Google"/>Sign in with Google</a>
             </button>
-            <div classname = "footer"/>
-            <br/>
           </div>
       );
   }
