@@ -129,6 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/testapi/resetall")
                 .permitAll()
+                .antMatchers("/admin/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

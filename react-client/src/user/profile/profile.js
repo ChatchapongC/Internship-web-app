@@ -35,7 +35,7 @@ class Profile extends Component {
                             }
                         </div>
                         <div className="profile-name">
-                           <h2>{this.props.currentUser.name}</h2>
+                           <h2>{this.props.currentUser.firstName} {this.props.currentUser.lastName} </h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
                            {/* <p>1{this.props.jobList.id}</p>
                            <p>2{this.props.jobList.business_name}</p>

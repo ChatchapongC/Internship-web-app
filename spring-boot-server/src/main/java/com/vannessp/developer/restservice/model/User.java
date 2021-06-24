@@ -6,6 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
@@ -16,12 +19,10 @@ public class User {
     private Long id;
 
     @Column
-    private String name;
+    private String firstName;
 
 //    @Column(nullable = false)
-    private String firstname;
-
-//    @Column(nullable = false)
+    @Column
     private String lastName;
 
     @Email
@@ -45,6 +46,20 @@ public class User {
 
     private String providerId;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "user_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,13 +68,25 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        splitName(name);
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+//    public void setName(String name) {
+//        this.name = name;
+//        splitName(name);
+//    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -114,7 +141,7 @@ public class User {
     public void splitName(String name){
         String[] temp = name.split(" ");
 
-        this.firstname = temp[0];
+        this.firstName = temp[0];
         for(int i = 1; i<temp.length; i++)
         {
             if(i!=1)

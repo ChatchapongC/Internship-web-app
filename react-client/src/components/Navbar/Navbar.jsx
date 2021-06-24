@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import profileLogo from '../../img/profile-logo.png'
@@ -15,10 +15,17 @@ import {
   NavItemBtn,
   NavLinks,
   NavBtnLink,
-  NavProfileBtnLink
+  NavLogout,
+  ShowText
 } from './Navbar.elements';
+import { useDetectOutsideClick } from '../useDetectOutsiderClick';
 
 export function Navbar(props) {
+  
+  const dropdownRef = useRef(null);
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+  const onClick = () => setIsActive(!isActive);
+
   const [click, setClick] = useState(false);
   const [state, setState] = useState({});
   const [button, setbutton] = useState(true);
@@ -34,8 +41,10 @@ export function Navbar(props) {
     }
   };
 
+
   useEffect(() => {
     showbutton();
+
     return () => {
       setState({});
     }
@@ -80,32 +89,46 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItemBtn>
                   {button ? (
-                    <NavBtnLink to='/profile'>
+                    <NavBtnLink onClick={onClick}>
                       <div className="container">
                         <div className="outer">
-                          <div className="inner">
-                            <label>
-                            </label>
-                          </div>
+                              {props.currentUser.imageUrl? (
+                                  <img src={props.currentUser.imageUrl} alt={props.currentUser.name}/>
+                              ) : (
+                                  <img src={profileLogo}></img>
+                                )
+                              }
+                              <div ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+                                <ul>
+                                  <li><NavLinks to='/profile'>
+                                        My Profile
+                                      </NavLinks>
+                                  </li>
+                                  <li onClick={props.onLogout}>
+                                    <NavLinks style={{ color : 'red' }}>
+                                    Logout
+                                    </NavLinks>
+                                  </li>
+                                </ul>
+                              </div>
                         </div>
                       </div>
+                      <span className="caret"></span>
                     </NavBtnLink>
+                    
+                    
                   ) : (
                     <NavItem>
                       <NavLinks to='/profile' onClick={closeMobileMenu}>
                         My Profile
                       </NavLinks>
+                      <NavLogout>
+                                  <p>Logout</p>
+                       </NavLogout>
                     </NavItem>
+                    
                   )}
                 </NavItemBtn>
-
-               
-
-                <NavItem>
-                  <NavLinks onClick={props.onLogout}>
-                    Logout
-                  </NavLinks>
-                </NavItem>
               </NavMenu>
             </NavbarContainer>
           </Nav>

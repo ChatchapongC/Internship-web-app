@@ -25,6 +25,10 @@
           height: 80%;
         }
       }
+      small{
+        font-size: 12px;
+        text-align: center;
+      }
   
       .form {
         margin-top: 0em;
@@ -68,24 +72,6 @@
       margin-top: 1em;
       
     }
-    .social-btn {
-      margin-bottom: 15px;
-      font-weight: 400;
-      font-size: 15px;}
-    
-    .social-btn img {
-      height: 32px;
-      float: left;
-      margin-top: -5px;
-    }
-    
-    .social-btn.google {
-      margin-top: 7px;
-    }  
-    .social-btn.facebook img {
-      height: 30px;
-      margin-left: 3px;
-    } 
     .or{
       width: 100%; 
       text-align: center; 
@@ -104,6 +90,26 @@
     }
     
 }
+
+.social-btn {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 15px;}
+
+.social-btn img {
+  height: 32px;
+  float: left;
+  margin-top: -5px;
+}
+
+.social-btn.google {
+  margin-top: 7px;
+}  
+.social-btn.facebook img {
+  height: 30px;
+  margin-left: 3px;
+} 
+
 
 
 
