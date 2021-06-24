@@ -123,3 +123,30 @@ export const NavBtnLink = styled(Link)`
   border: none;
   outline: none;
 `;
+
+export const NavLogout = styled(Link)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 100%;
+  @media screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+    &:hover {
+      color: red;
+      transition: all 0.3s ease;
+    }
+  }
+`;
+
+export const ShowText = styled(Link)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 100%;
+`;
+

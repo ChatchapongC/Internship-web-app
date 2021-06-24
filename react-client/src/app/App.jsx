@@ -16,7 +16,7 @@ import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
-
+import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
@@ -75,7 +75,7 @@ class App extends React.Component {
     return (
       <div className="app">
       <div className="app-top-box">
-          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
       </div>
       <div className="app-body">
             <Switch>
@@ -91,6 +91,7 @@ class App extends React.Component {
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/admin/users" component={ListUser}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>

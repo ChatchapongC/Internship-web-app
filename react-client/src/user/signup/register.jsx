@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import loginImg from "../../img/login.svg";
 import { signup } from '../../util/APIUtils'
 import Alert from 'react-s-alert';
@@ -23,10 +23,15 @@ class Register extends Component {
         <div className="header">SIGN UP</div>
         <div className="content">
           <SignUpForm {...this.props}/>
-          <div className="footer">
+          <div className="footer"/>
+            <small>Already have account? &rArr;  
+            <Link to='/login'>
+                Sign in
+              </Link>
+            </small>
+            <div className="footer"/>
           <div className="or"><span>or</span></div>
           </div>
-        </div>
           <div className="footer">
             <SocialSignUp />
           </div>

@@ -5,7 +5,6 @@ import './profile.scss';
 class Profile extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
     }
     render() {
         return (
@@ -22,7 +21,7 @@ class Profile extends Component {
                             }
                         </div>
                         <div className="profile-name">
-                           <h2>{this.props.currentUser.name}</h2>
+                           <h2>{this.props.currentUser.firstName} {this.props.currentUser.lastName} </h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
                         </div>
                     </div>

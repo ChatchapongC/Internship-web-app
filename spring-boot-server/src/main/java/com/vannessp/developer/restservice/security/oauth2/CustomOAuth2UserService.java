@@ -2,7 +2,10 @@ package com.vannessp.developer.restservice.security.oauth2;
 
 import com.vannessp.developer.restservice.exception.OAuth2AuthenticationProcessingException;
 import com.vannessp.developer.restservice.model.AuthProvider;
+import com.vannessp.developer.restservice.model.ERole;
+import com.vannessp.developer.restservice.model.Role;
 import com.vannessp.developer.restservice.model.User;
+import com.vannessp.developer.restservice.repository.RoleRepository;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import com.vannessp.developer.restservice.security.UserPrincipal;
 import com.vannessp.developer.restservice.security.oauth2.user.OAuth2UserInfo;
@@ -17,13 +20,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -63,18 +71,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
+
         User user = new User();
 
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         user.setProviderId(oAuth2UserInfo.getId());
-        user.setName(oAuth2UserInfo.getName());
+        user.setFirstName(oAuth2UserInfo.getFirstName());
+        user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
+        existingUser.setFirstName(oAuth2UserInfo.getFirstName());
+        existingUser.setLastName(oAuth2UserInfo.getLastName());
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
         return userRepository.save(existingUser);
     }

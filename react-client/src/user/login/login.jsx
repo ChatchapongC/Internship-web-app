@@ -40,6 +40,12 @@ class Login extends Component {
         <div className="content">
           <img src={loginImg} alt="Logo" className="image"/>
           <LoginForm {...this.props}/>
+          <div className="footer"/>
+            <small>Don't have account? &rArr;   
+              <Link to='/signup'>
+                  Sign up
+              </Link>
+            </small>
           <div className="footer">
           <div className="or"><span>or</span></div>
           </div>
@@ -120,10 +126,11 @@ class LoginForm extends Component {
 class SocialLogin extends React.Component { 
   render() {
       return (
-          <div className="social-login">
-            <button type="button" className="btn btn-block social-btn google">
+          <div className="social-btn">
+            <button type="button" className="btn">
             <a style={{color:'white'}} href={GOOGLE_AUTH_URL}>
                 <img src={googleLogo} alt="Google"/>Sign in with Google</a>
+              
             </button>
           </div>
       );

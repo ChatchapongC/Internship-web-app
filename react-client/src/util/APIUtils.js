@@ -65,3 +65,10 @@ export function resetpassword(resetPasswordRequest, token) {
         body: JSON.stringify(resetPasswordRequest)
     });
 }
+
+export function getAllUsers() {
+    return request({
+        url: API_BASE_URL + "/admin/users",
+        method: 'GET',
+    });
+}

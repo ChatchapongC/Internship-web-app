@@ -113,6 +113,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/forgotpassword", "/resetpassword/**")
                 .permitAll()
+                .antMatchers("/admin/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
