@@ -122,7 +122,7 @@ export function Navbar(props) {
                       <NavLinks to='/profile' onClick={closeMobileMenu}>
                         My Profile
                       </NavLinks>
-                      <NavLogout>
+                      <NavLogout onClick={props.onLogout}>
                                   <p>Logout</p>
                        </NavLogout>
                     </NavItem>

@@ -39,7 +39,6 @@ class ForgotPassword extends React.Component {
   }
 
   render() {
-
     if(this.props.authenticated) {
       return <Redirect
           to={{

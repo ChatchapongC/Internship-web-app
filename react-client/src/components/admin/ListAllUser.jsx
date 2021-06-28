@@ -1,7 +1,10 @@
 import React,{ useEffect, useState } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 import { getAllUsers } from "../../util/APIUtils";
+import './ListAllUser.scss'
 
-function ListAllUser() {
+export function ListAllUser(props) {
+
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -10,14 +13,15 @@ function ListAllUser() {
     
     return (
         <div>
-            <h2 className="text-center">User Information</h2>
-
-                <table className="table table-striped table-bordered">
+            {props.authenticated &&(
+                <table className="table-latitude">
+                <caption>User Information</caption>
                     <thead>
                         <tr>
                             <th> First Name</th>
                             <th> Last Name</th>
                             <th> Email</th>
+                            <th> Roles</th>
                         </tr>
                     </thead>
 
@@ -28,12 +32,14 @@ function ListAllUser() {
                                 <tr key = {user.id}>
                                     <td> {user.firstName} </td>
                                     <td> {user.lastName} </td>
-                                    <td> {user.userEmail} </td>
+                                    <td> {user.email} </td>
+                                    <td> {user.roles.map(role => role.name+' ')} </td>
                                 </tr>
                             )
                         }
                     </tbody>
                 </table>
+            )}
         </div>
         
     )

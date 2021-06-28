@@ -28,7 +28,7 @@ class App extends React.Component {
     this.state = {
       authenticated: false,
       currentUser: null,
-      loading: false
+      loading: false,
     }
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
@@ -45,7 +45,10 @@ class App extends React.Component {
         currentUser: response,
         authenticated: true,
         loading: false
+
       });
+      console.log(this.state.currentUser.roles);
+     
     }).catch(error => {
       this.setState({
         loading: false
@@ -72,12 +75,14 @@ class App extends React.Component {
       return <LoadingIndicator />
     }
 
+    
     return (
       <div className="app">
       <div className="app-top-box">
           <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
       </div>
       <div className="app-body">
+      {this.state.showAlert && <div>{this.props.location.state.reason}</div>}
             <Switch>
               <Route exact path="/" component={Home}></Route>           
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
@@ -91,7 +96,10 @@ class App extends React.Component {
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
-              <Route path="/admin/users" component={ListUser}></Route>
+
+              <Route path="/admin/users" 
+                render={(props) => <ListUser authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props}/>}></Route>
+
               <Route component={NotFound}></Route>
             </Switch>
           </div>
