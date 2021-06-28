@@ -30,7 +30,7 @@ class ForgotPassword extends React.Component {
       const forgotPassword = Object.assign({}, this.state);
       forgotpassword(forgotPassword)
       .then(response => {
-          Alert.success("Reset link already sent! Please check your Email");
+          Alert.success("Reset password link already sent! Please check your Email");
           this.props.history.push("/login");
       }).catch(error => {
           Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');            
@@ -39,6 +39,7 @@ class ForgotPassword extends React.Component {
   }
 
   render() {
+
     if(this.props.authenticated) {
       return <Redirect
           to={{

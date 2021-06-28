@@ -111,11 +111,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/auth/**", "/oauth2/**")
                 .permitAll()
-<<<<<<< HEAD
-=======
-                .antMatchers("/forgotpassword")
+                .antMatchers("/forgotpassword", "/resetpassword/**")
                 .permitAll()
->>>>>>> 89ee28efb7634b5bd98c69d927e860407d6c4dea
+                .antMatchers("/admin/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

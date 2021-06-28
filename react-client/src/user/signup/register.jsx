@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import loginImg from "../../img/login.svg";
 import { signup } from '../../util/APIUtils'
 import Alert from 'react-s-alert';
 import { GOOGLE_AUTH_URL } from "../../constants/index";
 import googleLogo from '../../img/google-logo.png';
-import "../../components/style.scss";
+import "../../components/formstyle.scss";
 
 class Register extends Component {
 
@@ -19,16 +19,23 @@ class Register extends Component {
     } 
     return (
       <div className="base-container" ref={this.props.containerRef}>
+        <div className="footer"/>
+        <div className="header">SIGN UP</div>
         <div className="content">
           <SignUpForm {...this.props}/>
-          <div className="footer">
-            <div className="or"><span>or</span></div>
+          <div className="footer"/>
+            <small>Already have account? &rArr;  
+            <Link to='/login'>
+                Sign in
+              </Link>
+            </small>
+            <div className="footer"/>
+          <div className="or"><span>or</span></div>
           </div>
           <div className="footer">
             <SocialSignUp />
           </div>
         </div>
-      </div>
     );
   }
 }
@@ -37,8 +44,8 @@ class SocialSignUp extends Component {
   render() {
     return (
         <div className="social-login">
-          <button type="button" className="btn">
-            <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+          <button type="button" className="btn btn-block social-btn google">
+          <a style={{color:'white'}} href={GOOGLE_AUTH_URL}>
               <img src={googleLogo} alt="Google"/>Sign up with Google</a>
               </button>
         </div>
@@ -71,7 +78,7 @@ class SignUpForm extends Component {
   handleSubmit(event) {
       event.preventDefault();   
       const { password, confirmPassword} = this.state;
-      if( password != confirmPassword) {
+      if( password !== confirmPassword) {
         Alert.error("Password doesn't match")
       } else {
         const signUpRequest = Object.assign({}, this.state);
@@ -87,12 +94,10 @@ class SignUpForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="footer"/>
-             <div className="header">SIGN UP</div>
         <div className="content">
-          <div className="image">
-            <img src={loginImg} />
-          </div>
+        <div className="footer"/>
+        <div className="content">
+        <img src={loginImg} alt="Logo" className="image"/>
 
           
           <div className="form">
@@ -124,6 +129,7 @@ class SignUpForm extends Component {
               </button>
             </div>
           </div>
+        </div>
         </div>
       </form>                    
 

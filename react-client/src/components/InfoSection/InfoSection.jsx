@@ -38,8 +38,8 @@ export function InfoSection({
                 <TopLine lightTopLine={lightTopLine}>{topLine}</TopLine>
                 <Heading lightText={lightText}>{headline}</Heading>
                 <Subtitle lightTextDesc={lightTextDesc}>{description}</Subtitle>
-                <Link to='/sign-up'>
-                  <button big fontBig primary={primary}>
+                <Link to='/signup'>
+                  <button className="btn" big fontBig primary={primary}>
                     {buttonLabel}
                   </button>
                 </Link>

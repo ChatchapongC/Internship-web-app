@@ -3,7 +3,7 @@ import GlobalStyle from '../globalStyles.js';
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
-import {BrowserRouter, Route, Router, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
@@ -20,9 +20,11 @@ import SearchBar from "../search/SearchBar.jsx";
 import BookData from "../Data.json";
 import { Box } from "../Box/Box.jsx";
 
+import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
+import ResetPassword from "../components/ResetPassword.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -74,13 +76,11 @@ class App extends React.Component {
       return <LoadingIndicator />
     }
     return (
-      <div>
+      <div className="app">
       <div className="app-top-box">
-        <div>
-          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
-
-      <div className="App">
-        {/* <SearchBar placeholder="Enter a Name..." data={BookData} /> */}
+          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
+      </div>
+      <div className="app-body">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
@@ -92,15 +92,16 @@ class App extends React.Component {
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
               <Route path="/forgotpassword"
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/resetpassword"
+                render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/admin/users" component={ListUser}></Route>
               <Route component={NotFound}></Route>
               <Route path="/searchjob" component={Box}></Route> 
             </Switch>
           </div>
-      </div>
       <Alert stack={{limit: 3}} 
           timeout = {5000}
           position='top-right' effect='slide' offset={65} />
-      </div>
       <Footer />
       </div>
     );

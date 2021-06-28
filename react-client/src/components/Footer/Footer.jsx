@@ -38,7 +38,7 @@ export function Footer() {
         <FooterSubText>You can unsubscribe at any time.</FooterSubText>
         <Form>
           <FormInput name='email' type='email' placeholder='Your Email' />
-          <button fontBig>Subscribe</button>
+          <button className="btn" fontBig>Subscribe</button>
         </Form>
       </FooterSubscription>
       <FooterLinksContainer>

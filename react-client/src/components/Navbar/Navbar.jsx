@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
-import { BrowserRouter, Link } from 'react-router-dom';
-import './Navbar.scss';
+import profileLogo from '../../img/profile-logo.png'
+import './Myprofile.scss';
+import '../Button.scss';
 import {
   Nav,
   NavbarContainer,
@@ -13,29 +14,43 @@ import {
   NavItem,
   NavItemBtn,
   NavLinks,
-  NavBtnLink
+  NavBtnLink,
+  NavLogout,
+  ShowText
 } from './Navbar.elements';
+import { useDetectOutsideClick } from '../useDetectOutsiderClick';
 
 export function Navbar(props) {
+  
+  const dropdownRef = useRef(null);
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+  const onClick = () => setIsActive(!isActive);
+
   const [click, setClick] = useState(false);
-  const [button, setButton] = useState(true);
+  const [state, setState] = useState({});
+  const [button, setbutton] = useState(true);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
-  const showButton = () => {
+  const showbutton = () => {
     if (window.innerWidth <= 960) {
-      setButton(false);
+      setbutton(false);
     } else {
-      setButton(true);
+      setbutton(true);
     }
   };
 
+
   useEffect(() => {
-    showButton();
+    showbutton();
+
+    return () => {
+      setState({});
+    }
   }, []);
 
-  window.addEventListener('resize', showButton);
+  window.addEventListener('resize', showbutton);
 
   return (
     <IconContext.Provider value={{ color: '#fff' }}>
@@ -53,7 +68,7 @@ export function Navbar(props) {
               </MobileIcon>
               <NavMenu onClick={handleClick} click={click}>
                 <NavItem>
-                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                  <NavLinks to='/' onClick={closeMobileMenu}>
                     Homepage
                   </NavLinks>
                 </NavItem>
@@ -74,22 +89,46 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItemBtn>
                   {button ? (
-                    <NavBtnLink to='/profile'>
-                      <button className="btn">My Profile</button>
+                    <NavBtnLink onClick={onClick}>
+                      <div className="container">
+                        <div className="outer">
+                              {props.currentUser.imageUrl? (
+                                  <img src={props.currentUser.imageUrl} alt={props.currentUser.name}/>
+                              ) : (
+                                  <img src={profileLogo}></img>
+                                )
+                              }
+                              <div ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+                                <ul>
+                                  <li><NavLinks to='/profile'>
+                                        My Profile
+                                      </NavLinks>
+                                  </li>
+                                  <li onClick={props.onLogout}>
+                                    <NavLinks style={{ color : 'red' }}>
+                                    Logout
+                                    </NavLinks>
+                                  </li>
+                                </ul>
+                              </div>
+                        </div>
+                      </div>
+                      <span className="caret"></span>
                     </NavBtnLink>
+                    
+                    
                   ) : (
                     <NavItem>
                       <NavLinks to='/profile' onClick={closeMobileMenu}>
                         My Profile
                       </NavLinks>
+                      <NavLogout>
+                                  <p>Logout</p>
+                       </NavLogout>
                     </NavItem>
+                    
                   )}
                 </NavItemBtn>
-                <NavItem>
-                  <NavLinks onClick={props.onLogout}>
-                    Logout
-                  </NavLinks>
-                </NavItem>
               </NavMenu>
             </NavbarContainer>
           </Nav>
@@ -108,7 +147,7 @@ export function Navbar(props) {
               </MobileIcon>
               <NavMenu onClick={handleClick} click={click}>
                 <NavItem>
-                  <NavLinks to='/homepage' onClick={closeMobileMenu}>
+                  <NavLinks to='/' onClick={closeMobileMenu}>
                     Homepage
                   </NavLinks>
                 </NavItem>

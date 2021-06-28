@@ -19,11 +19,15 @@
       flex-direction: column;
   
       .image {
-        width: 21em;
+        width: 20em;
         img {
           width: 80%;
           height: 80%;
         }
+      }
+      small{
+        font-size: 12px;
+        text-align: center;
       }
   
       .form {
@@ -68,38 +72,47 @@
       margin-top: 1em;
       
     }
-    .social-btn {
-      margin-bottom: 15px;
-      font-weight: 400;
-      font-size: 15px;}
-    
-    .social-btn img {
-      height: 32px;
-      float: left;
-      margin-top: -5px;
+    .or{
+      width: 100%; 
+      text-align: center; 
+      border-bottom: 1px solid rgba(161, 84, 224, 0.945); 
+      line-height: 0.1em;
+      margin: 10px 0 20px; 
+      font-family: 'Poppins', sans-serif;
+      color:#2c2c2cef;
+    }
+    .or span{
+      background:#fff; 
+      padding:0 10px; 
+    }
+    a {
+      text-decoration: none !important;
     }
     
-    .social-btn.google {
-      margin-top: 7px;
-    }      
 }
 
-.or{
-  width: 100%; 
-  text-align: center; 
-  border-bottom: 1px solid rgba(161, 84, 224, 0.945); 
-  line-height: 0.1em;
-  margin: 10px 0 20px; 
-  font-family: 'Poppins', sans-serif;
-  color:#2c2c2cef;
+.social-btn {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 15px;}
+
+.social-btn img {
+  height: 32px;
+  float: left;
+  margin-top: -5px;
 }
-.or span{
-  background:#fff; 
-  padding:0 10px; 
-}
-a {
-  text-decoration: none !important;
-}
+
+.social-btn.google {
+  margin-top: 7px;
+}  
+.social-btn.facebook img {
+  height: 30px;
+  margin-left: 3px;
+} 
+
+
+
+
   
 
 

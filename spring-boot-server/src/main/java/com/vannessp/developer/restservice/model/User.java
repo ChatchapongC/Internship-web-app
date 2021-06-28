@@ -6,6 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
@@ -16,10 +19,10 @@ public class User {
     private Long id;
 
     @Column
-    private String name;
+    private String firstName;
 
-//    @Column(nullable = false)
-//    private String lastName;
+    @Column
+    private String lastName;
 
     @Email
     @Column(nullable = false)
@@ -30,12 +33,9 @@ public class User {
     @Column
     private Boolean emailVerified = false;
 
-<<<<<<< HEAD
-=======
     @Column
     private String resetPasswordToken;
 
->>>>>>> 89ee28efb7634b5bd98c69d927e860407d6c4dea
     @JsonIgnore
     private String password;
 
@@ -45,6 +45,20 @@ public class User {
 
     private String providerId;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "user_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,24 +67,21 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-<<<<<<< HEAD
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-=======
->>>>>>> 89ee28efb7634b5bd98c69d927e860407d6c4dea
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getEmail() {
         return email;
@@ -119,8 +130,6 @@ public class User {
     public void setProviderId(String providerId) {
         this.providerId = providerId;
     }
-<<<<<<< HEAD
-=======
 
     public String getResetPasswordToken() {
         return resetPasswordToken;
@@ -129,5 +138,4 @@ public class User {
     public void setResetPasswordToken(String resetPasswordToken) {
         this.resetPasswordToken = resetPasswordToken;
     }
->>>>>>> 89ee28efb7634b5bd98c69d927e860407d6c4dea
 }

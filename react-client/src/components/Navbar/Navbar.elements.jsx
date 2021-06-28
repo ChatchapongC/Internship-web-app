@@ -71,8 +71,9 @@ export const NavMenu = styled.ul`
 export const NavItem = styled.li`
   height: 80px;
   border-bottom: 2px solid transparent;
+
   &:hover {
-    border-bottom: 2px solid #4b59f7;
+    border-bottom: 2px solid #FFF;
   }
   @media screen and (max-width: 960px) {
     width: 100%;
@@ -105,7 +106,7 @@ export const NavLinks = styled(Link)`
     width: 100%;
     display: table;
     &:hover {
-      color: #4b59f7;
+      color: #473c8b;
       transition: all 0.3s ease;
     }
   }
@@ -122,3 +123,30 @@ export const NavBtnLink = styled(Link)`
   border: none;
   outline: none;
 `;
+
+export const NavLogout = styled(Link)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 100%;
+  @media screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+    &:hover {
+      color: red;
+      transition: all 0.3s ease;
+    }
+  }
+`;
+
+export const ShowText = styled(Link)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 100%;
+`;
+
