@@ -15,6 +15,7 @@ import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
+import Joblist from '../Job/Joblist'
 import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
@@ -121,7 +122,7 @@ class App extends React.Component {
     return (
       <div className="app">
       <div className="app-top-box">
-          <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} />
+          <Navbar authenticated={this.state.authenticated} currentUser={this.state.currentUser} onLogout={this.handleLogout} />
       </div>
       <div className="app-body">
             <Switch>
