@@ -1,5 +1,4 @@
 import React from "react";
-import GlobalStyle from '../globalStyles.js';
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
@@ -14,8 +13,10 @@ import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
-import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
+import SearchBar from "../search/SearchBar.jsx";
+import  Job  from "../Job/Joblist.jsx";
+import Data from '../Data.json';
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -74,13 +75,12 @@ class App extends React.Component {
     if(this.state.loading) {
       return <LoadingIndicator />
     }
-
-    
     return (
       <div className="app">
       <div className="app-top-box">
           <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
       </div>
+      <SearchBar placeholder={"search"} data={Data}/>
       <div className="app-body">
       {this.state.showAlert && <div>{this.props.location.state.reason}</div>}
             <Switch>
@@ -96,10 +96,10 @@ class App extends React.Component {
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
-
               <Route path="/admin/users" 
                 render={(props) => <ListUser authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props}/>}></Route>
-
+              <Route path="/job-listing" 
+                render= {() => <Job/>}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
