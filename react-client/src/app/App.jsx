@@ -1,5 +1,4 @@
 import React from "react";
-import GlobalStyle from '../globalStyles.js';
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
@@ -14,12 +13,10 @@ import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
-import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
 import SearchBar from "../search/SearchBar.jsx";
-import BookData from "../Data.json";
-import { Box } from "../Box/Box.jsx";
-
+import  Job  from "../Job/Joblist.jsx";
+import Data from '../Data.json';
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -80,6 +77,7 @@ class App extends React.Component {
       <div className="app-top-box">
           <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
       </div>
+      <SearchBar placeholder={"search"} data={Data}/>
       <div className="app-body">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
@@ -95,8 +93,9 @@ class App extends React.Component {
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/admin/users" component={ListUser}></Route>
+              <Route path="/job-listing" 
+                render= {() => <Job/>}></Route>
               <Route component={NotFound}></Route>
-              <Route path="/searchjob" component={Box}></Route> 
             </Switch>
           </div>
       <Alert stack={{limit: 3}} 

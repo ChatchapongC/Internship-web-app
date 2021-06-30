@@ -1,5 +1,4 @@
 .searchInputs {
-    margin-top: 50px;
     display: flex;
     width: 100vw;
     height: 15vh;
@@ -19,10 +18,10 @@
     height: 30px;
     width: 300px;
     margin: auto;
+    float: left;
   }
   
   .searchIcon {
-    display: grid;
     place-items: center;
     margin: auto;
   }
@@ -64,13 +63,13 @@
   .dataItem p {
     margin-left: 10px;
   }
-  a {
-    text-decoration: none;
-  }
+  // a {
+  //   text-decoration: none;
+  // }
   
-  a:hover {
-    background-color: lightgrey;
-  }
+  // a:hover {
+  //   background-color: lightgrey;
+  // }
   
   #clearBtn {
     cursor: pointer;

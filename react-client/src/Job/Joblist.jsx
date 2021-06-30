@@ -1,6 +1,9 @@
-import { useState, useStste } from "react";
+import './Joblist.scss';
+import { useState} from "react";
 
-export function Box(){
+import VannessLogo from '../img/vanness_logo.jpg'
+
+export function Joblist(){
     const dataList = [
         {
             "Title" : "Require IT/Programmer Intern",
@@ -8,8 +11,7 @@ export function Box(){
             "Company" : "Vanness Plus Consulting",
             "Amount" : 1,
             "Budget" : 150,
-            "color" : "#98B2D1",
-            "pantone_value" : "15-4020" 
+            "logo" : VannessLogo
         },
         {
             "Title" : "Require IT/Programmer Intern",
@@ -17,8 +19,7 @@ export function Box(){
             "Company" : "Vanness Plus Consulting",
             "Amount" : 1,
             "Budget" : 150,
-            "color" : "#C74375",
-            "pantone_value" : "17-2031" 
+            "logo" : VannessLogo
         },
         {
             "Title" : "Require IT/Programmer Intern",
@@ -26,17 +27,15 @@ export function Box(){
             "Company" : "Vanness Plus Consulting",
             "Amount" : 1,
             "Budget" : 150,
-            "color" : "#98B2D1",
-            "pantone_value" : "15-4020"  
+            "logo" : VannessLogo 
         },
         {
-            "Title" : "Require IT/Programmer Intern",
+            "Title" : "Accounting Intern",
             "Position" : "Accounting",
             "Company" : "Vanness Plus Consulting",
-            "Amount" : 1,
+            "Amount" : 2,
             "Budget" : 150,
-            "color" : "#C74375",
-            "pantone_value" : "17-2031" 
+            "logo" : VannessLogo
         },
     ];
 
@@ -67,20 +66,24 @@ export function Box(){
 
     return (
         <div className="Box">
-            Search: <input 
+            {/* Search: <input 
                 type = "text"
                 placeholder = "Type to search..." 
                 value = {searchText}
                 onChange = {e => handleChange(e.target.value)}
-            />
+            /> */}
 
             <div className="box-container">
                 {data.map((d,i) => {
-                return <div className="box" key={i} style={{ backgroundColor : d.color }}>
-                    <b> Name: </b>{d.name}<br/>
-                    <b> Year: </b>{d.year}<br/>
-                    <b> Color: </b>{d.color}<br/>
-                    <b> Pantone value: </b>{d.pantone_value}<br/>
+                return <div className="box" key={i}>
+                    <img src = {d.logo}/>
+                    <em>{d.Title}</em><br/>
+                    <b>Comapny name:</b>{d.Company}<br/>
+                    <b> Position: </b>{d.Position}<br/>
+                    <b> Available: </b>{d.Amount == 1 ? (
+                            d.Amount + ' position'
+                    ):(d.Amount +  ' position(s)' )}<br/>
+                    <b> Allowance: </b>{d.Budget}฿/day<br/>
                 </div>
                 })}
                 <div className="clearboth"></div>
@@ -90,5 +93,5 @@ export function Box(){
     )
 }
 
-export default Box;
+export default Joblist;
 
