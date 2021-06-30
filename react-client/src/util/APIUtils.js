@@ -63,16 +63,16 @@ export function getCurrentJob() {
 }
 
 
-// export function getBusinessInfo(){
-//     if(!localStorage.getItem(ACCESS_TOKEN)) {
-//         return Promise.reject("No access token set.");
-//     }
+export function getCurrentbusiness(){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
 
-//     return request({
-//         url: API_BASE_URL + "/api/business/all",
-//         method: 'GET'
-//     });
-// }
+    return request({
+        url: API_BASE_URL + "/api/business/all",
+        method: 'GET'
+    });
+}
 
 export function forgotpassword(forgotPassword) {
     return request({
