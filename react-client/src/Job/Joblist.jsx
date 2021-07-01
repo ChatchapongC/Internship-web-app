@@ -84,6 +84,8 @@ export function Joblist(){
                             d.Amount + ' position'
                     ):(d.Amount +  ' position(s)' )}<br/>
                     <b> Allowance: </b>{d.Budget}฿/day<br/>
+                    <button >APPLY THIS JOB</button><br/>
+                    <button>Add to bookmark</button>
                 </div>
                 })}
                 <div className="clearboth"></div>

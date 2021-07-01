@@ -14,9 +14,7 @@ import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
 import { Footer } from '../components/Footer/Footer';
-import SearchBar from "../search/SearchBar.jsx";
 import  Job  from "../Job/Joblist.jsx";
-import Data from '../Data.json';
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -80,7 +78,6 @@ class App extends React.Component {
       <div className="app-top-box">
           <Navbar authenticated={this.state.authenticated} onLogout={this.handleLogout} currentUser={this.state.currentUser} />
       </div>
-      <SearchBar placeholder={"search"} data={Data}/>
       <div className="app-body">
       {this.state.showAlert && <div>{this.props.location.state.reason}</div>}
             <Switch>

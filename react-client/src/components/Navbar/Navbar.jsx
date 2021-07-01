@@ -22,6 +22,7 @@ import { useDetectOutsideClick } from '../useDetectOutsiderClick';
 
 export function Navbar(props) {
   
+  const [show, setShow] = useState(false);
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
@@ -33,6 +34,14 @@ export function Navbar(props) {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  const showDropdown = (e) => {
+    setShow(!show);
+  }
+
+  const hideDropdown = e => {
+    setShow(false);
+  }
+  
   const showbutton = () => {
     if (window.innerWidth <= 960) {
       setbutton(false);
@@ -78,6 +87,11 @@ export function Navbar(props) {
                   </NavLinks>
                 </NavItem>
                 <NavItem>
+                  <NavLinks to='/about-us' onClick={closeMobileMenu}>
+                    About Us
+                  </NavLinks>
+                </NavItem>
+                <NavItem>
                   <NavLinks to='/varieties' onClick={closeMobileMenu}>
                     Varieties
                   </NavLinks>
@@ -89,7 +103,7 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItemBtn>
                   {button ? (
-                    <NavBtnLink onClick={onClick}>
+                    <NavBtnLink onMouseEnter={showDropdown} onMouseLeave={hideDropdown} onClick={onClick}>
                       <div className="container">
                         <div className="outer">
                               {props.currentUser.imageUrl? (
@@ -98,7 +112,7 @@ export function Navbar(props) {
                                   <img src={profileLogo}></img>
                                 )
                               }
-                              <div ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+                              <div ref={dropdownRef} className={`menu ${show || isActive? "active" : "inactive"}`}>
                                 <ul>
                                   <li><NavLinks to='/profile'>
                                         My Profile
@@ -114,9 +128,8 @@ export function Navbar(props) {
                         </div>
                       </div>
                       <span className="caret"></span>
+                      <div className="welcome-text">{props.currentUser.firstName ? props.currentUser.firstName : "User" }</div>
                     </NavBtnLink>
-                    
-                    
                   ) : (
                     <NavItem>
                       <NavLinks to='/profile' onClick={closeMobileMenu}>
@@ -132,7 +145,7 @@ export function Navbar(props) {
               </NavMenu>
             </NavbarContainer>
           </Nav>
-
+        
         ):(
 
           <Nav>
