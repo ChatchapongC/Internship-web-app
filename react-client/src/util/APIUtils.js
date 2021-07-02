@@ -57,7 +57,7 @@ export function getCurrentJob() {
     }
 
     return request({
-        url: API_BASE_URL + "/api/job/1",
+        url: API_BASE_URL + "/api/job/all",
         method: 'GET'
     });
 }

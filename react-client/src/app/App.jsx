@@ -15,7 +15,7 @@ import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
-import Joblist from '../Job/Joblist'
+import Job from '../Job/Joblist'
 import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
@@ -138,6 +138,8 @@ class App extends React.Component {
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
+              <Route path="/job-listing"
+                render={(props) => <Job authenticated={this.state.authenticated}  currentUser={this.state.currentUser} jobList={this.state.jobList} {...props} />}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>

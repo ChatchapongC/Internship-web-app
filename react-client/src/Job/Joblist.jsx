@@ -1,13 +1,13 @@
 import './Joblist.scss';
 import React, { Component } from 'react';
 import { useState} from "react";
-
+import useFetch from "react-fetch-hook"
 import VannessLogo from '../img/vanness_logo.jpg'
 
 class Joblist extends Component{
     constructor(props) {
         super(props);
-        this.state = {dataList: [], isLoading: true};
+        // this.state = {dataList: [], isLoading: true};
         console.log(props);
     }
     // let dataList = {this.poops};
@@ -17,11 +17,11 @@ class Joblist extends Component{
 
     // const excludeColumns = ['Position'];
 
-    async componentDidMount() {
-        fetch('/api/job/1')
-      .then(response => response.json())
-      .then(data => this.setState({dataList: data, isLoading: false}));
-    }
+    // async componentDidMount() {
+    //     fetch('/api/job/1')
+    //   .then(response => response.json())
+    //   .then(data => this.setState({dataList: data, isLoading: false}));
+    // }
 
     // handleChange = value => {
     //     setSearchText(value);
@@ -44,8 +44,9 @@ class Joblist extends Component{
     // }
 
     render() {
-        const {dataList, isLoading} = this.state;
-        console.log(this.props.Joblist);
+        // const {dataList, isLoading} = this.state;
+        const dataList = this.props.jobList;
+        console.log(dataList);
         
     return (
         
@@ -60,18 +61,21 @@ class Joblist extends Component{
             <div className="box-container">
                 {dataList.map((d) => {
                 return <div className="box" key={d.id}>
-                    <img src = {d.logo}/>
+                    <em>{d.title}</em><br/>
+                    <b>Comapny name:</b>{d.business_name}<br/>
+                    <b> Position: </b>{d.avaliable_position}<br/>
+                    {/* <img src = {d.logo}/>
                     <em>{d.Title}</em><br/>
                     <b>Comapny name:</b>{d.business_name}<br/>
                     <b> Position: </b>{d.title}<br/>
                     <b> Available: </b>{d.Amount == 1 ? (
                             d.Amount + ' position'
                     ):(d.Amount +  ' position(s)' )}<br/>
-                    <b> Allowance: </b>{d.benefit}฿/day<br/>
+                    <b> Allowance: </b>{d.benefit}฿/day<br/> */}
                 </div>
-                })}
+                })} 
                 <div className="clearboth"></div>
-                {dataList.length === 0 && <span>No records found to display!</span>}
+                {/* {this.props.dataList.length === 0 && <span>No records found to display!</span>} */}
             </div>
         </div>
     )
