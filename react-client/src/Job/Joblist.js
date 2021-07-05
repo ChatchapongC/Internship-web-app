@@ -49,7 +49,6 @@ class Joblist extends Component{
         console.log(dataList);
         
     return (
-        
         <div className="Box">
             {/* Search: <input 
                 type = "text"
@@ -57,7 +56,7 @@ class Joblist extends Component{
                 value = {searchText}
                 onChange = {e => handleChange(e.target.value)}
             /> */}
-
+            
             <div className="box-container">
                 {dataList.map((d) => {
                 return <div className="box" key={d.id}>

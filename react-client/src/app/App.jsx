@@ -15,7 +15,7 @@ import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
 import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
-import Job from '../Job/Joblist'
+import Job from '../Job/Joblist.js'
 import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
@@ -130,16 +130,16 @@ class App extends React.Component {
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser} jobList={this.state.jobList} businessList={this.state.businessList}
                 component={Profile}></PrivateRoute>
               <Route path="/login"
-                render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
+                render={(props) => <Login authenticated={this.state.authenticated} jobList={this.state.jobList} {...props} />}></Route>
               <Route path="/signup"
                 render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
               <Route path="/forgotpassword"
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
-                render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
+                render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props}/>}></Route>
               <Route path="/job-listing"
-                render={(props) => <Job authenticated={this.state.authenticated}  currentUser={this.state.currentUser} jobList={this.state.jobList} {...props} />}></Route>
+                render={(props) => <Job authenticated={this.state.authenticated}  currentUser={this.state.currentUser} jobList={this.state.jobList} />}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>

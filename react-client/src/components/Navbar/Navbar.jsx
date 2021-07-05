@@ -73,7 +73,7 @@ export function Navbar(props) {
                   </NavLinks>
                 </NavItem>
                 <NavItem>
-                  <NavLinks to='/search applicants' onClick={closeMobileMenu}>
+                  <NavLinks to='/job-listing' onClick={closeMobileMenu}>
                     Search Applicants
                   </NavLinks>
                 </NavItem>
@@ -152,7 +152,7 @@ export function Navbar(props) {
                   </NavLinks>
                 </NavItem>
                 <NavItem>
-                  <NavLinks to='/search applicants' onClick={closeMobileMenu}>
+                  <NavLinks to='/job-listing' onClick={closeMobileMenu}>
                     Search Applicants
                   </NavLinks>
                 </NavItem>
