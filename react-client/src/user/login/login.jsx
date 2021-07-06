@@ -10,25 +10,13 @@ import "../../components/Button.scss"
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
-  componentDidMount() {
-        if(this.props.location.state && this.props.location.state.error) {
-            setTimeout(() => {
-                Alert.error(this.props.location.state.error, {
-                    timeout: 5000
-                });
-                this.props.history.replace({
-                    pathname: this.props.location.pathname,
-                    state: {}
-                });
-            }, 100);
-        }
-  }
-
+ 
   render() {
+    console.log(this.props)
     if(this.props.authenticated) {
       return <Redirect
           to={{
-          pathname: "/profile",
+          pathname: "/",
           state: { from: this.props.location }
       }}/>;            
     }
@@ -79,7 +67,7 @@ class LoginForm extends Component {
       });        
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
       event.preventDefault();   
 
       const loginRequest = Object.assign({}, this.state);
@@ -89,7 +77,8 @@ class LoginForm extends Component {
           localStorage.setItem(ACCESS_TOKEN, response.accessToken);
           Alert.success("You're successfully logged in!");
           this.props.history.push("/profile");
-          window.location.reload();
+          
+          // window.location.reload();
       }).catch(error => {
           Alert.error((error && error.message+': Email or password is incorrect') || 'Oops! Something went wrong. Please try again!');
       });

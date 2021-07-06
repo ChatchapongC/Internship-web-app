@@ -5,14 +5,17 @@ import './profile.scss';
 class Profile extends Component {
     constructor(props) {
         super(props);
+        
     }
+    
     render() {
+        console.log(this.props)
         return (
             <div className="profile-container">
                 <div className="container">
                     <div className="profile-info">
                         <div className="profile-avatar">
-                            { 
+                            {   
                                 this.props.currentUser.imageUrl ? (
                                     <img src={this.props.currentUser.imageUrl} alt={this.props.currentUser.name}/>
                                 ) : (

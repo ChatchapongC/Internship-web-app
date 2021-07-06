@@ -3,17 +3,16 @@ import { Redirect, useHistory } from "react-router-dom";
 import { getAllUsers } from "../../util/APIUtils";
 import './ListAllUser.scss'
 
-export function ListAllUser(props) {
+export function ListAllUser() {
 
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
+    useEffect(() => { 
         getAllUsers().then(data => setUsers(data));
     }, []);
     
     return (
         <div>
-            {props.authenticated &&(
                 <table className="table-latitude">
                 <caption>User Information</caption>
                     <thead>
@@ -39,7 +38,6 @@ export function ListAllUser(props) {
                         }
                     </tbody>
                 </table>
-            )}
         </div>
         
     )

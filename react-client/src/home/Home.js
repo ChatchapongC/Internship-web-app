@@ -9,7 +9,7 @@ class Home extends Component {
         return (
             <>
             
-            <SearchBar placeholder={"search"} data={Data}/>
+            <SearchBar data={Data}/>
             <InfoSection {...homeObjOne} />
             <InfoSection {...homeObjTwo} />
             <InfoSection {...homeObjThree} />

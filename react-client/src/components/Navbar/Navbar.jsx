@@ -63,7 +63,6 @@ export function Navbar(props) {
 
   return (
     <IconContext.Provider value={{ color: '#fff' }}>
-      
         {props.authenticated ? (
           <Nav>
             <NavbarContainer>
