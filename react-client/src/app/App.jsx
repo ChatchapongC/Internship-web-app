@@ -23,27 +23,26 @@ import ResetPassword from "../components/ResetPassword.jsx";
 
 const App = () =>{
 
-  const [authenticated, setAuthenticate] = useState(false);
+  const [authenticate, setAuthenticate] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-
-    if(loading){
-      return <LoadingIndicator />
-    }
+ useEffect(() => {
     setLoading(true);
+    loadCurrentlyLoggedInUser();
 
+  },[]);
+
+  const loadCurrentlyLoggedInUser = () => {
     getCurrentUser()
     .then(response => {
       setCurrentUser(response);
       setAuthenticate(true);
-      setLoading(false); 
-
+      setLoading(false);
     }).catch(error => {
       setLoading(false);
     });    
-  },[]);
+  }
 
   const handleLogout = () => {
     localStorage.removeItem(ACCESS_TOKEN);
@@ -52,27 +51,30 @@ const App = () =>{
     Alert.success("You're safely logged out!");
   }
 
+  if(loading){
+    return <LoadingIndicator />
+  }
+
     return (
-     
       <div className="app">
       <div className="app-top-box">
-          <Navbar authenticated={authenticated} onLogout={handleLogout} currentUser={currentUser} />
+          <Navbar authenticated={authenticate} onLogout={handleLogout} currentUser={currentUser} />
       </div>
       <div className="app-body">
             <Switch>
               <Route exact path="/" component={Home}></Route>           
-              <PrivateRoute path="/profile" component={Profile} authenticated={authenticated} currentUser={currentUser}></PrivateRoute>
+              <PrivateRoute path="/profile" component={Profile} authenticated={authenticate} currentUser={currentUser}></PrivateRoute>
               <Route path="/login"
-                render={(props) => <Login authenticated={authenticated} {...props} />}></Route>
+                render={(props) => <Login authenticated={authenticate} {...props} />}></Route>
               <Route path="/signup"
-                render={(props) => <Signup authenticated={authenticated} {...props} />}></Route>
+                render={(props) => <Signup authenticated={authenticate} {...props} />}></Route>
               <Route path="/oauth2/redirect" component={OAuth2Redirect}></Route> 
               <Route path="/forgotpassword"
-                render={(props) => <ForgotPassword authenticated={authenticated} {...props} />}></Route>
+                render={(props) => <ForgotPassword authenticated={authenticate} {...props} />}></Route>
               <Route path="/resetpassword"
-                render={(props) => <ResetPassword authenticated={authenticated} {...props} />}></Route>
-              <PrivateRoute path="/admin/users" authenticated={authenticated} currentUser={currentUser}
-                component={Profile}></PrivateRoute>
+                render={(props) => <ResetPassword authenticated={authenticate} {...props} />}></Route>
+              <PrivateRoute path="/admin/users" authenticated={authenticate} currentUser={currentUser}
+                component={ListUser}></PrivateRoute>
               <Route path="/job-listing" 
                 render= {() => <Job/>}></Route>
               <Route component={NotFound}></Route>
