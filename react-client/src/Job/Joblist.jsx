@@ -4,7 +4,7 @@ import { useState} from "react";
 import VannessLogo from '../img/vanness_logo.jpg'
 
 export function Joblist(){
-    const dataList = [
+    const jobList = [
         {
             "Title" : "Require IT/Programmer Intern",
             "Position" : "Programmer",
@@ -40,7 +40,7 @@ export function Joblist(){
     ];
 
     const [searchText, setSearchText] = useState('');
-    const [data, setData] = useState(dataList);
+    const [dataList, setData] = useState(jobList);
 
     const excludeColumns = ['Position'];
 
@@ -74,7 +74,7 @@ export function Joblist(){
             /> */}
 
             <div className="box-container">
-                {data.map((d,i) => {
+                {dataList.map((d,i) => {
                 return <div className="box" key={i}>
                     <img src = {d.logo}/>
                     <em>{d.Title}</em><br/>
@@ -89,7 +89,7 @@ export function Joblist(){
                 </div>
                 })}
                 <div className="clearboth"></div>
-                {data.length === 0 && <span>No records found to display!</span>}
+                {dataList.length === 0 && <span>No records found to display!</span>}
             </div>
         </div>
     )
