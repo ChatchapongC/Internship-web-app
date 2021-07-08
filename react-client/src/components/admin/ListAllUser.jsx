@@ -1,15 +1,14 @@
 import React,{ useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
 import { getAllUsers } from "../../util/APIUtils";
 import './ListAllUser.scss'
 
 export function ListAllUser() {
-
     const [users, setUsers] = useState([]);
 
     useEffect(() => { 
         getAllUsers().then(data => setUsers(data));
     }, []);
+
     
     return (
         <div>
@@ -20,7 +19,7 @@ export function ListAllUser() {
                             <th> First Name</th>
                             <th> Last Name</th>
                             <th> Email</th>
-                            <th> Roles</th>
+                            <th> Roles </th>
                         </tr>
                     </thead>
 
@@ -32,7 +31,8 @@ export function ListAllUser() {
                                     <td> {user.firstName} </td>
                                     <td> {user.lastName} </td>
                                     <td> {user.email} </td>
-                                    <td> {user.roles.map(role => role.name+' ')} </td>
+                                    <td> {user.roles.map(role => role.name+", ")} </td>
+
                                 </tr>
                             )
                         }

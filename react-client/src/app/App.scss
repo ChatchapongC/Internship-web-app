@@ -12,14 +12,12 @@
 body{
   height: 100vh;
   width: 100%;
-  background: #a0a0a083;
+  background: #ffffff;
 }
 .s-alert-box {
-  .s-alert-box {
-      min-width: 250px;
-  }
+    min-width: 250px;
+}
 
-  .s-alert-close::before, .s-alert-close::after {
-      width: 2px;
-  }
+.s-alert-close::before, .s-alert-close::after {
+    width: 2px;
 }

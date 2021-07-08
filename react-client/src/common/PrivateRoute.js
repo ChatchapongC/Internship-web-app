@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Route,
     Redirect,
+    useHistory,
   } from "react-router-dom";
 import { getCurrentUser } from '../util/APIUtils';
 import LoadingIndicator from './LoadingIndicator';
@@ -10,7 +11,7 @@ import LoadingIndicator from './LoadingIndicator';
 export const PrivateRoute = (props) => {
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+    const history = useHistory();
     const { component: Component, ...rest } = props;
 
     useEffect(() => {

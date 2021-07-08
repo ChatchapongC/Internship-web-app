@@ -47,6 +47,26 @@ export function signup(signupRequest) {
     });
 }
 
+//Just for smaple data for job
+export function getCurrentJob() {
+    return request({
+        url: API_BASE_URL + "/api/job/all",
+        method: 'GET'
+    });
+}
+
+
+export function getCurrentbusiness(){
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/api/business/all",
+        method: 'GET'
+    });
+}
+
 export function forgotpassword(forgotPassword) {
     return request({
         url: API_BASE_URL + "/forgotpassword",

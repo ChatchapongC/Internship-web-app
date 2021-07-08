@@ -34,6 +34,8 @@ export function Navbar(props) {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  console.log(props);
+
   const showDropdown = (e) => {
     setShow(!show);
   }
@@ -82,7 +84,7 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItem>
                   <NavLinks to='/job-listing' onClick={closeMobileMenu}>
-                    Job
+                    Search Applicants
                   </NavLinks>
                 </NavItem>
                 <NavItem>
@@ -134,7 +136,7 @@ export function Navbar(props) {
                       <NavLinks to='/profile' onClick={closeMobileMenu}>
                         My Profile
                       </NavLinks>
-                      <NavLogout onClick={props.onLogout}>
+                      <NavLogout>
                                   <p>Logout</p>
                        </NavLogout>
                     </NavItem>
@@ -165,7 +167,7 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItem>
                   <NavLinks to='/job-listing' onClick={closeMobileMenu}>
-                    Job
+                    Search Applicants
                   </NavLinks>
                 </NavItem>
                 <NavItem>

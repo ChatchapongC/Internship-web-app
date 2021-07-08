@@ -21,6 +21,7 @@ public class User {
     @Column
     private String firstName;
 
+//    @Column(nullable = false)
     @Column
     private String lastName;
 
@@ -79,6 +80,11 @@ public class User {
         return lastName;
     }
 
+//    public void setName(String name) {
+//        this.name = name;
+//        splitName(name);
+//    }
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -131,6 +137,21 @@ public class User {
         this.providerId = providerId;
     }
 
+
+    public void splitName(String name){
+        String[] temp = name.split(" ");
+
+        this.firstName = temp[0];
+        for(int i = 1; i<temp.length; i++)
+        {
+            if(i!=1)
+            {
+                this.lastName = lastName.concat(" ");
+            }
+            this.lastName = lastName.concat(temp[i]);
+        }
+    }
+    
     public String getResetPasswordToken() {
         return resetPasswordToken;
     }

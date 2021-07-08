@@ -3,10 +3,13 @@ import profileLogo from '../../img/profile-logo.png'
 import './profile.scss';
 
 class Profile extends Component {
+
     constructor(props) {
         super(props);
         
+        
     }
+
     render() {
         console.log(this.props.currentUser)
         return (
@@ -25,9 +28,13 @@ class Profile extends Component {
                         <div className="profile-name">
                            <h2>{this.props.currentUser.firstName} {this.props.currentUser.lastName} </h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
+                           <p>1{this.props.currentUser.id}</p>
+                           <p>2{this.props.currentUser.email}</p>
+                           <p>3{this.props.currentUser.firstName}</p>
                         </div>
                     </div>
-                </div>    
+                </div>  
+
             </div>
         );
     }

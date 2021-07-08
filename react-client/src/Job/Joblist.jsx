@@ -1,95 +1,36 @@
 import './Joblist.scss';
-import { useState} from "react";
-
+import React, { Component, useState, useEffect } from 'react';
 import VannessLogo from '../img/vanness_logo.jpg'
+import { getCurrentJob } from '../util/APIUtils';
 
-export function Joblist(){
-    const jobList = [
-        {
-            "Title" : "Require IT/Programmer Intern",
-            "Position" : "Programmer",
-            "Company" : "Vanness Plus Consulting",
-            "Amount" : 1,
-            "Budget" : 150,
-            "logo" : VannessLogo
-        },
-        {
-            "Title" : "Require IT/Programmer Intern",
-            "Position" : "Accounting",
-            "Company" : "Vanness Plus Consulting",
-            "Amount" : 1,
-            "Budget" : 150,
-            "logo" : VannessLogo
-        },
-        {
-            "Title" : "Require IT/Programmer Intern",
-            "Position" : "Programmer",
-            "Company" : "Vanness Plus Consulting",
-            "Amount" : 1,
-            "Budget" : 150,
-            "logo" : VannessLogo 
-        },
-        {
-            "Title" : "Accounting Intern",
-            "Position" : "Accounting",
-            "Company" : "Vanness Plus Consulting",
-            "Amount" : 2,
-            "Budget" : 150,
-            "logo" : VannessLogo
-        },
-    ];
-
-    const [searchText, setSearchText] = useState('');
-    const [dataList, setData] = useState(jobList);
-
-    const excludeColumns = ['Position'];
-
-    const handleChange = value => {
-        setSearchText(value);
-        filterData(value);
-    }
-
-    const filterData = value => {
-        const lowerCaseValue = value.toLowerCase().trim();
-        if (!lowerCaseValue) {
-            setData(dataList);
-        }
-        else {
-            const filteredData = dataList.filter( item => {
-                return Object.keys(item).some(key => {
-                    return excludeColumns.includes(key) ? false: item[key].toString().toLowerCase().includes(lowerCaseValue);
-                })
-            });
-            setData(filteredData);
-        }
-    }
-
+export function Joblist () {
+    const [jobs, setJobs] = useState([]);
+    const [state, setState] = useState({});
+    
+    useEffect(() => {
+        getCurrentJob().then(data => setJobs(data));
+    },[]);
+      
     return (
         <div className="Box">
-            {/* Search: <input 
-                type = "text"
-                placeholder = "Type to search..." 
-                value = {searchText}
-                onChange = {e => handleChange(e.target.value)}
-            /> */}
-
             <div className="box-container">
-                {dataList.map((d,i) => {
-                return <div className="box" key={i}>
-                    <img src = {d.logo}/>
+                {jobs.map((d) => {
+                return <div className="box" key={d.id}>
+                    <em>{d.title}</em><br/>
+                    <b>Comapny name:</b>{d.business_name}<br/>
+                    <b> Position: </b>{d.avaliable_position}<br/>
+                    {/* <img src = {d.logo}/>
                     <em>{d.Title}</em><br/>
-                    <b>Comapny name:</b>{d.Company}<br/>
-                    <b> Position: </b>{d.Position}<br/>
+                    <b>Comapny name:</b>{d.business_name}<br/>
+                    <b> Position: </b>{d.title}<br/>
                     <b> Available: </b>{d.Amount == 1 ? (
                             d.Amount + ' position'
                     ):(d.Amount +  ' position(s)' )}<br/>
-                    <b> Allowance: </b>{d.Budget}฿/day<br/>
-                    <button >APPLY THIS JOB</button><br/>
-                    <button>Add to bookmark</button>
+                    <b> Allowance: </b>{d.benefit}฿/day<br/> */}
                 </div>
-                })}
-                <div className="clearboth"></div>
-                {dataList.length === 0 && <span>No records found to display!</span>}
+                })} 
+                <div className="search-box"></div>
+                {/* {this.props.dataList.length === 0 && <span>No records found to display!</span>} */}
             </div>
         </div>
     )

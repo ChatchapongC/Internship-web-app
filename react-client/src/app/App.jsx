@@ -2,10 +2,12 @@ import React, {Component, useState, useEffect} from "react";
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
-import {Route, Switch, BrowserRouter} from 'react-router-dom';
+import {Route, Switch, BrowserRouter, Redirect, useHistory} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
+import { getCurrentJob } from '../util/APIUtils';
+import { getCurrentbusiness } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRoute';
 import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
@@ -13,8 +15,9 @@ import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
+import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
-import  Job  from "../Job/Joblist.jsx";
+import  Job  from "../Job/Joblist";
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -26,11 +29,11 @@ const App = () =>{
   const [authenticate, setAuthenticate] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
  useEffect(() => {
     setLoading(true);
     loadCurrentlyLoggedInUser();
-
   },[]);
 
   const loadCurrentlyLoggedInUser = () => {
@@ -48,7 +51,9 @@ const App = () =>{
     localStorage.removeItem(ACCESS_TOKEN);
     setAuthenticate(false);
     setCurrentUser(null);
-    Alert.success("You're safely logged out!");
+    history.push("/");
+    Alert.success("You're successfully Logout");
+  
   }
 
   if(loading){
@@ -57,8 +62,8 @@ const App = () =>{
 
     return (
       <div className="app">
-      <div className="app-top-box">
-          <Navbar authenticated={authenticate} onLogout={handleLogout} currentUser={currentUser} />
+      <div>
+          <Navbar authenticated={authenticate} currentUser={currentUser} onLogout={handleLogout} />
       </div>
       <div className="app-body">
             <Switch>
@@ -76,7 +81,7 @@ const App = () =>{
               <PrivateRoute path="/admin/users" authenticated={authenticate} currentUser={currentUser}
                 component={ListUser}></PrivateRoute>
               <Route path="/job-listing" 
-                render= {() => <Job/>}></Route>
+                render= {(props) => <Job />} ></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
