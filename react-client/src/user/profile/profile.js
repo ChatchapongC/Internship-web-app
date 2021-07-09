@@ -19,7 +19,7 @@ class Profile extends Component {
     render() {
         // const {groups, isLoading} = this.state;
 
-        
+        console.log(this.props);
 
         return (
             <div className="profile-container">

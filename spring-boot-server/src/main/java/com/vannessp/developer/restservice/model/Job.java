@@ -55,6 +55,9 @@ public class Job {
     @JoinColumn(name="business_id")
     private Business business;
 
+    @Column
+    private Boolean Recommended = false;
+
     public Job() {
 
     }
@@ -137,5 +140,13 @@ public class Job {
 
     public void setBusiness(Business business) {
         this.business = business;
+    }
+
+    public Boolean getRecommended() {
+        return Recommended;
+    }
+
+    public void setRecommended(Boolean recommended) {
+        Recommended = recommended;
     }
 }

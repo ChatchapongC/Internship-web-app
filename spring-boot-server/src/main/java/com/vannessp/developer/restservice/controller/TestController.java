@@ -65,6 +65,10 @@ public class TestController {
             job.setTags(new StringBuilder().append("job").append(i).append("_tags").toString());
             job.setLocation(new StringBuilder().append("job").append(i).append("_location").toString());
             job.setUpload_date(LocalDate.parse("2019-12-31"));
+            if(i<=5)
+            {
+                job.setRecommended(true);
+            }
             jobRespository.save(job);
         }
         List<Job> j = jobRespository.findAll();

@@ -42,6 +42,18 @@ public class JobController {
         return ResponseEntity.ok(job);
     }
 
+//    @GetMapping("/job/recommended")
+//    public ResponseEntity<List<Job>> getRecommendJob(){
+//
+//        List<Job> job = jobRepository.findAll();
+////        for (Job job_: job) {
+////            if(job_.getRecommended().equals(false)) {
+////                job.remove(job_);
+////            }
+////        }
+//        return ResponseEntity.ok(job);
+//    }
+
 /*    @GetMapping("/job/bus_name/{business_name}")
     public ResponseEntity<List<Job>> getJobByBusinessName(@PathVariable String business_name){
         List<Job> jobs = jobRepository.findAll();

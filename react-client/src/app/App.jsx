@@ -100,8 +100,6 @@ class App extends React.Component {
     localStorage.removeItem(ACCESS_TOKEN);
     this.setState({
       authenticated: false,
-      jobList: null,
-      businessList: null,
       currentUser: null
     });
     Alert.success("You're safely logged out!");
@@ -138,13 +136,13 @@ class App extends React.Component {
                 render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/resetpassword"
                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props}/>}></Route>
-              <Route path="/job-listing"
-                render={(props) => <Job authenticated={this.state.authenticated}  currentUser={this.state.currentUser} jobList={this.state.jobList} />}></Route>
+              <Route path="/job-listing" 
+                render={(props) =>  <Job currentUser={this.state.currentUser} /*jobList={this.state.jobList}*/ {...props}/>}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
       <Alert stack={{limit: 3}} 
-          timeout = {5000}
+          timeout = {50000}
           position='top-right' effect='slide' offset={65} />
       <Footer />
       </div>
