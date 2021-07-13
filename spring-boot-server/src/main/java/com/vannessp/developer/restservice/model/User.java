@@ -21,7 +21,6 @@ public class User {
     @Column
     private String firstName;
 
-//    @Column(nullable = false)
     @Column
     private String lastName;
 

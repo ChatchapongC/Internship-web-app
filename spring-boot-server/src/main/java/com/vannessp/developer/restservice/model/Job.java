@@ -5,7 +5,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "jobs"
@@ -53,7 +52,7 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name="business_id")
-    private Business business;
+    private Company company;
 
     public Job() {
 
@@ -131,11 +130,11 @@ public class Job {
         this.upload_date = upload_date;
     }
 
-    public Business getBusiness() {
-        return business;
+    public Company getBusiness() {
+        return company;
     }
 
-    public void setBusiness(Business business) {
-        this.business = business;
+    public void setBusiness(Company company) {
+        this.company = company;
     }
 }

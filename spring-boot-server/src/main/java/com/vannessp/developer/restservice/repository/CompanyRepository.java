@@ -1,14 +1,13 @@
 package com.vannessp.developer.restservice.repository;
 
-import com.vannessp.developer.restservice.model.Business;
+import com.vannessp.developer.restservice.model.Company;
 import com.vannessp.developer.restservice.model.Job;
-import com.vannessp.developer.restservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BusinessRespository extends JpaRepository<Business, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query(value = "select * from businesses b where b.name LIKE %?1%", nativeQuery = true)
     Job findByBusiness_name(String business_name);
 

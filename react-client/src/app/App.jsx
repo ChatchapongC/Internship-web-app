@@ -23,8 +23,9 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
 import ResetPassword from "../components/ResetPassword.jsx";
+import Popup from "../components/Popup/Popup"
 
-const App = () =>{
+function App () {
 
   const [authenticate, setAuthenticate] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -82,6 +83,8 @@ const App = () =>{
                 component={ListUser}></PrivateRoute>
               <Route path="/job-listing" 
                 render= {(props) => <Job />} ></Route>
+              <Route path="/popup" 
+                render= {(props) => <Popup />} ></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
