@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import profileLogo from '../../img/profile-logo.png'
+import profile from '../../images/profile.png';
 import './Myprofile.scss';
 import '../Button.scss';
 import {
@@ -60,7 +61,7 @@ export function Navbar(props) {
             <NavbarContainer>
               <NavLogo to='/' onClick={closeMobileMenu}>
                 <NavIcon/>
-                INTERNSHIP
+                INTRENDSHIP
               </NavLogo>
           
               <MobileIcon onClick={handleClick}>
@@ -138,7 +139,7 @@ export function Navbar(props) {
           <Nav>
             <NavbarContainer>
               <NavLogo to='/' onClick={closeMobileMenu}>
-                <NavIcon/>
+              {/* <img src={profile}></img> */}
                 INTERNSHIP
               </NavLogo>
           

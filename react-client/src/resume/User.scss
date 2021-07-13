@@ -1,0 +1,113 @@
+//Custom Fonts
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap');
+.base-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    .header {
+      font-size: 35px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      color:#6a5acd;
+    }
+  
+    .content {
+      display: flex;
+      flex-direction: column;
+  
+      .image {
+        width: 20em;
+        img {
+          width: 80%;
+          height: 80%;
+        }
+      }
+      small{
+        font-size: 12px;
+        text-align: center;
+      }
+  
+      .form {
+        margin-top: 0em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+  
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          width: fit-content;
+         
+          label {
+            font-size: 20px;
+          }
+          input {
+            margin-top: 1px;
+            min-width: 18em;
+            height: 37px;
+            padding: 0px 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 100;
+            background-color: #f3f3f3;
+            border: 0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: all 250ms ease-in-out;
+  
+            &:focus {
+              outline: none;
+              box-shadow: 0px 0px 12px 0.8px #6959cd;
+            }
+          }
+        }
+      }
+    }
+    .footer {
+      font-family: 'Poppins', sans-serif;
+      margin-top: 1em;
+      
+    }
+    .or{
+      width: 100%; 
+      text-align: center; 
+      border-bottom: 1px solid rgba(161, 84, 224, 0.945); 
+      line-height: 0.1em;
+      margin: 10px 0 20px; 
+      font-family: 'Poppins', sans-serif;
+      color:#2c2c2cef;
+    }
+    .or span{
+      background:#fff; 
+      padding:0 10px; 
+    }
+    a {
+      text-decoration: none !important;
+    }
+    
+}
+.social-btn {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 15px;}
+
+.social-btn img {
+  height: 32px;
+  float: left;
+  margin-top: -5px;
+}
+
+
+
+
+
+
+  
+
+
+
+

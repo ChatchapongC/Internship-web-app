@@ -22,6 +22,8 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
 import ResetPassword from "../components/ResetPassword.jsx";
+import UserForm from "../resume/UserForm.jsx";
+import FormPersonalDetails from "../resume/FormPersonalDetails.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -100,6 +102,8 @@ class App extends React.Component {
                 render={(props) => <ListUser authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props}/>}></Route>
               <Route path="/job-listing" 
                 render= {() => <Job/>}></Route>
+              <Route path="/test" 
+                render= {() => <UserForm/>}></Route>
               <Route component={NotFound}></Route>
             </Switch>
           </div>
