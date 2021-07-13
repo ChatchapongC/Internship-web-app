@@ -6,27 +6,18 @@ class Profile extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = {groups: [], isLoading: true};
-        console.log(props);
+        
+        
     }
 
-    // async componentDidMount() {
-    //     fetch('/job/1')
-    //   .then(response => response.json())
-    //   .then(data => this.setState({groups: data, isLoading: false}));
-    // }
-
     render() {
-        // const {groups, isLoading} = this.state;
-
-        console.log(this.props);
-
+        console.log(this.props.currentUser)
         return (
             <div className="profile-container">
                 <div className="container">
                     <div className="profile-info">
                         <div className="profile-avatar">
-                            { 
+                            {   
                                 this.props.currentUser.imageUrl ? (
                                     <img src={this.props.currentUser.imageUrl} alt={this.props.currentUser.name}/>
                                 ) : (

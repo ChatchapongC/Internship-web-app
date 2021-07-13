@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
 import { InfoSection } from '../components/InfoSection/InfoSection';
-import { getCurrentJob } from '../util/APIUtils';
+import { RecommendBar } from '../Recommend/RecommendBar';
+import SearchBar from '../search/SearchBar'
+import Data from '../Data.json';
 
 class Home extends Component {
 
@@ -10,8 +12,10 @@ class Home extends Component {
 
         return (
             <>
-            <InfoSection {...homeObjOne} />
             
+            <SearchBar data={Data}/>
+            <InfoSection {...homeObjOne} />
+            <RecommendBar/>
             <InfoSection {...homeObjTwo} />
             <InfoSection {...homeObjThree} />
             <InfoSection {...homeObjFour} />

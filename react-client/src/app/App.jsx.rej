@@ -1,9 +1,0 @@
-diff a/react-client/src/app/App.jsx b/react-client/src/app/App.jsx	(rejected hunks)
-@@ -98,6 +98,7 @@
-                 render={(props) => <ResetPassword authenticated={this.state.authenticated} {...props} />}></Route>
-               <Route path="/admin/users" 
-                 render={(props) => <ListUser authenticated={this.state.authenticated} currentUser={this.state.currentUser} {...props}/>}></Route>
-+              <Route path="/job-listing" 
-                 render= {() => <Job/>}></Route>
-               <Route component={NotFound}></Route>
-             </Switch>

@@ -10,6 +10,7 @@ import "../../components/Button.scss"
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
+  
   componentDidMount() {
         if(this.props.location.state && this.props.location.state.error) {
             setTimeout(() => {
@@ -28,7 +29,7 @@ class Login extends Component {
     if(this.props.authenticated) {
         return <Redirect
           to={{
-          pathname: "/profile",
+          pathname: "/",
           state: { from: this.props.location }
         }}/>;  
       
