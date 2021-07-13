@@ -186,8 +186,6 @@ const Jobdetail = () => {
                         <b>Closing Date :</b>{" "}{jobsDetail.upload_date}
                     </Typography>
 
-                  
-                  
                 </Grid>
                 <Grid item>
                   <Typography variant="body2" style={{ cursor: "pointer" }}>
