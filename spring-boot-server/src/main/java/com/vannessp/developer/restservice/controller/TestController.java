@@ -1,10 +1,10 @@
 package com.vannessp.developer.restservice.controller;
 
-import com.vannessp.developer.restservice.model.Business;
+import com.vannessp.developer.restservice.model.Company;
 import com.vannessp.developer.restservice.model.Job;
 import com.vannessp.developer.restservice.model.JobType;
 import com.vannessp.developer.restservice.model.User;
-import com.vannessp.developer.restservice.repository.BusinessRespository;
+import com.vannessp.developer.restservice.repository.CompanyRepository;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import com.vannessp.developer.restservice.repository.JobRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @RestController
@@ -24,7 +22,7 @@ public class TestController {
     private UserRepository userRepository;
 
     @Autowired
-    private BusinessRespository businessRespository;
+    private CompanyRepository companyRepository;
 
     @Autowired
     private JobRespository jobRespository;
@@ -36,19 +34,19 @@ public class TestController {
     }
 
     @GetMapping("/business")
-    public ResponseEntity<List<Business>> testBusiness(){
+    public ResponseEntity<List<Company>> testBusiness(){
 
 
         for (int i=1 ; i<=10 ; i++)
         {
-            Business business = new Business();
-            business.setName(new StringBuilder().append("business").append(i).toString());
-            business.setType(new StringBuilder().append("business").append(i).append("_type").toString());
-            business.setContact_number(getRandomPhoneNumber());
-            business.setEmail(new StringBuilder().append("business").append(i).append("@mail.com").toString());
-            businessRespository.save(business);
+            Company company = new Company();
+            company.setName(new StringBuilder().append("company").append(i).toString());
+            company.setType(new StringBuilder().append("company").append(i).append("_type").toString());
+            company.setContact_number(getRandomPhoneNumber());
+            company.setEmail(new StringBuilder().append("company").append(i).append("@mail.com").toString());
+            companyRepository.save(company);
         }
-        List<Business> bus = businessRespository.findAll();
+        List<Company> bus = companyRepository.findAll();
         return ResponseEntity.ok(bus);
     }
 
@@ -94,7 +92,7 @@ public class TestController {
     @GetMapping("/resetall")
     @ResponseBody
     public String resetall(){
-        businessRespository.deleteAll();
+        companyRepository.deleteAll();
         jobRespository.deleteAll();
         return "Reset all data: Completed";
     }

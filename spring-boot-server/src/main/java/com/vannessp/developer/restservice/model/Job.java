@@ -6,8 +6,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
+=======
+>>>>>>> origin/chad
 
 @Entity
 @Table(name = "jobs"
@@ -55,7 +58,7 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name="business_id")
-    private Business business;
+    private Company company;
 
     @Column
     private Boolean Recommended = false;
@@ -144,12 +147,12 @@ public class Job {
         this.upload_date = upload_date;
     }
 
-    public Business getBusiness() {
-        return business;
+    public Company getBusiness() {
+        return company;
     }
 
-    public void setBusiness(Business business) {
-        this.business = business;
+    public void setBusiness(Company company) {
+        this.company = company;
     }
 
     public Boolean getRecommended() {

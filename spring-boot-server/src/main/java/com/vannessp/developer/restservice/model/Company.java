@@ -5,12 +5,9 @@ import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
-@Table(name = "businesses"
-//        , uniqueConstraints = {
-//            @UniqueConstraint(columnNames = "email")
-//    }
-)
-public class Business {
+@Table(name = "company")
+
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,14 +15,18 @@ public class Business {
     private String name;
     private String type;
     private String contact_number;
+    private String logo;
 
-    @OneToMany(mappedBy = "business")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable( name = "company_jobs",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "job_id"))
     private List<Job> jobs;
 
     @Email
     private String email;
 
-    public Business(){
+    public Company(){
 
     }
 

@@ -24,135 +24,44 @@ import {
     Img
   } from '../components/InfoSection/InfoSection.elements';
 
-export function Joblist ({
-    primary,
-    lightBg,
-    topLine,
-    lightTopLine,
-    lightText,
-    lightTextDesc,
-    headline,
-    description,
-    buttonLabel,
-    img,
-    alt,
-    imgStart,
-    start
-  }) {
+export function Joblist (props) {
     const [jobs, setJobs] = useState([]);
     const [state, setState] = useState({});
     
     useEffect(() => {
         getCurrentJob().then(data => setJobs(data));
     },[]);
-      
+    
     return (
-        <div className="Box">
+        <div className="job-wrapper">
             
-            <Card className="root">
-                <CardContent>
-                    {/* <Typography className="title" color="textSecondary" gutterBottom>
-                        Word of the Day
-                    </Typography> */}
-                    <Typography variant="h5" component="h2">
-                        Search Job
-                    </Typography>
-                    
-                    <FormControl component="fieldset">
-                        {/* <FormLabel component="legend">Label Placement</FormLabel> */}
-                        <FormGroup aria-label="position" row>
-                            {/* <FormControlLabel
-                                value="top"
-                                control={<Checkbox color="primary" />}
-                                label="Top"
-                                labelPlacement="top"
-                            />
-                            <FormControlLabel
-                                value="start"
-                                control={<Checkbox color="primary" />}
-                                label="Start"
-                                labelPlacement="start"
-                            />
-                            <FormControlLabel
-                                value="bottom"
-                                control={<Checkbox color="primary" />}
-                                label="Bottom"
-                                labelPlacement="bottom"
-                            /> */}
-                            <FormControlLabel
-                                value="Internship"
-                                control={<Checkbox color="primary" />}
-                                label="Internship"
-                                labelPlacement="Internship"
-                            />
-                            <FormControlLabel
-                                value="Part_time"
-                                control={<Checkbox color="primary" />}
-                                label="Part-Time"
-                                labelPlacement="Part-Time"
-                            />
-                            <FormControlLabel
-                                value="Full_time"
-                                control={<Checkbox color="primary" />}
-                                label="Full-Time"
-                                labelPlacement="Full-Time"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                    <Typography className="pso" color="textSecondary">
-                        adjective
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        well meaning and kindly.
-                    <br />
-                    {'"a benevolent smile"'}
-                    </Typography>
-
-                </CardContent>
-                <CardActions>
-                    <Button size="small">Search</Button>
-                    <Button size="small">Clear Search</Button>
-                </CardActions>
                 {jobs.map((d) => {
-                return <div className="box" key={d.id}>
-                <img src = {VannessLogo}/><br/>
-                <em>{d.title}</em><br/>
-                <b>Comapny name:</b>{d.business_name}<br/>
-                <b> Position: </b>{d.avaliable_position}<br/>
-                {/* 
-                <em>{d.Title}</em><br/>
-                <b>Comapny name:</b>{d.business_name}<br/>
-                <b> Position: </b>{d.title}<br/>
-                <b> Available: </b>{d.Amount == 1 ? (
-                        d.Amount + ' position'
-                ):(d.Amount +  ' position(s)' )}<br/>
-                <b> Allowance: </b>{d.benefit}฿/day<br/> */}
-                <button className="btn" big fontBig primary={primary}>
-                    View
-                </button>
-                </div>
-                })}
-                {jobs.length === 0 && <span>No records found to display!</span>}
-             </Card>
-            {/* <div className="box-container">
-                {jobs.map((d) => {
-                return <div className="box" key={d.id}>
-                    <em>{d.title}</em><br/>
-                    <b>Comapny name:</b>{d.business_name}<br/>
-                    <b> Position: </b>{d.avaliable_position}<br/>
-                    {/* <img src = {d.logo}/>
-                    <em>{d.Title}</em><br/>
-                    <b>Comapny name:</b>{d.business_name}<br/>
-                    <b> Position: </b>{d.title}<br/>
-                    <b> Available: </b>{d.Amount == 1 ? (
-                            d.Amount + ' position'
-                    ):(d.Amount +  ' position(s)' )}<br/>
-                    <b> Allowance: </b>{d.benefit}฿/day<br/> }
+                return <div className="job-box-container" key={d.id}>
+                    <div className="logo">
+                        <img src = {VannessLogo}/>
+                    </div>
+                    <div className="left-content">
+                        <b>Job Title</b>
+                        <b>Comapny name:</b>{d.business_name}
+                        <div className="detail">
+                            <span>&nbsp;•&nbsp;</span>
+                            <span> Position: </span>{d.avaliable_position}<br/>
+                            <span>&nbsp;•&nbsp;</span>
+                            <span> Available: </span>{d.Amount == 1 ? (
+                                    d.Amount + ' position'
+                            ):(d.Amount +  ' position(s)' )}<br/>
+                            <span>&nbsp;•&nbsp;</span>
+                            <span> Allowance: </span>{d.benefit}฿/day
+                        </div>
+                    </div>
+                    <div className="right-content">
+                        <button>view this job</button>
+                        <button>add to favourite</button>
+                    </div>
                 </div>
                 })} 
                 <div className="search-box"></div>
-                
-            </div> */}
+                {/* {this.props.dataList.length === 0 && <span>No records found to display!</span>} */}
         </div>
     )
 }
