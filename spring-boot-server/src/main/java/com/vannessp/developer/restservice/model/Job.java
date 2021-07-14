@@ -6,11 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-<<<<<<< HEAD
-import java.util.Date;
+// import java.util.Date;
 import java.util.List;
-=======
->>>>>>> origin/chad
 
 @Entity
 @Table(name = "jobs"
