@@ -67,6 +67,7 @@ public class TestController {
             job.setTags(tag);
             job.setBenefit(30000);
             job.setLocation(new StringBuilder().append("job").append(i).append("_location").toString());
+
             job.setUpload_date(LocalDate.parse("2019-12-31"));
 
             List<String> requirement = new ArrayList<String>();;
