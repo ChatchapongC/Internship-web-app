@@ -40,7 +40,7 @@ public class ForgotPasswordController {
         helper.setFrom("vpinternshipproject@gmail.com");
         helper.setTo(email);
 
-        String subject = "Reset Password from VPInternship";
+        String subject = "Reset Password from Intrendship by VannessPlus";
 
         String content =
                  "<style>"
@@ -81,7 +81,7 @@ public class ForgotPasswordController {
         String token = RandomString.make(30);
         try {
             userServices.updateResetPasswordToken(token, email);
-            String resetPasswordLink = "http://localhost:3000/resetpassword?token="+token;
+            String resetPasswordLink = "https://intrendship.web.app/resetpassword?token="+token;
             sendEmail(email, resetPasswordLink);
             System.out.println("sent");
         }catch (UsernameNotFoundException | UnsupportedEncodingException | MessagingException ex){

@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         "/error",
                         "/favicon.ico",
+                        "/manifest.json",
                         "/**/*.png",
                         "/**/*.gif",
                         "/**/*.svg",

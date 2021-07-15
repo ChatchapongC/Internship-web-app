@@ -34,6 +34,7 @@ public class User {
     private Boolean emailVerified = false;
 
     @Column
+    @JsonIgnore
     private String resetPasswordToken;
 
     @JsonIgnore

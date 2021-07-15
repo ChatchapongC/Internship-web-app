@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import profileLogo from '../../img/profile-logo.png'
+import webLogo from '../../images/IntrendshipLogo.png'
 import './Myprofile.scss';
 import '../Button.scss';
 import {
@@ -64,13 +65,13 @@ export function Navbar(props) {
   window.addEventListener('resize', showbutton);
 
   return (
-    <IconContext.Provider value={{ color: '#fff' }}>
+    <>
         {props.authenticated ? (
           <Nav>
             <NavbarContainer>
               <NavLogo to='/' onClick={closeMobileMenu}>
-                <NavIcon/>
-                INTERNSHIP
+                <NavIcon img={webLogo}/>
+                INTRENDSHIP
               </NavLogo>
           
               <MobileIcon onClick={handleClick}>
@@ -153,7 +154,7 @@ export function Navbar(props) {
             <NavbarContainer>
               <NavLogo to='/' onClick={closeMobileMenu}>
                 <NavIcon/>
-                INTERNSHIP
+                INRENDSHIP
               </NavLogo>
           
               <MobileIcon onClick={handleClick}>
@@ -210,7 +211,7 @@ export function Navbar(props) {
             </NavbarContainer>
           </Nav>
         )}
-    </IconContext.Provider>
+    </>
    )
 }
 
