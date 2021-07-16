@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -24,12 +24,84 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import HomeIcon from '@material-ui/icons/Home';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import GrainIcon from '@material-ui/icons/Grain';
 
 const Jobpost = () => {
   const [state, setState] = useState({});
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  function handleClick(event) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+  }
 
   //Set css style
+  const BootstrapInput = withStyles((theme) => ({
+    root: {
+      'label + &': {
+        marginTop: theme.spacing(3),
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      height: '',
+      padding: '25px 26px 10px 12px',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+  }))(InputBase);
+
   const useStyles = makeStyles((theme) => ({
+    papernoone:{
+      backgroundColor: 'rgba(200, 117, 238, 0.678)',
+      padding: theme.spacing(2),
+      margin: "auto",
+      maxWidth: 1000,
+    },
+    link: {
+      display: 'flex',
+    },
+    icon: {
+      marginRight: theme.spacing(0.5),
+      width: 20,
+      height: 20,
+    },
     destyle: {
       margin: "auto",
     },
@@ -88,9 +160,9 @@ const Jobpost = () => {
       //   marginLeft: theme.spacing(5),
       //   width: 'auto',
       //   margin: "auto",
-      maxWidth: "100%",
+      // maxWidth: 450,
+      minWidth: 450,
     },
-
   }));
 
   //Call style by name of class
@@ -98,6 +170,28 @@ const Jobpost = () => {
 
   return (
     <div className={classes.destyle}>
+      <br></br>
+      <Paper className={classes.papernoone}>
+      <Breadcrumbs aria-label="breadcrumb">
+      <Link color="inherit" href="/" onClick={handleClick} className={classes.link}>
+        <HomeIcon className={classes.icon} />
+        Home
+      </Link>
+      <Link
+        color="inherit"
+        href="/getting-started/installation/"
+        onClick={handleClick}
+        className={classes.link}
+      >
+        <WhatshotIcon className={classes.icon} />
+        Core
+      </Link>
+      <Typography color="textPrimary" className={classes.link}>
+        <GrainIcon className={classes.icon} />
+        Breadcrumb
+      </Typography>
+    </Breadcrumbs>
+    </Paper>
       <br></br>
       <Paper className={classes.paper}>
         <Grid container spacing={0}>
@@ -137,7 +231,7 @@ const Jobpost = () => {
         <br></br>
         <Grid container spacing={0} className={classes.content}>
           <FormControl component="fieldset">
-            <FormLabel component="legend" className={classes.legend}>
+            <FormLabel required component="legend" className={classes.legend}>
               Job-type
             </FormLabel>
             <br></br>
@@ -169,7 +263,7 @@ const Jobpost = () => {
         <br></br>
         <Grid container spacing={0} className={classes.content}>
           <FormControl component="fieldset">
-            <FormLabel component="legend" className={classes.legend}>
+            <FormLabel required component="legend" className={classes.legend}>
               Job Title (10 - 100 letters)
             </FormLabel>
             <br></br>
@@ -211,8 +305,47 @@ const Jobpost = () => {
               />
             </FormControl>
           </Grid>
+          <br></br>
+          <Grid container spacing={0}>
+            <Grid item xs={3}>
+              <br></br>
+              <FormControl component="fieldset">
+                <FormLabel component="legend" className={classes.legend}>
+                  Benefit
+                </FormLabel>
+                <br></br>
+                <TextField id="outlined-basic" label="" variant="outlined" />
+              </FormControl>
+            </Grid>
+            <Grid item xs={3}>
+              <br></br>
+              <FormControl component="fieldset">
+                <FormLabel component="legend" className={classes.legend}>
+                  Available positions
+                </FormLabel>
+                <br></br>
 
-          <Grid item></Grid>
+                <NativeSelect
+                  id="demo-customized-select-native"
+                  value={age}
+                  onChange={handleChange}
+                  input={<BootstrapInput />}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9</option>
+                  <option value={999}>Many</option>
+                </NativeSelect>
+              </FormControl>
+            </Grid>
+          </Grid>
         </Grid>
       </Paper>
       <br></br>
