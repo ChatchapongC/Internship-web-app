@@ -1,0 +1,45 @@
+.Box {
+    // width: 60%;
+    display : flex;
+    // margin: 5px;
+    // padding: 10px;
+    // line-height: 25px;
+    // float: center;
+    // border-radius: 4px;
+    // border: 1px 
+    // solid #999;
+    // max-width: 80%;
+    background-color: rgba(202, 169, 255, 0.192);
+    transition: 0.3s;
+    // align-items: center;
+    // justify-content: center;
+
+    justify-content: center;
+    align-items: center;
+  }
+  .Box img{
+    max-width:200px;
+    border-radius: 5px;
+    margin: 20px;
+  }
+
+  .Box-header{
+    display : flex;
+    justify-content: center;
+
+    align-items: center;
+    border-radius: 5px;
+    margin: 20px;
+
+  }
+  h3 { font-weight:normal; }
+
+  .col {
+    float: left;
+    width: 33.33%;
+  }
+
+  h1{
+
+    margin: 20px;
+  }
