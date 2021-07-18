@@ -34,8 +34,11 @@ export const NavLogo = styled(NavLink)`
 `;
 
 export const NavIcon = styled.div`
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   background-image: url(${webLogo});
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  background-position: center; 
 
 `;
 

@@ -14,7 +14,6 @@ import {
 } from './InfoSection.elements';
 
 export function InfoSection({
-  primary,
   lightBg,
   topLine,
   lightTopLine,
@@ -39,7 +38,7 @@ export function InfoSection({
                 <Heading lightText={lightText}>{headline}</Heading>
                 <Subtitle lightTextDesc={lightTextDesc}>{description}</Subtitle>
                 <Link to='/signup'>
-                  <button className="btn" big fontBig primary={primary}>
+                  <button className="btn">
                     {buttonLabel}
                   </button>
                 </Link>

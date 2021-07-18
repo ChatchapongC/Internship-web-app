@@ -14,8 +14,15 @@
   align-items: center;
   padding: 0 2rem;
   border-radius: 10px;
-  margin: 1.3rem 0;
+  margin: 1rem 0;
   position: relative;
+  @media screen and(max-width: 960px){
+    display: block;
+    width: 90%;
+    margin-bottom: 0.5rem;
+    padding: 1rem 2rem;
+    
+  }
 
   box-shadow: 0px 4px 6px 4px rgba(200, 117, 238, 0.678);
 
@@ -41,12 +48,7 @@
   flex-direction: column;
   flex-grow: 1;
   padding: 1.3rem 0;
-
-  .company{
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-right: 0.8rem;
-  }
+  
   .details {
     color: var(--dark-greyish);
   }
@@ -56,5 +58,14 @@
   display: flex;
   flex-direction: column;
   margin: 5px;
+
+@media screen and(max-width: 960px){
+  .button-job{
+    max-width: 30%;
+
+  }
+  
+}
+  
  
 }

@@ -1,13 +1,11 @@
-import React, {Component, useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import Home from '../home/Home.js';
 import { Navbar } from '../components/Navbar/Navbar.jsx';
 import "./App.scss";
-import {Route, Switch, BrowserRouter, Redirect, useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from '../util/APIUtils';
-import { getCurrentJob } from '../util/APIUtils';
-import { getCurrentbusiness } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 import PrivateRoute from '../common/PrivateRoute';
 import OAuth2Redirect from '../user/oauth2/OAuth2RedirectHandler';
@@ -15,7 +13,6 @@ import Login from '../user/login/login.jsx';
 import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
-import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
 import  Job  from "../Job/Joblist";
 import ListUser from '../components/admin/ListAllUser.jsx'

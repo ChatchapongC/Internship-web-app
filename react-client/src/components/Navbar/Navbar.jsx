@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { IconContext } from 'react-icons/lib';
 import profileLogo from '../../img/profile-logo.png'
 import webLogo from '../../images/IntrendshipLogo.png'
+import { IconContext } from 'react-icons/lib';
 import './Myprofile.scss';
 import '../Button.scss';
+import Typography from "@material-ui/core/Typography";
 import {
   Nav,
   NavbarContainer,
@@ -17,7 +18,6 @@ import {
   NavLinks,
   NavBtnLink,
   NavLogout,
-  ShowText
 } from './Navbar.elements';
 import { useDetectOutsideClick } from '../useDetectOutsiderClick';
 
@@ -34,8 +34,6 @@ export function Navbar(props) {
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
-  console.log(props);
 
   const showDropdown = (e) => {
     setShow(!show);
@@ -65,12 +63,12 @@ export function Navbar(props) {
   window.addEventListener('resize', showbutton);
 
   return (
-    <>
+      <IconContext.Provider value={{ color: '#fff' }}>
         {props.authenticated ? (
           <Nav>
             <NavbarContainer>
               <NavLogo to='/' onClick={closeMobileMenu}>
-                <NavIcon img={webLogo}/>
+              <img src={webLogo} alt="weblogo" height={50}/>
                 INTRENDSHIP
               </NavLogo>
           
@@ -85,7 +83,7 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItem>
                   <NavLinks to='/job-listing' onClick={closeMobileMenu}>
-                    Search Applicants
+                    Jobs
                   </NavLinks>
                 </NavItem>
                 <NavItem>
@@ -152,8 +150,9 @@ export function Navbar(props) {
 
           <Nav>
             <NavbarContainer>
+
               <NavLogo to='/' onClick={closeMobileMenu}>
-                <NavIcon/>
+                <img src={webLogo} alt="weblogo" height={50}/>
                 INRENDSHIP
               </NavLogo>
           
@@ -168,7 +167,7 @@ export function Navbar(props) {
                 </NavItem>
                 <NavItem>
                   <NavLinks to='/job-listing' onClick={closeMobileMenu}>
-                    Search Applicants
+                    Jobs
                   </NavLinks>
                 </NavItem>
                 <NavItem>
@@ -211,7 +210,7 @@ export function Navbar(props) {
             </NavbarContainer>
           </Nav>
         )}
-    </>
+      </IconContext.Provider>
    )
 }
 

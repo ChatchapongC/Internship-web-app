@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./SearchBar.scss";
 import { FaSearch,  FaTimes } from "react-icons/fa";
-import { Chip, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
 
 function SearchBar({ data }) {
   const [filteredData, setFilteredData] = useState([]);
@@ -27,10 +25,6 @@ function SearchBar({ data }) {
     setWordEntered("");
   };
 
-  const handleInput = () => {
-
-  }
-
   return (
     <div className="wrapper">
       <div className="search-container">
@@ -44,7 +38,7 @@ function SearchBar({ data }) {
               <FaSearch/>
             )}
           </label> 
-        {filteredData.length != 0 && (
+        {filteredData.length !== 0 && (
           <div className="dropdown-result">
             {filteredData.slice(0, 15).map((value, key) => {
               return (
