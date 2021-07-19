@@ -39,10 +39,10 @@ import GrainIcon from '@material-ui/icons/Grain';
 
 const Jobpost = () => {
   const [state, setState] = useState({});
-  const [age, setAge] = React.useState("");
+  const [value_position, setPosition] = React.useState("");
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setPosition(event.target.value);
   };
 
   function handleClick(event) {
@@ -89,7 +89,7 @@ const Jobpost = () => {
 
   const useStyles = makeStyles((theme) => ({
     papernoone:{
-      backgroundColor: 'rgba(200, 117, 238, 0.678)',
+      backgroundColor: '#d99cfd3d',
       padding: theme.spacing(2),
       margin: "auto",
       maxWidth: 1000,
@@ -327,7 +327,7 @@ const Jobpost = () => {
 
                 <NativeSelect
                   id="demo-customized-select-native"
-                  value={age}
+                  value={value_position}
                   onChange={handleChange}
                   input={<BootstrapInput />}
                 >

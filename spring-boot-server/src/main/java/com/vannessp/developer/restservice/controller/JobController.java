@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,6 +53,33 @@ public class JobController {
 //        }
 //        return job;
 //    }
+
+    @PostMapping("/job/post")
+    public ResponseEntity postJob(@RequestBody Job job) throws URISyntaxException {
+        Job savedJob = jobRepository.save(job);
+        return ResponseEntity.created(new URI("/api/job/" + savedJob.getId())).body(savedJob);
+    }
+
+    @PutMapping("/job/edit/{id}")
+    public ResponseEntity editJob(@PathVariable Long id, @RequestBody Job job){
+        Job currentJob = jobRepository.findById(id).orElseThrow(RuntimeException::new);
+        currentJob.setTitle(job.getTitle());
+        currentJob.setBusiness_name(job.getBusiness_name());
+        currentJob.setJobtype(job.getJobtype());
+        currentJob.setAvaliable_position(job.getAvaliable_position());
+        currentJob.setTags(job.getTags());
+        currentJob.setBenefit(job.getBenefit());
+        currentJob.setLocation(job.getLocation());
+        //Date type
+        currentJob.setUpload_date(job.getUpload_date());
+        return ResponseEntity.ok(currentJob);
+    }
+
+    @DeleteMapping("/job/delete/{id}")
+    public ResponseEntity deleteJob(@PathVariable Long id){
+        jobRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/job/recommended")
     public ResponseEntity<List<Job>> getRecommendJob(){

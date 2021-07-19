@@ -129,6 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/job/recommended")
                 .permitAll()
+                .antMatchers("/api/job/post")
+                .permitAll()
                 .antMatchers("/testapi/user")
                 .permitAll()
                 .antMatchers("/testapi/resetall")
