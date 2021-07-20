@@ -71,6 +71,15 @@ export function getJobDetail(id) {
     });
 }
 
+//Post job 
+export function postJob(jobdetail) {
+    return request({
+        url: API_BASE_URL + "/api/job/post",
+        method: 'POST',
+        body: JSON.stringify(jobdetail)
+    });
+}
+
 
 export function getCurrentbusiness(){
     if(!localStorage.getItem(ACCESS_TOKEN)) {

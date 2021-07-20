@@ -28,74 +28,106 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
-import NativeSelect from '@material-ui/core/NativeSelect';
-import InputBase from '@material-ui/core/InputBase';
-
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import HomeIcon from '@material-ui/icons/Home';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import GrainIcon from '@material-ui/icons/Grain';
+import NativeSelect from "@material-ui/core/NativeSelect";
+import InputBase from "@material-ui/core/InputBase";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import HomeIcon from "@material-ui/icons/Home";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import GrainIcon from "@material-ui/icons/Grain";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {useHistory} from 'react-router-dom';
+import {postJob} from "../util/APIUtils";
+import Alert from 'react-s-alert';
 
 const Jobpost = () => {
   const [state, setState] = useState({});
   const [value_position, setPosition] = React.useState("");
+  const [jobPost, setjob] = useState({
+    title: '',
+    business_name: '',
+    jobtype: '',
+    avaliable_position: '',
+    tags: [],
+    benefit: 0,
+    location: '',
+    upload_date: '2019-05-22',
+    job_requirement: [],
+    skill: []
+  });
 
+  const handlejob = e => {
+    const { value } = e.target;
+    //set value of Radio button
+    setjob({jobtype: value});
+    //set value in hook-form
+  };
   const handleChange = (event) => {
     setPosition(event.target.value);
   };
 
+  const updateSelection = (event, value) => {
+    event.persist();
+    const name = event.target.name;
+    setjob({ ...jobPost, [name]: value });
+  };
+
   function handleClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
+    console.info("You clicked a breadcrumb.");
   }
 
   //Set css style
   const BootstrapInput = withStyles((theme) => ({
     root: {
-      'label + &': {
+      "label + &": {
         marginTop: theme.spacing(3),
       },
     },
     input: {
       borderRadius: 4,
-      position: 'relative',
+      position: "relative",
       backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
+      border: "1px solid #ced4da",
       fontSize: 16,
-      height: '',
-      padding: '25px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      height: "",
+      padding: "25px 26px 10px 12px",
+      transition: theme.transitions.create(["border-color", "box-shadow"]),
       // Use the system font instead of the default Roboto font.
       fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
+        "-apple-system",
+        "BlinkMacSystemFont",
         '"Segoe UI"',
-        'Roboto',
+        "Roboto",
         '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
+        "Arial",
+        "sans-serif",
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
+      ].join(","),
+      "&:focus": {
         borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        borderColor: "#80bdff",
+        boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
       },
     },
   }))(InputBase);
 
   const useStyles = makeStyles((theme) => ({
-    papernoone:{
-      backgroundColor: '#d99cfd3d',
+    buttonbase: {
+      margin: theme.spacing(1),
+      width: "15%",
+    },
+    papernoone: {
+      backgroundColor: "#d99cfd3d",
       padding: theme.spacing(2),
       margin: "auto",
       maxWidth: 1000,
     },
     link: {
-      display: 'flex',
+      display: "flex",
     },
     icon: {
       marginRight: theme.spacing(0.5),
@@ -167,31 +199,37 @@ const Jobpost = () => {
 
   //Call style by name of class
   const classes = useStyles();
+  const position = 'selectedOption'
 
   return (
     <div className={classes.destyle}>
       <br></br>
       <Paper className={classes.papernoone}>
-      <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" href="/" onClick={handleClick} className={classes.link}>
-        <HomeIcon className={classes.icon} />
-        Home
-      </Link>
-      <Link
-        color="inherit"
-        href="/getting-started/installation/"
-        onClick={handleClick}
-        className={classes.link}
-      >
-        <WhatshotIcon className={classes.icon} />
-        Core
-      </Link>
-      <Typography color="textPrimary" className={classes.link}>
-        <GrainIcon className={classes.icon} />
-        Breadcrumb
-      </Typography>
-    </Breadcrumbs>
-    </Paper>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link
+            color="inherit"
+            href="/"
+            onClick={handleClick}
+            className={classes.link}
+          >
+            <HomeIcon className={classes.icon} />
+            Home
+          </Link>
+          <Link
+            color="inherit"
+            href="/getting-started/installation/"
+            onClick={handleClick}
+            className={classes.link}
+          >
+            <WhatshotIcon className={classes.icon} />
+            Core
+          </Link>
+          <Typography color="textPrimary" className={classes.link}>
+            <GrainIcon className={classes.icon} />
+            Breadcrumb
+          </Typography>
+        </Breadcrumbs>
+      </Paper>
       <br></br>
       <Paper className={classes.paper}>
         <Grid container spacing={0}>
@@ -239,8 +277,10 @@ const Jobpost = () => {
               className={classes.radio1}
               row
               aria-label="position"
-              name="position"
+              name={position}
               defaultValue="top"
+              value={jobPost.jobtype}
+              onChange={handlejob}
             >
               <FormControlLabel
                 value="Internship"
@@ -272,6 +312,7 @@ const Jobpost = () => {
               id="outlined-basic"
               label="List out keywords that will allow easier search of the job"
               variant="outlined"
+              value={jobPost.title}
             />
           </FormControl>
         </Grid>
@@ -314,7 +355,7 @@ const Jobpost = () => {
                   Benefit
                 </FormLabel>
                 <br></br>
-                <TextField id="outlined-basic" label="" variant="outlined" />
+                <TextField id="outlined-basic" label="" variant="outlined" value={jobPost.benefit}/>
               </FormControl>
             </Grid>
             <Grid item xs={3}>
@@ -331,7 +372,7 @@ const Jobpost = () => {
                   onChange={handleChange}
                   input={<BootstrapInput />}
                 >
-                  <option aria-label="None" value="" />
+                  <option aria-label="None" value={jobPost.avaliable_position} />
                   <option value={1}>1</option>
                   <option value={2}>2</option>
                   <option value={3}>3</option>
@@ -346,6 +387,47 @@ const Jobpost = () => {
               </FormControl>
             </Grid>
           </Grid>
+        </Grid>
+        <br></br>
+        <Grid container spacing={0} className={classes.content}>
+        
+          <Button
+            size="large"
+            className={classes.buttonbase}
+            variant="contained"
+            color="primary"
+            startIcon={<CloudUploadIcon />}
+            onClick={() => { 
+              alert('Posted job') 
+              //window.open("/insert/your/path/here");
+              postJob(jobPost).then(response => {
+                Alert.success("Posted job!");
+                window.location = '/job-detail';
+                // window.location.reload();
+            }).catch(error => {
+                Alert.error('Oops! Something went wrong. Please try again!');
+            });
+              
+            }}
+          >
+            Post
+          </Button>
+       
+        
+          <Button
+            size="large"
+            className={classes.buttonbase}
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={() => { 
+              alert('Cancel') 
+              window.location = '/';
+            }}
+          >
+            Cancel
+          </Button>
+       
         </Grid>
       </Paper>
       <br></br>
