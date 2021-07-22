@@ -46,7 +46,6 @@ export function Joblist (props) {
         },
         root: {
           flexGrow: 1,
-
         },
         customBadge:{
           marginLeft: theme.spacing(6),
@@ -60,16 +59,18 @@ export function Joblist (props) {
         },
         paper: {
           padding: theme.spacing(2),
-         
-          maxWidth: "40%",
+          margin: "auto",
+          maxWidth: "60%",
           [theme.breakpoints.down('md')]: {
             maxWidth: "90%",
           },
         },
         paper2: {
-          height: 120,
-          width: "20%",
-         
+          padding: theme.spacing(2),
+          textAlign: "left",
+          flex: "1 0 auto",
+          margin: "auto",
+          maxWidth: "60%",
           [theme.breakpoints.down('md')]: {
             maxWidth: "90%",
           },
@@ -124,15 +125,13 @@ export function Joblist (props) {
         { loading ? (
             <LoadingIndicator/>
         ):(
-        <Grid container className={classes.root}>
-          <Grid item xs>
-          
-          
-          <Grid item >
+          <div className={classes.destyle}>
+          <br></br>
           <Paper className={classes.paper2}>
-           
+            <Typography variant="h5" component="h2">
+              <b>All Jobs</b>
+            </Typography>
           </Paper>
-          </Grid>
           <br></br>
           {jobs.map((job) => {
             return (
@@ -205,8 +204,9 @@ export function Joblist (props) {
               </div>
             );
           })}
-        </Grid>
-        </Grid>
+        </div>
+     
+  
         )}
         </>
     )
