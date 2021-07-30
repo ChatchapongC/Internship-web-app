@@ -65,11 +65,32 @@ public class Job {
 //    @Column
 //    private Requirement job_requirement;
 
+    @Column
     @ElementCollection
     private List<String> skill;
 
+    @Column
+    @ElementCollection
+    private List<Long> user_apply;
+
     public Job() {
 
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public List<Long> getUser_apply() {
+        return user_apply;
+    }
+
+    public void setUser_apply(List<Long> user_apply) {
+        this.user_apply = user_apply;
     }
 
     public Long getId() {

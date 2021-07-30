@@ -34,6 +34,7 @@ public class CompanyController {
         return ResponseEntity.ok(company);
     }
 
+
     @GetMapping("/business/{id}")
     public ResponseEntity<Company> getBusinessById(@PathVariable Long id){
         Company company = companyRepository.findById(id).orElseThrow(() -> new BadRequestException("Error bussiness is not found!!"));

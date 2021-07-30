@@ -71,6 +71,31 @@ export function getJobDetail(id) {
     });
 }
 
+//Just for smaple data for job
+export function getbusiness(id) {
+    return request({
+        url: API_BASE_URL + "/api/business/" + id,
+        method: 'GET'
+    });
+}
+
+//Post job 
+export function postJob(jobdetail) {
+    return request({
+        url: API_BASE_URL + "/api/job/post",
+        method: 'POST',
+        body: JSON.stringify(jobdetail)
+    });
+}
+
+//Just for smaple data for job
+export function getbusinessjobpost(business_name) {
+    return request({
+        url: API_BASE_URL + "/api/job/bus_name/" + business_name,
+        method: 'GET'
+    });
+}
+
 
 export function getCurrentbusiness(){
     if(!localStorage.getItem(ACCESS_TOKEN)) {
