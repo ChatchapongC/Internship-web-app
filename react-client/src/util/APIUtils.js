@@ -55,6 +55,15 @@ export function getCurrentJob() {
     });
 }
 
+export function getJobById(jobId) {
+    return request({
+        url: API_BASE_URL + "/api/job/" + jobId,
+        method: 'GET'
+    });
+}
+
+
+
 
 export function getCurrentbusiness(){
     if(!localStorage.getItem(ACCESS_TOKEN)) {

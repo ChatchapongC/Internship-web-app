@@ -21,6 +21,10 @@ import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import ForgotPassword from "../components/forgetpassword.jsx";
 import ResetPassword from "../components/ResetPassword.jsx";
 import Popup from "../components/Popup/Popup"
+import JobDetails from "../Job/Jobdetails.jsx";
+import ScrollToTop from "../components/ScrollToTop.jsx";
+import JobApplyList from "../user/jobApplyList.jsx";
+
 
 function App () {
 
@@ -64,9 +68,10 @@ function App () {
           <Navbar authenticated={authenticate} currentUser={currentUser} onLogout={handleLogout} />
       </div>
       <div className="app-body">
+      <ScrollToTop />
             <Switch>
               <Route exact path="/" component={Home}></Route>           
-              <PrivateRoute path="/profile" component={Profile} authenticated={authenticate} currentUser={currentUser}></PrivateRoute>
+              <PrivateRoute path="/user/profile" component={Profile} authenticated={authenticate} currentUser={currentUser}></PrivateRoute>
               <Route path="/login"
                 render={(props) => <Login authenticated={authenticate} {...props} />}></Route>
               <Route path="/signup"
@@ -79,7 +84,11 @@ function App () {
               <PrivateRoute path="/admin/users" authenticated={authenticate} currentUser={currentUser}
                 component={ListUser}></PrivateRoute>
               <Route path="/job-listing" 
-                render= {(props) => <Job />} ></Route>
+                render= {(props) => <Job {...props}/>} ></Route>
+              <Route path="/job-details/:id" 
+                render= {(props) => <JobDetails {...props}/>} ></Route>
+              <Route path="/user/job-history" 
+                render= {(props) => <JobApplyList {...props}/>} ></Route>
               <Route path="/popup" 
                 render= {(props) => <Popup />} ></Route>
               <Route component={NotFound}></Route>

@@ -18,8 +18,11 @@ import {
   Paper, 
   Typography, 
   ButtonBase,
-  Badge
+  Badge,
+  Box,
+  Container
 } from '@material-ui/core';
+
 
 
 
@@ -57,23 +60,21 @@ export function Joblist (props) {
           justifyContent:"center",
           alignItems: "center"
         },
-        paper: {
+        jobBox: {
           padding: theme.spacing(2),
-          margin: "auto",
-          maxWidth: "60%",
+          marginBottom: 20,
+          width: 850,
           [theme.breakpoints.down('md')]: {
-            maxWidth: "90%",
+            maxWidth: 300,
           },
         },
-        paper2: {
+        searchBox: {
           padding: theme.spacing(2),
           textAlign: "left",
           flex: "1 0 auto",
-          margin: "auto",
-          maxWidth: "60%",
-          [theme.breakpoints.down('md')]: {
-            maxWidth: "90%",
-          },
+          height: 500,
+          width: 300,
+         
         },
         image: {
           width: 128,
@@ -107,7 +108,9 @@ export function Joblist (props) {
           border: '10px',
         },
       }))(Button);
-    
+
+   
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await getCurrentJob();
@@ -120,91 +123,98 @@ export function Joblist (props) {
     },[]);
     
     
+    
     return (
         <>
         { loading ? (
             <LoadingIndicator/>
         ):(
-          <div className={classes.destyle}>
-          <br></br>
-          <Paper className={classes.paper2}>
-            <Typography variant="h5" component="h2">
-              <b>All Jobs</b>
-            </Typography>
-          </Paper>
-          <br></br>
-          {jobs.map((job) => {
-            return (
-              <div className={classes.root}>
-                <Paper className={classes.paper}>
-                  <Grid container spacing={2}>
-                    <Grid item className={classes.logo}>
-                      <ButtonBase className={classes.image}>
-                        <img
-                          className={classes.img}
-                          alt="complex"
-                          src={defaultLogo} 
-                        />
-                      </ButtonBase>
-                    </Grid>
-                    <Grid item xs={12} sm container>
-                      <Grid item xs container direction="column" spacing={2}>
-                        <Grid item xs>
-                          <Typography gutterBottom variant="h6" component="h2" className={classes.margin}>
-                            <b>{job.title}</b>
-                            <Badge
-                              classes={{ badge: classes.customBadge }}
-                              className={classes.customBadge}
-                              badgeContent= {job.jobtype}
-                            >
-                            </Badge>
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
-                            <BusinessIcon fontSize="small" className={classes.iconMargin}></BusinessIcon>
-                            {job.business_name}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
-                            <LocationOnIcon fontSize="small" className={classes.iconMargin}></LocationOnIcon>{" "}
-                            {job.location}
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
-                            <PermIdentityIcon fontSize="small" className={classes.iconMargin}></PermIdentityIcon>
-                            1 position
-                          </Typography>
+          <Box mt={12}>
+            <Grid container className={classes.root}>
+              <Grid item xl>
+              <Grid container justifyContent="center" spacing={2}>
+                <Grid  item>
+                  <Paper className={classes.searchBox}>
+                    Search Box
+                  </Paper>
+                </Grid>
+                <Grid  item>
+                {jobs.map((job) => {
+                  return (
+                      <Paper className={classes.jobBox}>
+                        <Grid container spacing={2}>
+                          <Grid item className={classes.logo}>
+                            <ButtonBase className={classes.image}>
+                              <img
+                                className={classes.img}
+                                alt="complex"
+                                src={defaultLogo} 
+                              />
+                            </ButtonBase>
+                          </Grid>
+                          <Grid item xs={12} sm container>
+                            <Grid item xs container direction="column" spacing={2}>
+                              <Grid item x>
+                                <Typography gutterBottom variant="h6" component="h2" className={classes.margin}>
+                                  <b>{job.title}</b>
+                                  <Badge
+                                    classes={{ badge: classes.customBadge }}
+                                    className={classes.customBadge}
+                                    badgeContent= {job.jobtype}
+                                  >
+                                  </Badge>
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
+                                  <BusinessIcon fontSize="small" className={classes.iconMargin}></BusinessIcon>
+                                  {job.business_name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
+                                  <LocationOnIcon fontSize="small" className={classes.iconMargin}></LocationOnIcon>{" "}
+                                  {job.location}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" style={{display:'flex', alignItems:'center', flexWrap:'wrap'}}>
+                                  <PermIdentityIcon fontSize="small" className={classes.iconMargin}></PermIdentityIcon>
+                                  1 position
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                            <Typography variant="subtitle1">
+                                {job.upload_date}
+                              </Typography>
+                              <br></br>
+                              <Typography>
+                                <ColorButton
+                                  size="large"
+                                  className={classes.margin}
+                                  variant="contained"
+                                  onClick={() => {
+                                    props.history.push(`/job-details/${job.id}`);
+                                  }}
+                                 
+                                >
+                                  APPLY
+                                </ColorButton>
+                              </Typography>
+                              <br></br>
+                              <Grid item>
+                                <Typography variant="body2" style={{display:'flex', flexWrap:'wrap'}}>
+                                  Share: <FacebookIcon style={{ color: blue[900] }}></FacebookIcon>{" "}
+                                  <TwitterIcon style={{ color: blue[300], margin: "0px 5px" }}></TwitterIcon>{" "}
+                                  <LinkedInIcon style={{ color: blue[800] }}></LinkedInIcon>
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                      <Grid item>
-                      <Typography variant="subtitle1">
-                          {job.upload_date}
-                        </Typography>
-                        <br></br>
-                        <Typography>
-                          <ColorButton
-                            size="large"
-                            className={classes.margin}
-                            variant="contained"
-                          >
-                            APPLY
-                          </ColorButton>
-                        </Typography>
-                        <br></br>
-                        <Grid item>
-                          <Typography variant="body2" style={{display:'flex', flexWrap:'wrap'}}>
-                            Share: <FacebookIcon style={{ color: blue[900] }}></FacebookIcon>{" "}
-                            <TwitterIcon style={{ color: blue[300], margin: "0px 5px" }}></TwitterIcon>{" "}
-                            <LinkedInIcon style={{ color: blue[800] }}></LinkedInIcon>
-                          </Typography>
-                        </Grid>
-                        
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Paper>
-                <br></br>
-              </div>
-            );
-          })}
-        </div>
+                      </Paper>
+                  );
+                })}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
      
   
         )}

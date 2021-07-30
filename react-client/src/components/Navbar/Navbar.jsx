@@ -114,8 +114,12 @@ export function Navbar(props) {
                               }
                               <div ref={dropdownRef} className={`menu ${show || isActive? "active" : "inactive"}`}>
                                 <ul>
-                                  <li><NavLinks to='/profile'>
+                                  <li><NavLinks to='/user/profile'>
                                         My Profile
+                                      </NavLinks>
+                                  </li>
+                                  <li><NavLinks to='/user/job-history'>
+                                        Application history
                                       </NavLinks>
                                   </li>
                                   <li onClick={props.onLogout}>
@@ -132,8 +136,11 @@ export function Navbar(props) {
                     </NavBtnLink>
                   ) : (
                     <NavItem>
-                      <NavLinks to='/profile' onClick={closeMobileMenu}>
+                      <NavLinks to='/user/profile' onClick={closeMobileMenu}>
                         My Profile
+                      </NavLinks>
+                      <NavLinks to='/user/job-history' onClick={closeMobileMenu}>
+                        Application history
                       </NavLinks>
                       <NavLogout>
                                   <p>Logout</p>
