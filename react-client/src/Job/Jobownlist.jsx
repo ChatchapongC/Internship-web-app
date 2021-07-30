@@ -41,13 +41,18 @@ import {useHistory} from 'react-router-dom';
 import {postJob} from "../util/APIUtils";
 import Alert from 'react-s-alert';
 import { getbusiness } from "../util/APIUtils";
+import { getbusinessjobpost } from "../util/APIUtils";
+import VannessLogo from "../img/vanness_logo.jpg";
 
-const Jobpost = () => {
+const Jobownlist = () => {
   const [business, setBusiness] = useState([]);
+  const [jobsDetail, setJobs] = useState([]);
   const [state, setState] = useState({});
   const [business_name, setBusiness_name] = useState("company1");
+
   useEffect(() => {
     getbusiness(1).then((data) => setBusiness(data));
+    getbusinessjobpost(business_name).then((data) => setJobs(data));
   }, []);
 
   const [jobPost, setjob] = useState({
@@ -222,6 +227,9 @@ const Jobpost = () => {
       // maxWidth: 450,
       minWidth: 450,
     },
+    margin2:{
+      width: 90,
+    },
   }));
 
   //Call style by name of class
@@ -288,179 +296,96 @@ const Jobpost = () => {
       </Paper>
       <br></br>
       <Paper className={classes.paper2}>
-        <Grid container spacing={0}>
-          <Typography gutterBottom variant="h6" component="h2">
-            <b>Post Job</b>
-          </Typography>
-        </Grid>
-        <br></br>
-        <Grid container spacing={0} className={classes.content}>
-          <FormControl component="fieldset">
-            <FormLabel required component="legend" className={classes.legend}>
-              Job-type
-            </FormLabel>
+      <Typography variant="h6" component="h2">
+          <b>Your posted job</b>
+      </Typography>
+      <br></br>
+      {jobsDetail.map((jobsDetail) => {
+        return (
+          <div className={classes.root}>
+            <Paper className={classes.paper}>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <ButtonBase className={classes.image}>
+                    <img
+                      className={classes.img}
+                      alt="complex"
+                      src={VannessLogo}
+                    />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Typography gutterBottom variant="h6" component="h2">
+                        <b>{jobsDetail.title}</b>
+                      </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        <Button
+                          size="small"
+                          className={classes.margin}
+                          variant="contained"
+                          color="primary"
+                        >
+                          {jobsDetail.jobtype}
+                        </Button>
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        <LocationOnIcon fontSize="small"></LocationOnIcon>{" "}
+                        {jobsDetail.location}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        <DateRangeIcon fontSize="small"></DateRangeIcon>
+                        {" Apply Before: "}
+                        {jobsDetail.upload_date}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle1">{jobsDetail.avaliable_position} position(s)</Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                  <Typography variant="subtitle1">
+                      <Button
+                        size="large"
+                        className={classes.margin2}
+                        variant="contained"
+                        color="primary"
+                      //   style={{
+                      //     backgroundColor: "#757575",
+                          
+                      // }}
+                      >
+                        Edit
+                      </Button>
+                    </Typography>
+                    <br></br>
+                    <Typography variant="subtitle1">
+                      <Button
+                        size="large"
+                        className={classes.margin2}
+                        variant="contained"
+                        color="secondary"
+                        
+                      >
+                        Delete
+                      </Button>
+                    </Typography>
+                    <br></br>
+                    <Typography variant="subtitle1">
+                      {jobsDetail.upload_date}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
             <br></br>
-            <RadioGroup
-              className={classes.radio1}
-              row
-              aria-label="jobtype"
-              name="jobtype"
-              defaultValue="top"
-              value={jobPost.jobtype}
-              onChange={handlejob}
-            >
-              <FormControlLabel
-                value="Internship"
-                control={<Radio color="primary" />}
-                label="Internship"
-              />
-              <FormControlLabel
-                value="Part-time"
-                control={<Radio color="primary" />}
-                label="Part-time"
-              />
-              <FormControlLabel
-                value="Full-time"
-                control={<Radio color="primary" />}
-                label="Full-time"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <br></br>
-        <Grid container spacing={0} className={classes.content}>
-          <FormControl component="fieldset">
-            <FormLabel required component="legend" className={classes.legend}>
-              Job Title (10 - 100 letters)
-            </FormLabel>
-            <br></br>
-            <TextField
-              className={classes.text1}
-              id="outlined-basic"
-              label="List out keywords that will allow easier search of the job"
-              variant="outlined"
-              value={jobPost.title}
-              onChange={handlejobtitle}
-            />
-          </FormControl>
-        </Grid>
-        <br></br>
-        <Grid container spacing={0} className={classes.content}>
-          <Grid item xs={6}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend" className={classes.legend}>
-                Category or type of work
-              </FormLabel>
-              <br></br>
-              <TextField
-                className={classes.text2}
-                id="outlined-basic"
-                label="List out keywords that will allow easier search"
-                variant="outlined"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend" className={classes.legend}>
-                Related tags or keywords
-              </FormLabel>
-              <br></br>
-              <TextField
-                className={classes.text2}
-                id="outlined-basic"
-                label="List out keywords that will allow easier search"
-                variant="outlined"
-              />
-            </FormControl>
-          </Grid>
-          <br></br>
-          <Grid container spacing={0}>
-            <Grid item xs={3}>
-              <br></br>
-              <FormControl component="fieldset">
-                <FormLabel component="legend" className={classes.legend}>
-                  Benefit
-                </FormLabel>
-                <br></br>
-                <TextField id="outlined-basic" label="" variant="outlined" value={jobPost.benefit} onChange={handlejobbenefit}/>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <br></br>
-              <FormControl component="fieldset">
-                <FormLabel component="legend" className={classes.legend}>
-                  Available positions
-                </FormLabel>
-                <br></br>
-
-                <NativeSelect
-                  id="demo-customized-select-native"
-                  value={jobPost.avaliable_position}
-                  onChange={handlejobposition}
-                  input={<BootstrapInput />}
-                >
-                  <option aria-label="None" />
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                  <option value={7}>7</option>
-                  <option value={8}>8</option>
-                  <option value={9}>9</option>
-                  <option value={999}>Many</option>
-                </NativeSelect>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Grid>
-        <br></br>
-        <Grid container spacing={0} className={classes.content}>
-        
-          <Button
-            size="large"
-            className={classes.buttonbase}
-            variant="contained"
-            color="primary"
-            startIcon={<CloudUploadIcon />}
-            onClick={() => { 
-              alert('Posted job')
-              
-              //window.open("/insert/your/path/here");
-              postJob(jobPost).then(response => {
-                Alert.success("Posted job!");
-                // window.location = '/job-detail';
-                // window.location.reload();
-            }).catch(error => {
-                Alert.error('Oops! Something went wrong. Please try again!');
-            });
-              
-            }}
-          >
-            Post
-          </Button>
-       
-        
-          <Button
-            size="large"
-            className={classes.buttonbase}
-            variant="contained"
-            color="secondary"
-            startIcon={<DeleteIcon />}
-            onClick={() => { 
-              alert('Cancel') 
-              window.location = '/';
-            }}
-          >
-            Cancel
-          </Button>
-       
-        </Grid>
+          </div>
+        );
+      })}
       </Paper>
       <br></br>
     </div>
   );
 };
-export default Jobpost;
+export default Jobownlist;

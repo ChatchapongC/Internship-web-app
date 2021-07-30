@@ -46,6 +46,8 @@ public class TestController {
             company.setEmail(new StringBuilder().append("company").append(i).append("@mail.com").toString());
             companyRepository.save(company);
         }
+
+
         List<Company> bus = companyRepository.findAll();
         return ResponseEntity.ok(bus);
     }

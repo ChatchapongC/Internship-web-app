@@ -18,7 +18,8 @@ import NotFound from '../common/NotFound';
 import ScrollToTop from '../components/ScrollToTop.js';
 import { Footer } from '../components/Footer/Footer';
 import  Job  from "../Job/Joblist.jsx";
-import  JobDetail  from "../Job/Jobdetail.jsx";
+// import  JobDetail  from "../Job/Jobdetail.jsx";
+import  Jobownlist  from "../Job/Jobownlist.jsx";
 import Jobpost from "../Job/Jobpost.jsx";
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
@@ -90,7 +91,8 @@ function App () {
                 render= {(props) => <Jobdetail />} ></Route>
               <Route path="/job-post" 
                 render= {(props) => <Jobpost />} ></Route>
-
+              <Route path="/business/job-listing" 
+                render= {(props) => <Jobownlist />} ></Route>
               {/* <Route path="/popup" 
                 render= {(props) => <Popup />} ></Route> */}
               <Route component={NotFound}></Route>
