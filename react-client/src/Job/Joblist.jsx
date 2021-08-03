@@ -1,4 +1,3 @@
-import './Joblist.scss';
 import React, { useState, useEffect } from 'react';
 import defaultLogo from '../images/default-job-logo.png'
 import { getCurrentJob } from '../util/APIUtils';

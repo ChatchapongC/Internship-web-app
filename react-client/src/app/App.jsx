@@ -14,7 +14,10 @@ import Signup from '../user/signup/register.jsx';
 import Profile from '../user/profile/profile';
 import NotFound from '../common/NotFound';
 import { Footer } from '../components/Footer/Footer';
-import  Job  from "../Job/Joblist";
+import  Job  from "../Job/Joblist.jsx";
+// import  JobDetail  from "../Job/Jobdetail.jsx";
+import  Jobownlist  from "../Job/Jobownlist.jsx";
+import Jobpost from "../Job/Jobpost.jsx";
 import ListUser from '../components/admin/ListAllUser.jsx'
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -89,13 +92,15 @@ function App () {
                 render= {(props) => <JobDetails {...props}/>} ></Route>
               <Route path="/user/job-history" 
                 render= {(props) => <JobApplyList {...props}/>} ></Route>
-              <Route path="/popup" 
-                render= {(props) => <Popup />} ></Route>
+              <Route path="/job-post" 
+                render= {(props) => <Jobpost />} ></Route>
+              {/* <Route path="/popup" 
+                render= {(props) => <Popup />} ></Route> */}
               <Route component={NotFound}></Route>
             </Switch>
           </div>
       <Alert stack={{limit: 3}} 
-          timeout = {5000}
+          timeout = {25000}
           position='top-right' effect='slide' offset={65} />
       <Footer />
       </div>

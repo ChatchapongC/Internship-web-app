@@ -46,6 +46,8 @@ public class TestController {
             company.setEmail(new StringBuilder().append("company").append(i).append("@mail.com").toString());
             companyRepository.save(company);
         }
+
+
         List<Company> bus = companyRepository.findAll();
         return ResponseEntity.ok(bus);
     }
@@ -60,9 +62,29 @@ public class TestController {
             job.setBusiness_name(new StringBuilder().append("job").append(i).append("_business_name").toString());
             job.setJobtype(JobType.Internship);
             job.setAvaliable_position(new StringBuilder().append("job").append(i).append("_avaliable_position").toString());
-            job.setTags(new StringBuilder().append("job").append(i).append("_tags").toString());
+            List<String> tag = new ArrayList<String>();
+            for (int j=1 ; j<=3 ; j++)
+                tag.add(new StringBuilder().append("tags_").append(j).toString());
+
+            job.setTags(tag);
+            job.setBenefit(30000);
             job.setLocation(new StringBuilder().append("job").append(i).append("_location").toString());
+
             job.setUpload_date(LocalDate.parse("2019-12-31"));
+
+            List<String> requirement = new ArrayList<String>();;
+            for (int j=1 ; j<=3 ; j++)
+                requirement.add(new StringBuilder().append("requirements_").append(j).toString());
+            job.setJob_requirement(requirement);
+
+            List<String> skill = new ArrayList<String>();;
+            for (int j=1 ; j<=3 ; j++)
+                skill.add(new StringBuilder().append("skills_").append(j).toString());
+            job.setSkill(skill);
+            if(i<=5)
+            {
+                job.setRecommended(true);
+            }
             jobRespository.save(job);
         }
         List<Job> j = jobRespository.findAll();

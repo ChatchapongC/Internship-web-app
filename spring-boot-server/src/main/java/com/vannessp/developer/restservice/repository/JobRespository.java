@@ -26,7 +26,7 @@ public interface JobRespository extends JpaRepository<Job, Long> {
     @Query(value = "select * from jobs j where j.jobtype LIKE %?1%", nativeQuery = true)
     List<Job> findByTags(String tags);
 
-    @Query(value = "select * from jobs j where j.business_name LIKE ?1% order by j.business_name", nativeQuery = true)
+    @Query(value = "select * from jobs j where j.business_name LIKE %?1% order by j.business_name", nativeQuery = true)
     List<Job> findWithfirstCharacter(String c);
 
     //Find by string
@@ -42,5 +42,8 @@ public interface JobRespository extends JpaRepository<Job, Long> {
 
     @Query(value = "select * from jobs j where j.location LIKE %?1%", nativeQuery = true)
     List<Job> findByLocation(String location);
+
+    @Query(value = "select * from jobs j where j.recommended = 1", nativeQuery = true)
+    List<Job> findByRecommend();
 
 }

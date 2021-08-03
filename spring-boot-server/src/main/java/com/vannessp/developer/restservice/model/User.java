@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,6 +47,12 @@ public class User {
 
     private String providerId;
 
+    @ElementCollection
+    private List<Long> applyJob;
+
+//    @Column
+//    private String applyJob;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "user_roles",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -74,6 +81,14 @@ public class User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public List<Long> getApplyJob() {
+        return applyJob;
+    }
+
+    public void setApplyJob(List<Long> applyJob) {
+        this.applyJob = applyJob;
     }
 
     public String getLastName() {
