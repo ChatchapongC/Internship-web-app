@@ -42,12 +42,14 @@ public class JobController {
         return ResponseEntity.ok(job);
     }
 
+    //without order list
     @GetMapping("/job/bus_name/{business_name}")
     public ResponseEntity<List<Job>> getJobByBusinessName(@PathVariable String business_name){
         List<Job> job = jobRepository.findByBusiness_name(business_name);
         return ResponseEntity.ok(job);
     }
 
+    //with order list
     @GetMapping("/job/startwith/{keyword}")
     public ResponseEntity<List<Job>> getJobbyFirstCharacter(@PathVariable String keyword){
         //String keyword = "b";
@@ -65,8 +67,8 @@ public class JobController {
 //        return job;
 //    }
 
-    @PostMapping("/job/post")
-    public ResponseEntity postJob(@RequestBody Job job) throws URISyntaxException {
+    @PostMapping("/job/post/{id}")
+    public ResponseEntity postJob(@RequestBody Job job, @PathVariable Long id) throws URISyntaxException {
         Job savedJob = jobRepository.save(job);
 //        String bname = savedJob.getBusiness_name();
 //        Company company = companyRepository.findByBusiness_name(bname);
@@ -74,6 +76,11 @@ public class JobController {
 //        List<Job> list = company.getJobs();
 //        list.add(savedJob);
 //        company.setJobs(list);
+        Company currentCompany = companyRepository.findById(id).orElseThrow(RuntimeException::new);
+        List<Long> list = currentCompany.getJobs_list();
+        list.add(savedJob.getId());
+        currentCompany.setJobs_list(list);
+        companyRepository.save(currentCompany);
         return ResponseEntity.created(new URI("/api/job/" + savedJob.getId())).body(savedJob);
     }
 
@@ -93,7 +100,7 @@ public class JobController {
         jobRepository.save(currentJob);
         return ResponseEntity.ok(currentJob);
     }
-    
+
     //@PathVariable Long id is user id
     @PutMapping("/job/apply/{id}")
     public ResponseEntity applyJob(@PathVariable Long id, @RequestBody Job job){

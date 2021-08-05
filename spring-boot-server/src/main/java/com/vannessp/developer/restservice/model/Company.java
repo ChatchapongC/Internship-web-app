@@ -17,11 +17,15 @@ public class Company {
     private String contact_number;
     private String logo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable( name = "company_jobs",
-            joinColumns = @JoinColumn(name = "company_id"),
-            inverseJoinColumns = @JoinColumn(name = "job_id"))
-    private List<Job> jobs;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable( name = "company_jobs",
+//            joinColumns = @JoinColumn(name = "company_id"),
+//            inverseJoinColumns = @JoinColumn(name = "job_id"))
+//    private List<Job> jobs;
+
+    @Column
+    @ElementCollection
+    private List<Long> jobs_list;
 
     @Email
     private String email;
@@ -70,11 +74,27 @@ public class Company {
         this.email = email;
     }
 
-    public List<Job> getJobs() {
-        return jobs;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
+
+    public List<Long> getJobs_list() {
+        return jobs_list;
+    }
+
+    public void setJobs_list(List<Long> jobs_list) {
+        this.jobs_list = jobs_list;
+    }
+
+    //    public List<Job> getJobs() {
+//        return jobs;
+//    }
+//
+//    public void setJobs(List<Job> jobs) {
+//        this.jobs = jobs;
+//    }
 }
