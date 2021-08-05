@@ -1,9 +1,6 @@
 package com.vannessp.developer.restservice.controller;
 
-import com.vannessp.developer.restservice.model.Company;
-import com.vannessp.developer.restservice.model.Job;
-import com.vannessp.developer.restservice.model.JobType;
-import com.vannessp.developer.restservice.model.User;
+import com.vannessp.developer.restservice.model.*;
 import com.vannessp.developer.restservice.repository.CompanyRepository;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import com.vannessp.developer.restservice.repository.JobRespository;
@@ -26,6 +23,21 @@ public class TestController {
 
     @Autowired
     private JobRespository jobRespository;
+
+    @PutMapping("/testcase")
+    public ResponseEntity<Job> testcase(){
+        Long num = Long.valueOf(12);
+        Job job_test = jobRespository.findById(num).get();
+//        Requirement requirement = new Requirement("Test","Test","Test","Test",null,"Test","Test");
+        Requirement requirement = new Requirement();
+//        requirement.setId(job_test.getId());
+//        requirement.setJob(job_test);
+        requirement.setId(job_test.getId());
+        requirement.setDetail("test");
+        job_test.setRequirement(requirement);
+        jobRespository.save(job_test);
+        return ResponseEntity.ok(job_test);
+    }
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> testUser(){

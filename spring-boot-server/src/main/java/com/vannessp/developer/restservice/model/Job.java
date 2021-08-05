@@ -18,6 +18,7 @@ import java.util.List;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column
@@ -53,37 +54,62 @@ public class Job {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate upload_date;
 
-    @ManyToOne
-    @JoinColumn(name="business_id")
-    private Company company;
+//    @ManyToOne
+//    @JoinColumn(name="business_id")
+//    private Company company;
 
     @Column
     private Boolean Recommended = false;
 
     @ElementCollection
     private List<String> job_requirement;
-//    @Column
-//    private Requirement job_requirement;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "requirement_id", referencedColumnName = "id")
+//    @OneToOne(mappedBy = "job", cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+
+    private Requirement requirement;
+
+    @Column
+    @ElementCollection
+    private List<Long> user_apply;
+
+    //------------------------------requirement zone-------------------------
+    @Column
+    private String work_experience;
+
+    @Column
+    private String min_age;
+
+    @Column
+    private String max_age;
+
+    @Column
+    private String education;
 
     @Column
     @ElementCollection
     private List<String> skill;
 
     @Column
-    @ElementCollection
-    private List<Long> user_apply;
+    private String languages;
+
+    @Column
+    private String detail;
+    //------------------------------------------------------------------------
 
     public Job() {
 
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+//    public Company getCompany() {
+//        return company;
+//    }
+//
+//    public void setCompany(Company company) {
+//        this.company = company;
+//    }
 
     public List<Long> getUser_apply() {
         return user_apply;
@@ -165,14 +191,6 @@ public class Job {
         this.upload_date = upload_date;
     }
 
-    public Company getBusiness() {
-        return company;
-    }
-
-    public void setBusiness(Company company) {
-        this.company = company;
-    }
-
     public Boolean getRecommended() {
         return Recommended;
     }
@@ -196,4 +214,64 @@ public class Job {
     public void setSkill(List<String> skill) {
         this.skill = skill;
     }
+
+    //Test zone
+    public Requirement getRequirement() {
+        return requirement;
+    }
+
+    public void setRequirement(Requirement requirement) {
+        this.requirement = requirement;
+    }
+
+
+    //------------------------------requirement zone-------------------------
+    public String getWork_experience() {
+        return work_experience;
+    }
+
+    public void setWork_experience(String work_experience) {
+        this.work_experience = work_experience;
+    }
+
+    public String getMin_age() {
+        return min_age;
+    }
+
+    public void setMin_age(String min_age) {
+        this.min_age = min_age;
+    }
+
+    public String getMax_age() {
+        return max_age;
+    }
+
+    public void setMax_age(String max_age) {
+        this.max_age = max_age;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+    //------------------------------------------------------------------------
 }
