@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from './Data';
 import { InfoSection } from '../components/InfoSection/InfoSection';
-import { RecommendBar } from '../Recommend/RecommendBar';
 import SearchBar from '../search/SearchBar'
 import Data from '../Data.json';
+import JobHighlight from '../Recommend/jobHighlight.jsx';
 
 class Home extends Component {
 
@@ -14,8 +14,8 @@ class Home extends Component {
             <>
             
             <SearchBar data={Data}/>
+            <JobHighlight/>
             <InfoSection {...homeObjOne} />
-            <RecommendBar/>
             <InfoSection {...homeObjTwo} />
             <InfoSection {...homeObjThree} />
             <InfoSection {...homeObjFour} />

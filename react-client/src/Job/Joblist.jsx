@@ -129,7 +129,7 @@ export function Joblist (props) {
             <LoadingIndicator/>
         ):(
           <Box mt={12}>
-            <Grid container className={classes.root}>
+            <Grid container className={classes.root}  justifyContent="center" alignItems="center">
               <Grid item xl>
               <Grid container justifyContent="center" spacing={2}>
                 <Grid  item>
