@@ -45,5 +45,5 @@ public interface JobRespository extends JpaRepository<Job, Long> {
 
     @Query(value = "select * from jobs j where j.recommended = 1", nativeQuery = true)
     List<Job> findByRecommend();
-
+    
 }

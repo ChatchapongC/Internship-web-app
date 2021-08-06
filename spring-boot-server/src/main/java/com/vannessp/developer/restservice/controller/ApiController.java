@@ -152,7 +152,7 @@ public class ApiController {
         return ResponseEntity.ok(currentCompany);
     }
 
-    @PutMapping("/business/editv2/{id}")
+    @PutMapping("/business/editv2/")
     public ResponseEntity<Company>  editBusinessByCompany(@RequestBody Company company){
         Company currentCompany = companyRepository.findById(company.getId()).orElseThrow(RuntimeException::new);
         currentCompany.setName(company.getName());
@@ -196,7 +196,7 @@ public class ApiController {
 //    }
 
     //@PathVariable Long id is job id
-    @PutMapping("/api/user/apply/{id}")
+    @PutMapping("/user/apply/{id}")
     public ResponseEntity applyjobtouser(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal){
         User currentUser = userRepository.findById(userPrincipal.getId()).orElseThrow(RuntimeException::new);
         List<Long> userApply = currentUser.getApplyJob();
