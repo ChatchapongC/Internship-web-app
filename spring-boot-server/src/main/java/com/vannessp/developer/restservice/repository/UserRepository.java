@@ -1,13 +1,13 @@
 package com.vannessp.developer.restservice.repository;
 
-import com.vannessp.developer.restservice.model.User;
+import com.vannessp.developer.restservice.model.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> { //for retrieve entities in DB.
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     Boolean existsByEmail(String email);

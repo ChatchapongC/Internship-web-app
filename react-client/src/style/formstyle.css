@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap");
+.base-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.base-container .header {
+  font-size: 35px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  color: #6a5acd;
+}
+
+.base-container .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.base-container .content .image {
+  width: 20em;
+}
+
+.base-container .content .image img {
+  width: 80%;
+  height: 80%;
+}
+
+.base-container .content small {
+  font-size: 12px;
+  text-align: center;
+}
+
+.base-container .content .form {
+  margin-top: 0em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.base-container .content .form .form-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.base-container .content .form .form-group label {
+  font-size: 20px;
+}
+
+.base-container .content .form .form-group input {
+  margin-top: 1px;
+  min-width: 18em;
+  height: 37px;
+  padding: 0px 10px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 100;
+  background-color: #f3f3f3;
+  border: 0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.base-container .content .form .form-group input:focus {
+  outline: none;
+  -webkit-box-shadow: 0px 0px 12px 0.8px #6959cd;
+          box-shadow: 0px 0px 12px 0.8px #6959cd;
+}
+
+.base-container .footer {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1em;
+}
+
+.base-container .or {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(161, 84, 224, 0.945);
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #2c2c2cef;
+}
+
+.base-container .or span {
+  background: #ffffff;
+  padding: 0 10px;
+}
+
+.base-container a {
+  text-decoration: none !important;
+}
+
+.social-btn {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.social-btn img {
+  height: 32px;
+  float: left;
+  margin-top: -5px;
+}
+
+.social-btn.google {
+  margin-top: 7px;
+}
+
+.social-btn.facebook img {
+  height: 30px;
+  margin-left: 3px;
+}
+/*# sourceMappingURL=formstyle.css.map */

@@ -8,12 +8,8 @@ import {
   FaLinkedin
 } from 'react-icons/fa';
 import {
+  FooterWrapper,
   FooterContainer,
-  FooterSubscription,
-  FooterSubText,
-  FooterSubHeading,
-  Form,
-  FormInput,
   FooterLinksContainer,
   FooterLinksWrapper,
   FooterLinkItems,
@@ -22,7 +18,6 @@ import {
   SocialMedia,
   SocialMediaWrap,
   SocialLogo,
-  SocialIcon,
   WebsiteRights,
   SocialIcons,
   SocialIconLink
@@ -30,17 +25,8 @@ import {
 
 export function Footer() {
   return (
+    <FooterWrapper>
     <FooterContainer>
-      <FooterSubscription>
-        <FooterSubHeading>
-          Join our exclusive membership to receive the latest news and trends
-        </FooterSubHeading>
-        <FooterSubText>You can unsubscribe at any time.</FooterSubText>
-        <Form>
-          <FormInput name='email' type='email' placeholder='Your Email' />
-          <button className="btn">Subscribe</button>
-        </Form>
-      </FooterSubscription>
       <FooterLinksContainer>
         <FooterLinksWrapper>
           <FooterLinkItems>
@@ -60,13 +46,6 @@ export function Footer() {
           </FooterLinkItems>
         </FooterLinksWrapper>
         <FooterLinksWrapper>
-          <FooterLinkItems>
-            <FooterLinkTitle>Videos</FooterLinkTitle>
-            <FooterLink to='/'>Submit Video</FooterLink>
-            <FooterLink to='/'>Ambassadors</FooterLink>
-            <FooterLink to='/'>Agency</FooterLink>
-            <FooterLink to='/'>Influencer</FooterLink>
-          </FooterLinkItems>
           <FooterLinkItems>
             <FooterLinkTitle>Social Media</FooterLinkTitle>
             <FooterLink to='/'>Instagram</FooterLink>
@@ -108,6 +87,7 @@ export function Footer() {
         </SocialMediaWrap>
       </SocialMedia>
     </FooterContainer>
+    </FooterWrapper>
   );
 };
 

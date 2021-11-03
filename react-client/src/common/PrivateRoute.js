@@ -3,7 +3,7 @@ import {
     Route,
     Redirect,
   } from "react-router-dom";
-import { getCurrentUser } from '../util/APIUtils';
+import { getCurrentUser } from '../api/UserAPI';
 import LoadingIndicator from './LoadingIndicator';
 
 
@@ -20,7 +20,7 @@ export const PrivateRoute = (props) => {
         };
         fetchData();
     }, []);
-
+    console.log(props.currentUser);
     return (
         <Route
             {...rest}

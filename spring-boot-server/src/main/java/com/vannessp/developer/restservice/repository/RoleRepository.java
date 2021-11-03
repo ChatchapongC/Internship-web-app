@@ -1,7 +1,7 @@
 package com.vannessp.developer.restservice.repository;
 
-import com.vannessp.developer.restservice.model.ERole;
-import com.vannessp.developer.restservice.model.Role;
+import com.vannessp.developer.restservice.model.User.ERole;
+import com.vannessp.developer.restservice.model.User.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

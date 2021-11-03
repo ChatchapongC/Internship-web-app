@@ -13,7 +13,7 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
-    private Set<String> role;
+    private String role;
 
     public String getEmail() {
         return email;
@@ -31,11 +31,11 @@ public class SignUpRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() {
+    public String getRole() {
         return this.role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

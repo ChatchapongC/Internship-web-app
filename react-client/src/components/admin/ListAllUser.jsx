@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from "react";
-import { getAllUsers } from "../../util/APIUtils";
+import { getAllUsers } from "../../api/AdminAPI";
 import './ListAllUser.scss'
 
 export function ListAllUser() {

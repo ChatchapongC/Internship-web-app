@@ -2,13 +2,21 @@ import styled from 'styled-components';
 import { FaMagento } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+export const FooterWrapper = styled.div`
+
+  
+  
+`;
+
 export const FooterContainer = styled.div`
   background-color: #101522;
   padding: 4rem 0 2rem 0;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
+  margin-top : 10%
   
 `;
 

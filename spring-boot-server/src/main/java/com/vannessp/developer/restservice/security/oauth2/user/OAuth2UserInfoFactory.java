@@ -1,7 +1,7 @@
 package com.vannessp.developer.restservice.security.oauth2.user;
 
 import com.vannessp.developer.restservice.exception.OAuth2AuthenticationProcessingException;
-import com.vannessp.developer.restservice.model.AuthProvider;
+import com.vannessp.developer.restservice.model.User.AuthProvider;
 
 import java.util.Map;
 

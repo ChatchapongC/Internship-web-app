@@ -1,7 +1,7 @@
 package com.vannessp.developer.restservice.security;
 
 import com.vannessp.developer.restservice.exception.ResourceNotFoundException;
-import com.vannessp.developer.restservice.model.User;
+import com.vannessp.developer.restservice.model.User.User;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,4 +36,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return UserPrincipal.create(user);
     }
+
 }

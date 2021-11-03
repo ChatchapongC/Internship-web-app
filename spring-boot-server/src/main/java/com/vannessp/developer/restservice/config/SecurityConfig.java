@@ -1,5 +1,6 @@
 package com.vannessp.developer.restservice.config;
 
+import com.vannessp.developer.restservice.exception.CustomAccessDeniedHandler;
 import com.vannessp.developer.restservice.security.CustomUserDetailsService;
 import com.vannessp.developer.restservice.security.RestAuthenticationEntryPoint;
 import com.vannessp.developer.restservice.security.TokenAuthenticationFilter;
@@ -20,6 +21,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -73,6 +75,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -95,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .disable()
                 .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
@@ -114,45 +121,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/forgotpassword", "/resetpassword/**")
                 .permitAll()
-                .antMatchers("/api/business/all")
+                .antMatchers("/company/**")
                 .permitAll()
-                .antMatchers("/api/business/test")
+                .antMatchers("/job/**")
                 .permitAll()
-                .antMatchers("/job/startwith/**")
+                .antMatchers("/job-filter/**")
                 .permitAll()
-                .antMatchers("/api/business/**")
-                .permitAll()
-                .antMatchers("/testapi/business")
-                .permitAll()
-                .antMatchers("/testapi/job")
-                .permitAll()
-                .antMatchers("/api/user/apply/**")
-                .permitAll()
-                .antMatchers("/api/user/apply/list/**")
-                .permitAll()
-                .antMatchers("/api/job/all")
-                .permitAll()
-                .antMatchers("/api/job/**")
-                .permitAll()
-                .antMatchers("/api/job/recommended")
-                .permitAll()
-                .antMatchers("/api/job/post")
-                .permitAll()
-                .antMatchers("/api/job/edit/**")
-                .permitAll()
-                .antMatchers("/api/job/delete/**")
-                .permitAll()
-                .antMatchers("/api/job/apply/**")
-                .permitAll()
-                .antMatchers("/job/bus_name/**")
-                .permitAll()
-                .antMatchers("/testapi/testcase")
-                .permitAll()
-                .antMatchers("/testapi/user")
-                .permitAll()
-                .antMatchers("/testapi/resetall")
+                .antMatchers("/testapi/**")
                 .permitAll()
                 .antMatchers("/admin/**")
+                .permitAll()
+                .antMatchers("/candidate/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

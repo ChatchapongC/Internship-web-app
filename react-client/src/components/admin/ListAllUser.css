@@ -1,0 +1,53 @@
+.table-latitude {
+  margin-top: 5rem;
+  width: 100%;
+  margin-bottom: 5rem;
+}
+
+.table-latitude caption {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #ad51f8;
+  text-align: center;
+  font-size: 30px;
+}
+
+.table-latitude thead {
+  border-top: 2px solid #ad51f8;
+  border-bottom: 2px solid #ad51f8;
+}
+
+.table-latitude thead th {
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px;
+  color: #a23af7;
+  border: 1px solid #F1F1F1;
+}
+
+.table-latitude tbody tr {
+  border-bottom: 1px solid #F1F1F1;
+  color: #75787b;
+}
+
+.table-latitude tbody tr td {
+  padding: 10px;
+  border: 1px solid #F1F1F1;
+}
+
+.table-latitude tbody tr th {
+  padding-left: 10px;
+  border: 1px solid #F1F1F1;
+}
+
+.table-latitude tfoot {
+  color: #ad51f8;
+  font-style: italic;
+  border-bottom: 2px solid #ad51f8;
+}
+
+.table-latitude tfoot tr td {
+  padding: 10px;
+  border: 1px solid #F1F1F1;
+}
+/*# sourceMappingURL=ListAllUser.css.map */
