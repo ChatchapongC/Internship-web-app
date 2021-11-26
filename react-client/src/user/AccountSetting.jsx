@@ -75,34 +75,12 @@ export default function AccountSetting(props) {
     const [loading, setLoading] = useState(true);
     const classes = useStyles();
 
-    const accountRequest = {
+    const [accountRequest, setAccountRequest] = useState({
         newEmail: user.email,
-        oldPassword: '',
-        newPassword: ''
+        oldPassword: null,
+        newPassword: null
 
-    };
-
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ('newEmail' in fieldValues)
-            accountRequest.newEmail = (/$^|.+@.+..+/).test(fieldValues.newEmail) ? "" : "Email is not valid."
-        setErrors({
-            ...accountRequest
-        })
-
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
-    }
-
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useForm(accountRequest, false, validate);
-
+    });
 
     const roles = props.roles.map(r => r.name);
 
@@ -114,24 +92,82 @@ export default function AccountSetting(props) {
         }
         fetchData();
     }, []);
+    
+    const [digitCheck, setDigitCheck] = useState(false);
+    const [numberCheck, setNumberCheck] = useState(false);
+    const [alphabetCheck, setAlphabetCheck] = useState(false);
+    const [passwordError, setPasswordError] = useState(true);
 
+    const handleInputChange = (e) => {
+        if(e.target.name === "newPassword"){
+            let value = e.target.value;
+            if(value.length < 9){
+              setPasswordError(true);
+              setDigitCheck(false);
+            }
+            if(value.length >= 8){
+              setDigitCheck(true);
+            }
+            if(value.match(/[a-zA-Z]/)){
+              setAlphabetCheck(true)
+            }
+            if(!value.match(/[a-zA-Z]/)){
+              setAlphabetCheck(false)
+            }
+            if(value.match(/[0-9]/)){
+              setNumberCheck(true)
+            }
+            if(!value.match(/[0-9]/)){
+              setNumberCheck(false)
+            }
+            else{
+              setPasswordError(false)
+              setAccountRequest({ ...accountRequest, [e.target.name]: e.target.value });
+            }
+          }
+          setAccountRequest({ ...accountRequest, [e.target.name]: e.target.value });
+        }
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
+
         e.preventDefault()
 
-        updateAccount(accountRequest)
-            .then(response => {
-                resetForm()
-                Alert.success("You're successfully update your profile");
-                window.location.reload();
+        if(accountRequest.newPassword != null) {
+            if (accountRequest.newPassword.length < 7){
+                Alert.error("Password must be more than 8 characters!")
+            }
+            else if (!accountRequest.newPassword.match(/[a-zA-Z]/)){
+                Alert.error("Password must contain character!")
+            }
+            else if (!accountRequest.newPassword.match(/[0-9]/)){
+                Alert.error("Password must contain number!")
+            }
+            else if(passwordError){
+                Alert.error("Password not strong!")
+            } else {
+                updateAccount(accountRequest)
+                .then(response => {
+                    Alert.success("You're successfully update your profile");
+                    window.location.reload();
 
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+      
+            }
+        } else {
+            updateAccount(accountRequest)
+                .then(response => {
+                    Alert.success("You're successfully update your profile");
+                    window.location.reload();
 
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
     }
 
-    console.log()
+    console.log(accountRequest.newPassword)
 
     return (
         <>
@@ -139,7 +175,7 @@ export default function AccountSetting(props) {
                 <LoadingIndicator />
             ) : (
                 <div className={classes.root}>
-                    <Form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <Grid container spacing={2} justifyContent='center' className={classes.wrapper}>
                             <Grid item xs={9}>
 
@@ -165,7 +201,6 @@ export default function AccountSetting(props) {
                                             <br />
                                             <Grid container spacing={0} className={classes.content}>
                                                 <Grid item xs={6} >
-
                                                     <FormControl required>
                                                         <Typography gutterBottom variant="subtitle2">
                                                             <b>Change Email</b>
@@ -178,9 +213,7 @@ export default function AccountSetting(props) {
                                                             variant="outlined"
                                                             type="email"
                                                             defaultValue={accountDetail.email}
-                                                            value={values.email}
                                                             onChange={handleInputChange}
-                                                            error={errors.newEmail}
                                                             required
                                                         />
                                                     </FormControl>
@@ -210,8 +243,25 @@ export default function AccountSetting(props) {
                                                             onChange={handleInputChange}
                                                             type="password"
                                                         />
+                                                        
+                                                        {digitCheck ? (
+                                                            <small style={{ color: 'green' }}>&nbsp; Must contain more than 8 characters</small>
+                                                            ):(
+                                                            <small style={{ color: 'red' }}>&nbsp; Must contain more than 8 characters</small>
+                                                            )}
+                                                            {alphabetCheck ? (
+                                                            <small style={{ color: 'green' }}> Must contain alphabet</small>
+                                                            ) : (
+                                                            <small style={{ color: 'red' }}>Must contain alphabet</small>
+                                                            )}
+                                                            {numberCheck ? (
+                                                            <small style={{ color: 'green' }}>&nbsp; Must contain number</small>
+                                                            ):(
+                                                            <small style={{ color: 'red' }}>&nbsp; Must contain number</small>
+                                                            )}
                                                     </FormControl>
                                                 </Grid>
+                                                
                                             </Grid>
                                             <br />
                                             <Grid container justifyContent='center' spacing={0} className={classes.content}>
@@ -233,7 +283,7 @@ export default function AccountSetting(props) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Form>
+                    </form>
                 </div >
             )}
         </>

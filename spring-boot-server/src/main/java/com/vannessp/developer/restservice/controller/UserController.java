@@ -54,12 +54,18 @@ public class UserController {
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
-        if (!updateAccountRequest.getOldPassword().equalsIgnoreCase("")) {
+        if (updateAccountRequest.getOldPassword() != null) {
             if (!passwordEncoder.matches(updateAccountRequest.getOldPassword(), user.getPassword())) {
                 throw new BadRequestException("Invalid Old password");
             }
-            user.setPassword(passwordEncoder.encode(updateAccountRequest.getNewPassword()));
-
+            else {
+                if(updateAccountRequest.getNewPassword() == null){
+                    throw new BadRequestException("Please input new password");
+                } else {
+                    String newPassword = passwordEncoder.encode(updateAccountRequest.getNewPassword());
+                    user.setPassword(newPassword);
+                }
+            }
         }
 
         user.setEmail(updateAccountRequest.getNewEmail());

@@ -402,8 +402,7 @@ const Jobdetail = (props) => {
         })
         .catch((error) => {
           Alert.error(
-            "Please Login as a candidate for apply the job" ||
-              "Something went wrong"
+            error.message
           );
           setOpen(false);
         });
