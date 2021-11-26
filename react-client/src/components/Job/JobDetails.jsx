@@ -19,7 +19,7 @@ import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import CastForEducationIcon from "@material-ui/icons/CastForEducation";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import { purple } from "@material-ui/core/colors";
-import { Badge, Chip } from "@material-ui/core";
+import { Badge, Chip, Link } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -33,6 +33,7 @@ import Moment from "moment";
 import AppliedList from "./AppliedList";
 import Divider from "@mui/material/Divider";
 import { createTheme } from "@mui/material";
+import BusinessIcon from "@material-ui/icons/Business";
 
 Moment.locale("th");
 
@@ -48,10 +49,12 @@ const Jobdetail = (props) => {
     shortDescription: null,
     positionTitle: null,
     educations: [],
-    experience: [],
+    experiences: [],
     languages: [],
     skills: [],
   });
+
+  const history = useHistory();
 
   const theme = createTheme({
     palette: {
@@ -102,31 +105,40 @@ const Jobdetail = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await getJobDetailById(jid);
-      const res = await getResume();
-      setResume(res);
       setjobsDetail([result]);
       setLoading(false);
     };
     fetchData();
   }, [jid]);
 
+  useEffect( () => {
+    const fetchData = async () => {
+      const res = await getResume();
+      setResume(res);
+      setLoading(false);
+    };
+    if(roles.includes('ROLE_CANDIDATE')){
+      fetchData();
+    }
+  },[])
+
   useEffect(() => {
     if (
+      roles.includes('ROLE_CANDIDATE')&&
       resume.firstName != null &&
       resume.lastName != null &&
       resume.shortDescription != null &&
       resume.positionTitle != null &&
       resume.skills.length != 0 &&
       resume.educations.length != 0 &&
-      resume.experience.length != 0 &&
+      resume.experiences.length != 0 &&
       resume.languages.length != 0
     ) {
       setResumeCompleteness(true);
     }
   }, [resume]);
 
-  console.log(resume);
-
+  console.log(jobsDetail)
   return (
     <>
       {loading ? (
@@ -163,6 +175,24 @@ const Jobdetail = (props) => {
                                 className={classes.customBadge}
                                 badgeContent={job.type}
                               ></Badge>
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                            <BusinessIcon
+                                    fontSize="small"
+                                    className={classes.iconMargin}
+                                  ></BusinessIcon>
+                                  <Link
+                                    href=""
+                                    color="inherit"
+                                    underline="none"
+                                    onClick={() => {
+                                      history.push(
+                                        `/company/${job.company.id}`
+                                      );
+                                    }}
+                                  >
+                                    {job.company.companyName}
+                                  </Link>
                             </Typography>
                             <Typography variant="body2" color="textSecondary">
                               <LocationOnIcon fontSize="small"></LocationOnIcon>{" "}
@@ -218,7 +248,7 @@ const Jobdetail = (props) => {
                               </Grid>
                               <Grid item xs>
                                 <b>Experience</b>
-                                <br></br>Any
+                                <br/>{job.experience}
                               </Grid>
                               <Grid item xs={1}>
                                 <PersonIcon
@@ -228,7 +258,7 @@ const Jobdetail = (props) => {
                               </Grid>
                               <Grid item xs>
                                 <b>Gender</b>
-                                <br></br>Any
+                                <br/>{job.gender}
                               </Grid>
                               <Grid item xs={1}>
                                 <HomeWorkIcon
@@ -253,7 +283,7 @@ const Jobdetail = (props) => {
                               </Grid>
                               <Grid item xs>
                                 <b>Qualifications</b>
-                                <br></br>Diploma
+                                <br/>{job.educationQualification}
                               </Grid>
                               <Grid item xs={1}>
                                 <LocalAtmIcon
@@ -265,16 +295,6 @@ const Jobdetail = (props) => {
                                 <b>Allowance</b>
                                 <br></br>
                                 {job.allowance}
-                              </Grid>
-                              <Grid item xs={1}>
-                                <GroupIcon
-                                  color="action"
-                                  fontSize="large"
-                                ></GroupIcon>
-                              </Grid>
-                              <Grid item xs>
-                                <b>Career Level</b>
-                                <br></br>-
                               </Grid>
                             </Grid>
                             <br></br>
@@ -295,10 +315,20 @@ const Jobdetail = (props) => {
                               {job.availablePosition}
                             </Typography>
                             <Typography gutterBottom variant="subtitle2">
-                              <b>Company :</b> {job.company.companyName}
+                              <b>Working Time :</b> {job.workingTime}
                             </Typography>
                             <Typography gutterBottom variant="subtitle2">
-                              <b>Closing Date :</b> {job.upload_date}
+                              <b>Working holiday :</b> {job.workingHoliday}
+                            </Typography>
+                            <Typography gutterBottom variant="subtitle2">
+                              <b>Experience :</b> {job.experience}
+                            </Typography>
+                            <br/>
+                            <Typography gutterBottom variant="subtitle2">
+                              <b>Contact email :</b> {job.company.contactEmail}
+                            </Typography>
+                            <Typography gutterBottom variant="subtitle2">
+                              <b>Contact number :</b> {job.company.telephoneNumber}
                             </Typography>
                           </Grid>
                           <Grid container justifyContent="flex-end">
@@ -391,6 +421,10 @@ const Jobdetail = (props) => {
     }))(Button);
 
     return (
+      <>
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
       <div>
         <ColorButton
           variant="outlined"
@@ -406,8 +440,10 @@ const Jobdetail = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          {props.currentUser ? (
+          {roles ? (
             <>
+            {roles.includes('ROLE_CANDIDATE') ? (
+              <>
               {resumeCompleteness ? (
                 <>
                   <DialogTitle id="alert-dialog-title">
@@ -441,6 +477,23 @@ const Jobdetail = (props) => {
                   </DialogActions>
                 </>
               )}
+              </>
+              
+
+            ) : (
+              <>
+              <DialogTitle id="alert-dialog-title">
+                {"You are not candidate"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  You can't apply the job. Please login as candidate to apply the job.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions></DialogActions>
+              </> 
+            )}
+              
             </>
           ) : (
             <>
@@ -457,6 +510,9 @@ const Jobdetail = (props) => {
           )}
         </Dialog>
       </div>
+      )}
+      </>
+
     );
   }
 };

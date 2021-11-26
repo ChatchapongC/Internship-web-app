@@ -63,6 +63,13 @@ export function resetpassword(resetPasswordRequest, token) {
     });
 }
 
+export function verifyEmail(verificationCode) {
+    return request({
+        url: API_BASE_URL + "/auth/verify?code=" + verificationCode,
+        method: 'GET',
+    });
+}
+
 export function getUserRoles() {
     return request({
         url: API_BASE_URL + "/user/me/roles",

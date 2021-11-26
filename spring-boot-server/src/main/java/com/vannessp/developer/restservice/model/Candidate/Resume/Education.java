@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,19 +20,29 @@ public class Education implements Serializable {
     @NotNull
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String educationLevel;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @NotNull
+    @NotBlank
+    @DateTimeFormat(pattern = "MM-yyyy")
     private LocalDate fromDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @NotNull
+    @NotBlank
+    @DateTimeFormat(pattern = "MM-yyyy")
     private LocalDate toDate;
 
+    @NotNull
+    @NotBlank
     private String institute;
 
+    @NotNull
+    @NotBlank
     private String curriculum;
 
-    private String gpa;
+    private float gpa;
 
     private String description;
 
@@ -88,7 +99,7 @@ public class Education implements Serializable {
         this.curriculum = description;
     }
 
-    public String getGpa() {
+    public float getGpa() {
         return gpa;
     }
 
@@ -100,7 +111,7 @@ public class Education implements Serializable {
         this.description = description;
     }
 
-    public void setGpa(String gpa) {
+    public void setGpa(float gpa) {
         this.gpa = gpa;
     }
 

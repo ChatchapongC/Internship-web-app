@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -17,6 +18,8 @@ public class Skill implements Serializable {
     @NotNull
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String skillName;
 
     public Skill() {

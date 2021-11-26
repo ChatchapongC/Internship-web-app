@@ -68,7 +68,7 @@ const LoginForm = () => {
         history.push("/user/dashboard")
         window.location.reload();
       }).catch(error => {
-        Alert.error((error && error.message + ': Email or password is incorrect')
+        Alert.error((error && error.message)
           || 'Oops! Something went wrong. Please try again!');
       });
   }

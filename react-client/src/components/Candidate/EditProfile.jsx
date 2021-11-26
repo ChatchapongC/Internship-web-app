@@ -11,7 +11,7 @@ import { updateProfile, getProfile } from "../../api/CandidateAPI";
 import NationalityData from '../../data/NationalityData.json';
 import Alert from "react-s-alert";
 import LoadingIndicator from "../../common/LoadingIndicator";
-import { InputLabel, Grid, Typography, Paper, Breadcrumbs, Select, Button } from "@material-ui/core";
+import { InputLabel, Grid, Typography, Paper, Breadcrumbs, Select, Button, Input } from "@material-ui/core";
 import SideBar from "../Navigation/SideBar";
 import { Skeleton } from "@mui/material";
 
@@ -19,10 +19,10 @@ const EditProfile = (props) => {
 
     const roles = props.roles.map(r => r.name);
     const user = props.currentUser.candidate;
-
+    const [mobileError, setMobileError] = useState(false);
     const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState({
-        firstName: '',
+        firstName: '',                                                                      
         lastName: '',
         firstNameTH: '',
         lastNameTH: '',
@@ -32,7 +32,10 @@ const EditProfile = (props) => {
         address: '',
         gender: '',
         mobileNumber: '',
-        dateOfBirth: ''
+        dateOfBirth: '',
+        weight: null,
+        height : null,
+        typeOfWork : ''
     });
 
     useEffect(() => {
@@ -137,19 +140,41 @@ const EditProfile = (props) => {
     const classes = useStyles();
 
     const changeHandler = e => {
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        let value = e.target.value;
+        if(e.target.name === "mobileNumber"){
+            if(!pattern.test(e.target.value)){
+                setMobileError(true);
+            }else if(value.length < 10 || value.length > 10){
+                setMobileError(true);
+            }else{
+                setMobileError(false);
+            }
+        }
+
+        const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+        if (onlyNums.length < 10) {
+            setUserData({ ...userData, [e.target.name]: onlyNums });
+        } else {
+            setUserData({ ...userData, [e.target.name]: e.target.value });
+        }
         setUserData({ ...userData, [e.target.name]: e.target.value });
+                                   
+        
     };
     const handleUpdate = (e) => {
+     
         updateProfile(userData)
-            .then(response => {
-                Alert.success("You're successfully update your profile");
-                window.location.reload();
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        .then(response => {
+            Alert.success("You're successfully update your profile");
+            window.location.reload();
+        }).catch(error => {
+            Alert.error((error && error.message) || ('something went wrong'));
+        });
+        
+       
     }
 
-    console.log(props);
     return (
         <>
             {loading ? (
@@ -210,8 +235,11 @@ const EditProfile = (props) => {
                                         </Typography>
                                     </Grid>
                                     <br />
+
+                                    <form onSubmit={handleUpdate}>
                                     <Grid container spacing={0} className={classes.content}>
                                         <Grid item xs={6} >
+                                            
                                             <FormControl required className={classes.textBox}>
                                                 <TextField
                                                     id="firstName"
@@ -220,6 +248,7 @@ const EditProfile = (props) => {
                                                     defaultValue={user.firstName}
                                                     variant="outlined"
                                                     onChange={changeHandler}
+                                                    required
                                                 />
                                             </FormControl>
                                             <FormControl required className={classes.textBox}>
@@ -230,6 +259,7 @@ const EditProfile = (props) => {
                                                     variant="outlined"
                                                     defaultValue={user.lastName}
                                                     onChange={changeHandler}
+                                                    required
                                                 />
                                             </FormControl>
                                         </Grid>
@@ -270,6 +300,7 @@ const EditProfile = (props) => {
                                                         id: 'gender-required',
 
                                                     }}
+                                                    required 
 
                                                 >
                                                     <option value={user.gender}>{user.gender}</option>
@@ -279,7 +310,7 @@ const EditProfile = (props) => {
                                                 </Select>
                                             </FormControl>
 
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl variant="outlined" className={classes.textBox}>
                                                 <TextField
                                                     format="dd-mm-yy"
                                                     name="dateOfBirth"
@@ -293,12 +324,13 @@ const EditProfile = (props) => {
                                                         shrink: true,
                                                     }}
                                                     onChange={changeHandler}
+                                                    required
                                                 />
                                             </FormControl>
                                         </Grid>
 
                                         <Grid item xs={6}>
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl variant="outlined" className={classes.textBox}>
                                                 <InputLabel htmlFor="outlined-nationality">Nationality</InputLabel>
                                                 <Select
                                                     native
@@ -317,7 +349,7 @@ const EditProfile = (props) => {
                                                 </Select>
                                             </FormControl>
 
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl variant="outlined" className={classes.textBox}>
                                                 <InputLabel htmlFor="outlined-religion">Religion</InputLabel>
                                                 <Select
                                                     native
@@ -342,27 +374,29 @@ const EditProfile = (props) => {
                                         </Grid>
 
                                         <Grid item xs={6}>
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl variant="outlined" className={classes.textBox}>
                                                 <TextField
                                                     label="Weight"
                                                     id="weight"
                                                     InputProps={{
                                                         endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
+                                                        type : "number"
                                                     }}
                                                     variant="outlined"
                                                 />
                                             </FormControl>
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl variant="outlined" className={classes.textBox}>
                                                 <TextField
                                                     label="Height"
                                                     id="height"
                                                     InputProps={{
                                                         endAdornment: <InputAdornment position="end">Cm</InputAdornment>,
+                                                        type : "number"
                                                     }}
                                                     variant="outlined"
                                                 />
                                             </FormControl>
-                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                            <FormControl  variant="outlined" className={classes.textBox}>
                                                 <TextField
                                                     label="Mobile number"
                                                     name="mobileNumber"
@@ -370,12 +404,35 @@ const EditProfile = (props) => {
                                                     defaultValue={user.mobileNumber}
                                                     variant="outlined"
                                                     onChange={changeHandler}
+                                                    type="tel"
+                                                    required
+                                                    error={mobileError}
+                                                    helperText={ mobileError? 'Please input correct format of phone number' : ''}
                                                 />
+                                            </FormControl>
+                                            <FormControl required variant="outlined" className={classes.textBox}>
+                                                <InputLabel htmlFor="outlined-religion">Interest Type Of Work</InputLabel>
+                                                <Select
+                                                    native
+                                                    onChange={changeHandler}
+                                                    name="typeOfWork"
+                                                    label="Interest Type Of Work"
+                                                    inputProps={{
+                                                        id: 'typeOfWork-required',
+                                                    }}
+                                                    required
+
+                                                >
+                                                    <option value={user.typeOfWork}>{user.typeOfWork}</option>
+                                                    <option >Internship</option>
+                                                    <option >Co-op Education</option>
+                                                    <option >Part-time</option>
+                                                </Select>
                                             </FormControl>
                                         </Grid>
 
                                         <Grid item xs={6}>
-                                            <FormControl required variant="outlined" className={classes.addressBox}>
+                                            <FormControl variant="outlined" className={classes.addressBox}>
                                                 <TextField
                                                     multiline
                                                     row={10}
@@ -385,6 +442,7 @@ const EditProfile = (props) => {
                                                     defaultValue={user.address}
                                                     variant="outlined"
                                                     onChange={changeHandler}
+                                                    required
                                                 />
                                             </FormControl>
                                         </Grid>
@@ -396,11 +454,13 @@ const EditProfile = (props) => {
                                             className={classes.buttonbase}
                                             variant="contained"
                                             color="primary"
+                                            type="submit"
                                             startIcon={<CloudUploadIcon />}
-                                            onClick={handleUpdate}
+                                            disabled={mobileError}
                                         >
                                             SAVE
                                         </Button>
+                                       
 
                                         <Button
                                             size="large"
@@ -417,6 +477,7 @@ const EditProfile = (props) => {
                                         </Button>
 
                                     </Grid>
+                                    </form>
                                 </Paper>
                             </Grid>
                         </Grid>

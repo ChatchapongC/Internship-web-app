@@ -1,4 +1,4 @@
-package com.vannessp.developer.restservice.payload.request.Resume;
+package com.vannessp.developer.restservice.payload.request;
 
 import org.springframework.lang.Nullable;
 

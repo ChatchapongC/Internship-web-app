@@ -201,7 +201,6 @@ function Resume(props) {
                                                             <TimelineItem>
                                                                 <TimelineOppositeContent style={{ flex: 0.4 }}>
                                                                     <Typography key={index} variant='body2' color='textSecondary'>
-
                                                                         {Moment(e.fromDate).format('MMMM DD,yyyy')} - {Moment(e.toDate).format('MMMM DD,yyyy')}
                                                                     </Typography>
                                                                 </TimelineOppositeContent>

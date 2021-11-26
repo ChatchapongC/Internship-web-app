@@ -8,8 +8,11 @@ import com.vannessp.developer.restservice.model.Company.Job;
 import com.vannessp.developer.restservice.model.User.Role;
 import com.vannessp.developer.restservice.model.User.User;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -27,10 +30,16 @@ public class Candidate implements Serializable {
     private Long id;
 
     @Column
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Size(min = 2, max = 50, message = "Please provide first size between 2 - 100")
     private String firstName;
 
     @Column
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Size(min = 2, max = 100, message = "Please provide lastName size between 2 - 100")
     private String lastName;
 
@@ -42,6 +51,9 @@ public class Candidate implements Serializable {
 
     @Column(name = "phone_number")
     @Size(max = 15)
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String mobileNumber;
 
     @Column(length = 10)
@@ -52,6 +64,9 @@ public class Candidate implements Serializable {
     private LocalDate dateOfBirth;
 
     @Size(max = 100)
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String address;
 
     @Column
@@ -61,7 +76,18 @@ public class Candidate implements Serializable {
     private String religion;
 
     @Column
-    private String age;
+    private Integer age;
+
+    @Column
+    @Nullable
+    private Integer weight;
+
+    @Column
+    @Nullable
+    private Integer height;
+
+    @Column
+    private String typeOfWork;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -71,6 +97,10 @@ public class Candidate implements Serializable {
     @OneToMany(mappedBy = "candidate")
     @JsonBackReference
     List<JobApplication> jobApplications;
+
+    @OneToMany(mappedBy = "candidate")
+    @JsonBackReference
+    List<FavoriteJob> favoriteJobs;
 
     @OneToOne(  fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -167,12 +197,28 @@ public class Candidate implements Serializable {
         this.religion = religion;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
     public User getUser() {
@@ -197,5 +243,21 @@ public class Candidate implements Serializable {
 
     public void setResume(Resume resume) {
         this.resume = resume;
+    }
+
+    public List<FavoriteJob> getFavoriteJobs() {
+        return favoriteJobs;
+    }
+
+    public void setFavoriteJobs(List<FavoriteJob> favoriteJobs) {
+        this.favoriteJobs = favoriteJobs;
+    }
+
+    public String getTypeOfWork() {
+        return typeOfWork;
+    }
+
+    public void setTypeOfWork(String typeOfWork) {
+        this.typeOfWork = typeOfWork;
     }
 }

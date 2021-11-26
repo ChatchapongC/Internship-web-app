@@ -17,12 +17,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Grid, Paper, Box } from '@material-ui/core';
+import { Grid, Paper, Box, Link } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
-import { getJobHistory } from '../../api/CandidateAPI';
+import { getFavoriteJob } from '../../api/CandidateAPI';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import Moment from 'moment';
 import SideBar from '../Navigation/SideBar';
+import { useHistory } from 'react-router';
 
 Moment.locale('th');
 const drawerWidth = 100;
@@ -56,6 +57,7 @@ function stableSort(array, comparator) {
 const headCells = [
     { id: 'title', numeric: false, disablePadding: true, label: 'Job Titile' },
     { id: 'companyName', numeric: true, disablePadding: false, label: 'Company' },
+    { id: 'applyDate', numeric: true, disablePadding: false, label: 'Apply Date' },
 ];
 
 function EnhancedTableHead(props) {
@@ -188,7 +190,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     paperBox: {
-        width: '100%',
+        width: '70%',
         backgroundColor: purple[200],
         color: theme.palette.common.white,
         padding: 5,
@@ -216,7 +218,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     table: {
-        minWidth: 750,
+        width: 700,
     },
     visuallyHidden: {
         border: 0,
@@ -246,7 +248,7 @@ export default function FavoriteJob(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await getJobHistory();
+            const result = await getFavoriteJob();
             setJobList(result);
             setLoading(false);
 
@@ -296,6 +298,8 @@ export default function FavoriteJob(props) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const history = useHistory();
 
     const isSelected = (job_title) => selected.indexOf(job_title) !== -1;
     return (
@@ -363,9 +367,21 @@ export default function FavoriteJob(props) {
                                                                             />
                                                                         </TableCell>
                                                                         <TableCell component="th" id={labelId} scope="row" padding="none">
+                                                                        <Link
+                                                                            href=""
+                                                                            onClick={() => {
+                                                                            history.push(
+                                                                                `/job-details/${row.job.id}`
+                                                                            );
+                                                                            }}
+                                                                            color="inherit"
+                                                                            underline="none"
+                                                                        >
                                                                             {row.job.title}
+                                                                        </Link>
                                                                         </TableCell>
                                                                         <TableCell align="right">{row.job.company.companyName}</TableCell>
+                                                                        <TableCell align="right">{Moment(row.applyDate).format('DD-MMMM-yyyy')}</TableCell>
                                                                     </TableRow>
                                                                 );
                                                             })}

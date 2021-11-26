@@ -189,7 +189,6 @@ function ViewResume(props) {
             setButton(true);
         }
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -197,8 +196,6 @@ function ViewResume(props) {
         updateStatus();
         fetchStatus();
     }, []);
-
-    
 
     return (
         <Grid container spacing={2} justifyContent='center' className={classes.wrapper}>
@@ -208,9 +205,6 @@ function ViewResume(props) {
                     <Skeleton variant="rect" height={118} />
                 </div>
             ) : (
-
-
-
                 <Grid item xs={8} justifyContent='center'>
 
                     <div id="myPage">
@@ -222,8 +216,7 @@ function ViewResume(props) {
                                 )}
                                 {status === 'decline' &&(
                                     <Chip label=" Declined" color="primary" style={{backgroundColor:red[600]}} />
-                                )}
-                                
+                                )}   
                             </Typography>
                             
                             <Typography variant="subtitle1" component="div" color="textPrimary">
@@ -240,7 +233,6 @@ function ViewResume(props) {
                                 EDUCATION
                             </Typography>
                             <>
-
                                 <Timeline>
                                     {[...resume.educations].sort((a, b) => a.id < b.id ? 1 : -1).map((e, index) => {
                                         return (
@@ -269,7 +261,6 @@ function ViewResume(props) {
                                             </>
                                         )
                                     })}
-
                                 </Timeline>
                             </>
                             <Typography variant="h5" component="div" color="textPrimary" className={classes.content}>
@@ -283,7 +274,6 @@ function ViewResume(props) {
                                             <Typography key={index} component='li' variant="subtitle2" >
                                                 {s.skillName}
                                             </Typography>
-
                                         )
                                     })}
                                 </>

@@ -27,11 +27,14 @@ const EditCompanyProfile = (props) => {
         companyName: '',
         companyNameTH: '',
         address: '',
-        telephoneNumber: '',
+        telephoneNumber: null,
         contactEmail: '',
         contactPerson: '',
         typeOfBusiness: ''
     });
+
+    const [mobileError, setMobileError] = useState(false);
+    const [submit, setSubmit] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -133,6 +136,24 @@ const EditCompanyProfile = (props) => {
     const classes = useStyles();
 
     const changeHandler = e => {
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        let value = e.target.value;
+        if(e.target.name === "telephoneNumber"){
+            if(!pattern.test(e.target.value)){
+                setMobileError(true);
+            }else if(value.length < 10 || value.length > 10){
+                setMobileError(true);
+            }else{
+                setMobileError(false);
+            }
+        }
+
+        const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+        if (onlyNums.length < 10) {
+            setCompanyUpdateRequest({ ...companyUpdateRequest, [e.target.name]: e.target.value });
+        } else {
+            setCompanyUpdateRequest({ ...companyUpdateRequest, [e.target.name]: e.target.value });
+        }
         setCompanyUpdateRequest({ ...companyUpdateRequest, [e.target.name]: e.target.value });
     };
     const handleUpdate = (e) => {
@@ -144,7 +165,6 @@ const EditCompanyProfile = (props) => {
                 Alert.error((error && error.message) || ('something went wrong'));
             });
     }
-
    
     console.log(props.currentUser);
 
@@ -169,15 +189,9 @@ const EditCompanyProfile = (props) => {
                             </Link>
                             <Link
                                 color="inherit"
-                                href="/user/profile/me"
-                                className={classes.link}
-                            >
-                                <WhatshotIcon className={classes.icon} />
-                                My Company
-                            </Link>
-                            <Link
-                                color="inherit"
-                                href="/user/company/edit"
+                                onClick={() => {
+                                    window.location.reload();
+                                }} 
                                 className={classes.link}
                             >
                                 <WhatshotIcon className={classes.icon} />
@@ -217,6 +231,7 @@ const EditCompanyProfile = (props) => {
                     <br></br>
 
                     <Paper className={classes.paper2}>
+                        <form onSubmit={handleUpdate}>
                         <Grid container spacing={0}>
                             <Typography gutterBottom variant="h6" component="h2">
                                 <b>Edit My Company</b>
@@ -233,12 +248,13 @@ const EditCompanyProfile = (props) => {
                                         defaultValue={company.companyName}
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl required className={classes.textBox}>
                                     <TextField
                                         id="CompanyNameTH"
-                                        name="CompanyNameTH"
+                                        name="companyNameTH"
                                         label="Company name in Thai"
                                         defaultValue={company.companyNameTH}
                                         variant="outlined"
@@ -257,6 +273,7 @@ const EditCompanyProfile = (props) => {
                                         inputProps={{
                                             id: 'typeOfBusiness',
                                         }}
+                                        required
 
                                     >
                                         <option value={company.typeOfBusiness}>{company.typeOfBusiness}</option>
@@ -322,11 +339,14 @@ const EditCompanyProfile = (props) => {
                                 <FormControl required variant="outlined" className={classes.textBox}>
                                     <TextField
                                         label="Telephone number"
-                                        name="TelephoneNumber"
+                                        name="telephoneNumber"
                                         id="Telephone"
                                         defaultValue={company.telephoneNumber}
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
+                                        error={mobileError}
+                                        helperText={mobileError ? "Please input correct format of phone number" : ""}
                                     />
                                 </FormControl>
                                 <FormControl required variant="outlined" className={classes.textBox}>
@@ -352,6 +372,7 @@ const EditCompanyProfile = (props) => {
                                         defaultValue={company.address}
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
                             </Grid>
@@ -364,7 +385,8 @@ const EditCompanyProfile = (props) => {
                                 variant="contained"
                                 color="primary"
                                 startIcon={<CloudUploadIcon />}
-                                onClick={handleUpdate}
+                                type="submit"
+                                disabled={mobileError}
                             >
                                 SAVE
                             </Button>
@@ -376,7 +398,7 @@ const EditCompanyProfile = (props) => {
                                 color="secondary"
                                 startIcon={<DeleteIcon />}
                                 onClick={() => {
-                                    Alert.success("You're successfully update your profile");
+                                 
                                     window.location.reload();
                                 }}
                             >
@@ -384,6 +406,7 @@ const EditCompanyProfile = (props) => {
                             </Button>
 
                         </Grid>
+                        </form>
                     </Paper>
                     <br></br>
                 </div>

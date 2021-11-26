@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,14 +20,22 @@ public class Experience implements Serializable {
     @NotNull
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String title;
 
+    @NotNull
+    @NotBlank
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fromDate;
 
+    @NotNull
+    @NotBlank
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate toDate;
 
+    @NotNull
+    @NotBlank
     private String companyName;
 
     private String description;

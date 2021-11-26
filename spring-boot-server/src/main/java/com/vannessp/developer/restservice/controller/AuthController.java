@@ -9,6 +9,7 @@ import com.vannessp.developer.restservice.model.User.ERole;
 import com.vannessp.developer.restservice.model.User.Role;
 import com.vannessp.developer.restservice.model.User.User;
 import com.vannessp.developer.restservice.payload.request.LoginRequest;
+import com.vannessp.developer.restservice.payload.request.ResetPasswordRequest;
 import com.vannessp.developer.restservice.payload.request.SignUpRequest;
 import com.vannessp.developer.restservice.payload.response.ApiResponse;
 import com.vannessp.developer.restservice.payload.response.AuthResponse;
@@ -18,9 +19,11 @@ import com.vannessp.developer.restservice.repository.RoleRepository;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import com.vannessp.developer.restservice.security.TokenProvider;
 import com.vannessp.developer.restservice.services.UserServices;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +31,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashSet;
@@ -64,22 +70,33 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new BadRequestException("This email is never registered with us"));
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+        if(!user.getEmailVerified()){
+            throw new BadRequestException("This Email is not verify please check your email before login");
+        }
+        String token;
+        try {
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        String token = tokenProvider.createToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            token = tokenProvider.createToken(authentication);
+
+        } catch (BadCredentialsException e) {
+            throw new BadRequestException("Incorrect password");
+        }
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) throws MessagingException, UnsupportedEncodingException {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new BadRequestException("Email address already in use.");
         }
@@ -99,6 +116,9 @@ public class AuthController {
 
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        String randomToken = RandomString.make(64);
+        user.setVerificationCode(randomToken);
 
         String strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -142,7 +162,7 @@ public class AuthController {
         user.setUpdatedAt(date);
         User result = userRepository.save(user);
 
-
+        userServices.sendVerificationEmail(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
@@ -152,4 +172,14 @@ public class AuthController {
                 .body(new ApiResponse(true, "User registered successfully@"));
     }
 
+    @RequestMapping(value = "verify", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> processVerification(@Valid @RequestParam("code") String code) {
+
+        if (userServices.verify(code)) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
+
+    }
 }

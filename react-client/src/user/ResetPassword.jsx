@@ -36,12 +36,12 @@ function ResetPasswordForm() {
     if (data.password !== data.confirmPassword) {
       Alert.error("Password doesn't match — check it out!");
     } else {
-      const query = new URLSearchParams(this.props.location.search);
+      const query = new URLSearchParams(props.location.search);
       const token = query.get('token');
       resetpassword(data, token)
         .then(response => {
           Alert.success("You have success update your new password");
-          this.props.history.push("/login");
+          props.history.push("/login");
         }).catch(error => {
           Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
         });

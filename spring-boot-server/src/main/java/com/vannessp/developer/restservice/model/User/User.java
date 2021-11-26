@@ -41,6 +41,10 @@ public class User implements Serializable {
     @JsonIgnore
     private String resetPasswordToken;
 
+    @Column
+    @JsonIgnore
+    private String verificationCode;
+
     @JsonIgnore
     @NotNull
     private String password;
@@ -180,5 +184,13 @@ public class User implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 }

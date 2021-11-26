@@ -5,6 +5,7 @@ import com.vannessp.developer.restservice.model.User.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -17,18 +18,28 @@ public class Company implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String companyName;
 
+    @NotNull
+    @NotBlank
     private String companyNameTH;
 
+    @NotNull
+    @NotBlank
     private String typeOfBusiness;
 
+    @NotNull
+    @NotBlank
     private String telephoneNumber;
 
     private String contactName;
 
     private String logo;
 
+    @NotNull
+    @NotBlank
     private String address;
 
     @Email

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import defaultLogo from '../../images/default-job-logo.png'
-import { getApplyCandidate, updateViewd } from '../../api/CompanyAPI';
+import { getAllJobs, filterJob, getJobFilter } from '../../api/JobAPI';
 import LoadingIndicator from '../../common/LoadingIndicator';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -11,6 +11,9 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import { purple, blue } from '@material-ui/core/colors';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import {
   Grid,
   Paper,
@@ -21,23 +24,23 @@ import {
 } from '@material-ui/core';
 import Moment from 'moment';
 import { Link } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import Alert from "react-s-alert";
-import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
-import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
-import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
+import SearchFilter from '../SearchBar/SerachFilter';
+import { getAllCandidate, getResumeById } from '../../api/CandidateAPI';
 
 Moment.locale('th');
 
-export default function AppliedList(props) {
-
+export default function CandidateListing(props) {
+  
   const [candidates, setCandidate] = useState([]);
   const [loading, setLoading] = useState(true);
-  const jobId = props.jobId;
+  const [isFilter, setIsFilter] = useState(false);
 
-  console.log(jobId);
-
-  const history = useHistory();
+  const [jobFilter, setJobFilter] = useState({
+    jobType: "Internship",
+    jobCategory: null,
+    location: null,
+  });
+  
 
   const useStyles = makeStyles((theme) => ({
     margin: {
@@ -111,43 +114,30 @@ export default function AppliedList(props) {
     },
   }))(Button);
 
-  // console.log("cid : " +id);
-  //   console.log("jid : " +jobId);
-  //   updateViewd(id, jobId)
-  //     .then(response => {
-  //       Alert.success("Go to view resume page")
-  //       //history.push(`/view-resume/${id}`);
-  //     }).catch(error => {
-  //       Alert.error((error ) || ('something went wrong'));
-  //     });
 
-  const handleUpdate = (cid) => {
-    updateViewd(cid, jobId)
-      .then(response => {
-        console.log(response);
-        Alert.success("Go to view resume page")
-        //history.push(`/view-resume/${id}`);
-      }).catch(error => {
-        Alert.error((error) || ('something went wrong'));
-      });
-
-  }
-
+ 
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getApplyCandidate(jobId)
+      const result = await getAllCandidate();
       setLoading(false);
-      setCandidate(result);
+      setCandidate(result)
+    };
+    fetchData();
+  }, []);
+
+  let recentInstitute = null
+  candidates.map((c) => c.resume.educations.sort((a, b) => a.id > b.id ? 1 : -1).map((e, i, educations) => {
+    if(i + 1 === educations.length){
+      recentInstitute = e.institute
     }
-    fetchData().catch( __ => {
-      setLoading(false)
-    });
-  }, [jobId]);
+
+  }))
+  
 
   return (
     <>
-       {loading ? (
+      {loading ? (
         <LoadingIndicator />
       ) : (
         <Box mt={12}>
@@ -169,7 +159,7 @@ export default function AppliedList(props) {
                                 alt="complex"
                                 src={defaultLogo}
                                 onClick={() => {
-                                  history.push(`/view-profile/${candidate.id}`);
+                                  props.history.push(`/view-profile/${candidate.id}`);
                                 }} 
                                 
                               />
@@ -180,7 +170,7 @@ export default function AppliedList(props) {
                               <Grid item x>
                                 <Typography gutterBottom variant="h6" component="h2" className={classes.margin}>
                                   <Link  href="" onClick={() => {
-                                          history.push(`/view-profile/${candidate.id}`);
+                                          props.history.push(`/view-profile/${candidate.id}`);
                                           }} color="inherit" underline="none">
                                     {candidate.resume.positionTitle}
                                   </Link>
@@ -225,7 +215,7 @@ export default function AppliedList(props) {
                                   className={classes.margin}
                                   variant="contained"
                                   onClick={() => {
-                                    history.push(`/view-profile/${candidate.id}`);
+                                    props.history.push(`/view-profile/${candidate.id}`);
                                   }}
 
                                 >

@@ -4,6 +4,7 @@ import com.vannessp.developer.restservice.exception.BadRequestException;
 import com.vannessp.developer.restservice.exception.ResourceNotFoundException;
 import com.vannessp.developer.restservice.model.Candidate.Candidate;
 import com.vannessp.developer.restservice.model.Candidate.JobApplication;
+import com.vannessp.developer.restservice.model.Candidate.Resume.Resume;
 import com.vannessp.developer.restservice.model.Company.Company;
 import com.vannessp.developer.restservice.model.Company.Job;
 import com.vannessp.developer.restservice.model.User.User;
@@ -13,6 +14,7 @@ import com.vannessp.developer.restservice.payload.response.ApiResponse;
 import com.vannessp.developer.restservice.repository.CompanyRepository;
 import com.vannessp.developer.restservice.repository.JobApplicationRepository;
 import com.vannessp.developer.restservice.repository.JobRepository;
+import com.vannessp.developer.restservice.repository.Resume.ResumeRepository;
 import com.vannessp.developer.restservice.repository.UserRepository;
 import com.vannessp.developer.restservice.security.CurrentUser;
 import com.vannessp.developer.restservice.security.UserPrincipal;
@@ -45,6 +47,9 @@ public class CompanyController {
     @Autowired
     private UserServices userServices;
 
+    @Autowired
+    private ResumeRepository resumeRepository;
+
     @GetMapping("/all")
     public List<Company> getAllCompany(){
         return companyRepository.findAll();
@@ -74,6 +79,7 @@ public class CompanyController {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
         Company company = user.getCompany();
         company.setCompanyName(companyProfileRequest.getCompanyName());
+        company.setCompanyNameTH(companyProfileRequest.getCompanyNameTH());
         company.setAddress(companyProfileRequest.getAddress());
         company.setTypeOfBusiness(companyProfileRequest.getTypeOfBusiness());
         company.setTelephoneNumber(companyProfileRequest.getTelephoneNumber());
@@ -108,6 +114,9 @@ public class CompanyController {
         job.setCompany(company);
         job.setCreatedAt(date);
         job.setUpdatedAt(date);
+        job.setGender(jobRequest.getGender());
+        job.setExperience(jobRequest.getExperience());
+        job.setEducationQualification(jobRequest.getEducationQualification());
         Job newJob = jobRepository.save(job);
 
         return ResponseEntity.ok(newJob);
@@ -139,6 +148,9 @@ public class CompanyController {
         job.setContactPersonName(jobRequest.getContactPersonName());
         job.setCompany(company);
         job.setUpdatedAt(date);
+        job.setGender(jobRequest.getGender());
+        job.setExperience(jobRequest.getExperience());
+        job.setEducationQualification(jobRequest.getEducationQualification());
 
         Job updatedJob = jobRepository.save(job);
 
@@ -194,6 +206,8 @@ public class CompanyController {
     @PutMapping("/update-status/viewed/candidate/{cId}/{jId}")
     @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<?> updateViewedStatus(@PathVariable Long cId, @PathVariable Long jId) {
+        Resume resume = resumeRepository.findByCandidateId(cId)
+                .orElseThrow(() -> new BadRequestException("Resume not found"));
 
         JobApplication jobApplication = jobApplicationRepository.findByCandidateIdAndJobId(cId, jId)
                 .orElseThrow(() -> new BadRequestException("Job application error"));
@@ -205,6 +219,8 @@ public class CompanyController {
         if (status == null) {
             jobApplication.setViewDate(date);
             jobApplication.setStatus("viewed");
+            resume.setViewCount(resume.getViewCount()+1);
+            resumeRepository.save(resume);
             jobApplicationRepository.save(jobApplication);
         }
 

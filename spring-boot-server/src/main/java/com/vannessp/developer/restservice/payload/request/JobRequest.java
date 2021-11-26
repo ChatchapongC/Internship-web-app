@@ -1,28 +1,55 @@
 package com.vannessp.developer.restservice.payload.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class JobRequest {
 
+    @NotNull
+    @NotBlank
     private String title;
 
+    @NotNull
+    @NotBlank
     private String type;
 
+    @NotNull
+    @NotBlank
     private String category;
 
     private String availablePosition;
 
     private String allowance;
 
+    @NotNull
+    @NotBlank
     private String workingTime;
 
     private String workingHoliday;
 
+    @NotNull
+    @NotBlank
     private String location;
 
     private String description;
 
+    @NotNull
+    @NotBlank
     private String contactNumber;
 
     private String contactPersonName;
+
+    @NotNull
+    @NotBlank
+    private String educationQualification;
+
+    @NotNull
+    @NotBlank
+    private String gender;
+
+    @NotNull
+    @NotBlank
+    private String experience;
 
     public String getTitle() {
         return title;
@@ -110,5 +137,29 @@ public class JobRequest {
 
     public void setContactPersonName(String contactPersonName) {
         this.contactPersonName = contactPersonName;
+    }
+
+    public String getEducationQualification() {
+        return educationQualification;
+    }
+
+    public void setEducationQualification(String educationQualification) {
+        this.educationQualification = educationQualification;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
 }

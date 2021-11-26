@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl, InputAdornment, TextField } from "@material-ui/core";
+import { FormControl, InputAdornment, MenuItem, TextField } from "@material-ui/core";
 import dateFormat from "dateformat";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Link from "@material-ui/core/Link";
@@ -30,8 +30,13 @@ const JobPosting = (props) => {
         location: null,
         description: null,
         contactNumber: null,
-        contactPersonName: null
+        contactPersonName: null,
+        educationQulification: null,
+        gender : null,
+        experience : null
     });
+
+    const [mobileError, setMobileError] = useState(false);
 
     const history = useHistory();
 
@@ -133,16 +138,39 @@ const JobPosting = (props) => {
     const classes = useStyles();
 
     const changeHandler = e => {
-        setJobDetails({ ...jobDetails, [e.target.name]: e.target.value });
+        var pattern = new RegExp(/^[0-9\b]+$/);
+        let value = e.target.value;
+        if(e.target.name === "contactNumber"){
+            if(!pattern.test(e.target.value)){
+                setMobileError(true);
+            }else if(value.length < 10 || value.length > 10){
+                setMobileError(true);
+            }else{
+                setMobileError(false);
+            }
+        }
+
+        const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+        if (onlyNums.length < 10) {
+            setJobDetails({ ...jobDetails, [e.target.name]: e.target.value });
+        } else {
+            setJobDetails({ ...jobDetails, [e.target.name]: e.target.value });
+        }
     };
+
     const handleUpdate = (e) => {
-        createJob(jobDetails)
-            .then(response => {
-                Alert.success("You're successfully create a job");
-                history.goBack();
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        e.preventDefault();
+        if (company.companyName === "" || company.companyName === null || company.companyName === undefined){
+            Alert.error("Please update your company profile before post a job!")
+        } else {
+            createJob(jobDetails)
+                .then(response => {
+                    Alert.success("You're successfully create a job");
+                    history.push("/jobposted");
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
     }
 
     return (
@@ -163,7 +191,9 @@ const JobPosting = (props) => {
                             </Link>
                             <Link
                                 color="inherit"
-                                href="/user/company/create-job"
+                                onClick={() => {
+                                    window.location.reload();
+                                }} 
                                 className={classes.link}
                             >
                                 <WhatshotIcon className={classes.icon} />
@@ -203,6 +233,7 @@ const JobPosting = (props) => {
                     <br></br>
 
                     <Paper className={classes.paper2}>
+                        <form onSubmit={handleUpdate}>
                         <Grid container spacing={0}>
                             <Typography gutterBottom variant="h6" component="h2">
                                 <b>Creat a new job</b>
@@ -218,6 +249,7 @@ const JobPosting = (props) => {
                                         label="Job Title"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
 
@@ -229,8 +261,9 @@ const JobPosting = (props) => {
                                         name="type"
                                         label="Job Type"
                                         inputProps={{
-                                            id: 'gender-required',
+                                            id: 'jobType-required',
                                         }}
+                                        required
 
                                     >
                                         <option value=""></option>
@@ -255,6 +288,7 @@ const JobPosting = (props) => {
                                         inputProps={{
                                             id: 'category-required',
                                         }}
+                                        required
 
                                     >
                                         <option value=""></option>
@@ -270,6 +304,7 @@ const JobPosting = (props) => {
                                         name="availablePosition"
                                         label="Job Available Position"
                                         variant="outlined"
+                                        required
                                         onChange={changeHandler}
                                     />
                                 </FormControl>
@@ -278,12 +313,14 @@ const JobPosting = (props) => {
                         <br />
                         <Grid container spacing={0} className={classes.content}>
                             <Grid item xs={6}>
-
                                 <FormControl required variant="outlined" className={classes.textBox}>
                                     <TextField
                                         label="Working Time"
                                         id="workingTime"
                                         variant="outlined"
+                                        onChange={changeHandler}
+                                        name="workingTime"
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl required variant="outlined" className={classes.textBox}>
@@ -291,6 +328,8 @@ const JobPosting = (props) => {
                                         label="Working Holiday"
                                         id="workingHoliday"
                                         variant="outlined"
+                                        onChange={changeHandler}
+                                        name="workingHoliday"
                                     />
                                 </FormControl>
                             </Grid>
@@ -303,6 +342,7 @@ const JobPosting = (props) => {
                                         label="Working Location"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl required variant="outlined" className={classes.textBox}>
@@ -312,6 +352,7 @@ const JobPosting = (props) => {
                                         label="Allowance"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
                             </Grid>
@@ -324,6 +365,9 @@ const JobPosting = (props) => {
                                         id="mobile"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
+                                        error={mobileError}
+                                        helperText={mobileError ? "Please correct this field" : ""}
                                     />
                                 </FormControl>
                                 <FormControl required variant="outlined" className={classes.textBox}>
@@ -338,6 +382,57 @@ const JobPosting = (props) => {
                             </Grid>
 
                             <Grid item xs={6}>
+                                <FormControl required variant="outlined" className={classes.textBox}>
+                                    <InputLabel id="educationQualification">Education qualification</InputLabel>
+                                    <Select
+                                        labelId="educationQualification"
+                                        id="educationQualification"
+                                        name="educationQualification"
+                                        label="Education qualification"
+                                        onChange={changeHandler}
+                                    >
+                                        <MenuItem value={"Any"}>Any</MenuItem>
+                                        <MenuItem value={"Primary"}>Primary</MenuItem>
+                                        <MenuItem value={"Secondary"}>Secondary</MenuItem>
+                                        <MenuItem value={"Certificate"}>Certificate</MenuItem>
+                                        <MenuItem value={"Diploma"}>Diploma</MenuItem>
+                                        <MenuItem value={"Bachelor degree"}>Bachelor degree</MenuItem>
+                                        <MenuItem value={"Master degree"}>Master degree</MenuItem>
+                                        <MenuItem value={"Doctorate degree"}>Doctorate degree</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl required variant="outlined" className={classes.textBox}>
+                                    <InputLabel id="gender">Gender</InputLabel>
+                                    <Select
+                                        labelId="gender"
+                                        id="gender"
+                                        name="gender"
+                                        label="gender"
+                                        onChange={changeHandler}
+                                    >
+                                        <MenuItem value={"Any"}>Any</MenuItem>
+                                        <MenuItem value={"Male"}>Male</MenuItem>
+                                        <MenuItem value={"Female"}>Female</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <FormControl required variant="outlined" className={classes.addressBox}>
+                                    <TextField
+                                        multiline
+                                        row={10}
+                                        label="Experience"
+                                        id="experience"
+                                        name="experience"
+                                        variant="outlined"
+                                        onChange={changeHandler}
+                                        required
+                                    />
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={6}>
                                 <FormControl required variant="outlined" className={classes.addressBox}>
                                     <TextField
                                         multiline
@@ -347,6 +442,7 @@ const JobPosting = (props) => {
                                         name="description"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
                                     />
                                 </FormControl>
                             </Grid>
@@ -359,7 +455,8 @@ const JobPosting = (props) => {
                                 variant="contained"
                                 color="primary"
                                 startIcon={<CloudUploadIcon />}
-                                onClick={handleUpdate}
+                                type="submit"
+                                disabled={mobileError}
                             >
                                 SAVE
                             </Button>
@@ -379,6 +476,7 @@ const JobPosting = (props) => {
                             </Button>
 
                         </Grid>
+                        </form>
                     </Paper>
                     <br></br>
                 </div>

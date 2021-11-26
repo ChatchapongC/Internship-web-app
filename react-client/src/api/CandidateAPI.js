@@ -78,6 +78,13 @@ export function getResumeById(id) {
     });
 }
 
+export function getViewResumeCount() {
+    return request({
+        url: API_BASE_URL + "/candidate/view-resume-count" ,
+        method: 'GET',
+    });
+}
+
 export function getEducation() {
     return request({
         url: API_BASE_URL + "/candidate/resume/education",
@@ -204,5 +211,26 @@ export function deleteLanguage(languageId) {
         method: 'DELETE',
     });
 }
+
+export function getAllCandidate() {
+    return request({
+        url: API_BASE_URL + "/candidate/all",
+        method: 'GET',
+    });
+}
+
+export function getFavoriteJob() {
+    return request({
+        url: API_BASE_URL + "/candidate/favorite-job",
+        method: 'GET',
+    });
+}
+
+export function updateFavoriteJob(id) {
+    return request({
+        url: API_BASE_URL + "/candidate/favorite-job/" + id,
+        method: 'PUT',
+    });
+} 
 
 

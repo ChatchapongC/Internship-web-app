@@ -85,6 +85,13 @@ export function Navbar(props) {
                 </NavLinks>
               </NavItem>
               <NavItem>
+              {roles.includes('ROLE_COMPANY') && (     
+                <NavLinks to='/candidate-listing' onClick={closeMobileMenu}>
+                  Candidate
+                </NavLinks>
+              )}
+              </NavItem>
+              <NavItem>
                 <NavLinks to='/about-us' onClick={closeMobileMenu}>
                   About Us
                 </NavLinks>

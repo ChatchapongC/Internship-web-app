@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
-import defaultLogo from '../../images/default-job-logo.png'
-import { getAllJobs, filterJob, getJobFilter } from '../../api/JobAPI';
-import LoadingIndicator from '../../common/LoadingIndicator';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import BusinessIcon from '@material-ui/icons/Business';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import React, { useState, useEffect, useContext, createContext } from "react";
+import defaultLogo from "../../images/default-job-logo.png";
+import { getAllJobs, filterJob, getJobFilter } from "../../api/JobAPI";
+import LoadingIndicator from "../../common/LoadingIndicator";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import BusinessIcon from "@material-ui/icons/Business";
+import PermIdentityIcon from "@material-ui/icons/PermIdentity";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import { purple, blue } from '@material-ui/core/colors';
+import { purple, blue } from "@material-ui/core/colors";
 import {
   Grid,
   Paper,
@@ -18,25 +18,29 @@ import {
   ButtonBase,
   Badge,
   Box,
-} from '@material-ui/core';
-import Moment from 'moment';
-import { Link } from '@material-ui/core';
-import SearchFilter from '../SearchBar/SerachFilter';
+} from "@material-ui/core";
+import Moment from "moment";
+import { Link } from "@material-ui/core";
+import SearchFilter from "../SearchBar/SerachFilter";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { IconButton } from "@mui/material";
+import { updateFavoriteJob, getFavoriteJob } from "../../api/CandidateAPI";
+import Alert from "react-s-alert";
 
-Moment.locale('th');
+Moment.locale("th");
 
 export default function Joblist(props) {
-  
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFilter, setIsFilter] = useState(false);
+  const [favorite, setFavorite] = useState([]);
 
   const [jobFilter, setJobFilter] = useState({
     jobType: "Internship",
     jobCategory: null,
     location: null,
   });
-  
 
   const useStyles = makeStyles((theme) => ({
     margin: {
@@ -55,18 +59,18 @@ export default function Joblist(props) {
     customBadge: {
       marginLeft: theme.spacing(6),
       backgroundColor: purple[300],
-      color: "white"
+      color: "white",
     },
     logo: {
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
     },
     jobBox: {
       padding: theme.spacing(2),
       marginBottom: 20,
       width: 850,
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down("md")]: {
         maxWidth: 300,
       },
     },
@@ -76,19 +80,18 @@ export default function Joblist(props) {
       flex: "1 0 auto",
       height: 500,
       width: 300,
-
     },
     image: {
       width: 128,
       height: 128,
-      borderRadius: "50%"
+      borderRadius: "50%",
     },
     img: {
       margin: "auto",
       display: "block",
       maxWidth: "100%",
       maxHeight: "100%",
-      borderRadius: "50%"
+      borderRadius: "50%",
     },
     imgs: {
       margin: "auto",
@@ -103,40 +106,57 @@ export default function Joblist(props) {
     root: {
       color: theme.palette.getContrastText(purple[500]),
       backgroundColor: purple[500],
-      '&:hover': {
+      "&:hover": {
         backgroundColor: purple[700],
       },
-      border: '10px',
+      border: "10px",
     },
   }))(Button);
 
+  const handleClickFavourite = (id) => {
+    updateFavoriteJob(id).then((res) => {
+      Alert.success(
+        "Added to favorite"
+      );
+    })
+    .catch((error) => {
+      Alert.error(
+        error.message
+      )
+    })
+  }
 
-  console.log(jobFilter.location)
-  console.log(jobFilter.jobType)
-  console.log(jobFilter.jobCategory)
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await getJobFilter(jobFilter);
       setLoading(false);
-      setJobs(result)
+      setJobs(result);
     };
     fetchData();
   }, [jobFilter]);
 
-  console.log(jobFilter)
-  
+  console.log(favorite)
+
   return (
     <>
       {loading ? (
         <LoadingIndicator />
       ) : (
         <Box mt={12}>
-          <Grid container className={classes.root} justifyContent="center" alignItems="center">
+          <Grid
+            container
+            className={classes.root}
+            justifyContent="center"
+            alignItems="center"
+          >
             <Grid item xl>
               <Grid container justifyContent="center" spacing={2}>
                 <Grid item>
-                  <SearchFilter setJobFilter={setJobFilter} jobFilter={jobFilter}/>
+                  <SearchFilter
+                    setJobFilter={setJobFilter}
+                    jobFilter={jobFilter}
+                  />
                 </Grid>
                 <Grid item>
                   {jobs.map((job) => {
@@ -150,54 +170,109 @@ export default function Joblist(props) {
                                 alt="complex"
                                 src={defaultLogo}
                                 onClick={() => {
-                                  props.history.push(`/company/${job.company.id}`);
-                                }} 
-                                
+                                  props.history.push(
+                                    `/company/${job.company.id}`
+                                  );
+                                }}
                               />
                             </ButtonBase>
                           </Grid>
                           <Grid item xs={12} sm container>
-                            <Grid item xs container direction="column" spacing={2}>
+                            <Grid
+                              item
+                              xs
+                              container
+                              direction="column"
+                              spacing={2}
+                            >
                               <Grid item x>
-                                <Typography gutterBottom variant="h6" component="h2" className={classes.margin}>
-                                  <Link  href="" onClick={() => {
-                                          props.history.push(`/job-details/${job.id}`);
-                                          }} color="inherit" underline="none">
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  className={classes.margin}
+                                >
+                                  <Link
+                                    href=""
+                                    onClick={() => {
+                                      props.history.push(
+                                        `/job-details/${job.id}`
+                                      );
+                                    }}
+                                    color="inherit"
+                                    underline="none"
+                                  >
                                     {job.title}
                                   </Link>
                                   <Badge
                                     classes={{ badge: classes.customBadge }}
                                     className={classes.customBadge}
                                     badgeContent={job.jobtype}
-                                  >
-                                  </Badge>
+                                  ></Badge>
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                  <BusinessIcon fontSize="small" className={classes.iconMargin}></BusinessIcon>
-                                  <Link href=""
-                                        color="inherit" 
-                                        underline="none"
-                                        onClick={() => {
-                                          props.history.push(`/company/${job.company.id}`);
-                                        }} 
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+                                  <BusinessIcon
+                                    fontSize="small"
+                                    className={classes.iconMargin}
+                                  ></BusinessIcon>
+                                  <Link
+                                    href=""
+                                    color="inherit"
+                                    underline="none"
+                                    onClick={() => {
+                                      props.history.push(
+                                        `/company/${job.company.id}`
+                                      );
+                                    }}
                                   >
                                     {job.company.companyName}
                                   </Link>
-                                  
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                  <LocationOnIcon fontSize="small" className={classes.iconMargin}></LocationOnIcon>{" "}
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+                                  <LocationOnIcon
+                                    fontSize="small"
+                                    className={classes.iconMargin}
+                                  ></LocationOnIcon>{" "}
                                   {job.location}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                  <PermIdentityIcon fontSize="small" className={classes.iconMargin}></PermIdentityIcon>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+                                  <PermIdentityIcon
+                                    fontSize="small"
+                                    className={classes.iconMargin}
+                                  ></PermIdentityIcon>
                                   {job.availablePosition} position
                                 </Typography>
                               </Grid>
                             </Grid>
                             <Grid item>
                               <Typography variant="subtitle1">
-                                {Moment(job.updatedAt).format('MMMM DD,yyy HH:mm:SS')}
+                                {Moment(job.updatedAt).format(
+                                  "MMMM DD,yyy HH:mm:SS"
+                                )}
                               </Typography>
                               <br></br>
                               <Typography>
@@ -206,19 +281,37 @@ export default function Joblist(props) {
                                   className={classes.margin}
                                   variant="contained"
                                   onClick={() => {
-                                    props.history.push(`/job-details/${job.id}`);
+                                    props.history.push(
+                                      `/job-details/${job.id}`
+                                    );
                                   }}
-
                                 >
                                   VIEW
                                 </ColorButton>
+                                <IconButton>
+                                  <FavoriteBorderRoundedIcon onClick={() => handleClickFavourite( `${job.id}`)}/>
+                                </IconButton>
                               </Typography>
+
                               <br></br>
                               <Grid item>
-                                <Typography variant="body2" style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                  Share: <FacebookIcon style={{ color: blue[900] }}></FacebookIcon>{" "}
-                                  <TwitterIcon style={{ color: blue[300], margin: "0px 5px" }}></TwitterIcon>{" "}
-                                  <LinkedInIcon style={{ color: blue[800] }}></LinkedInIcon>
+                                <Typography
+                                  variant="body2"
+                                  style={{ display: "flex", flexWrap: "wrap" }}
+                                >
+                                  Share:{" "}
+                                  <FacebookIcon
+                                    style={{ color: blue[900] }}
+                                  ></FacebookIcon>{" "}
+                                  <TwitterIcon
+                                    style={{
+                                      color: blue[300],
+                                      margin: "0px 5px",
+                                    }}
+                                  ></TwitterIcon>{" "}
+                                  <LinkedInIcon
+                                    style={{ color: blue[800] }}
+                                  ></LinkedInIcon>
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -232,10 +325,7 @@ export default function Joblist(props) {
             </Grid>
           </Grid>
         </Box>
-
-
       )}
     </>
   );
 }
-

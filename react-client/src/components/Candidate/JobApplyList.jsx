@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { Grid, Box } from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
-import { getJobHistory } from '../../api/CandidateAPI';
-import LoadingIndicator from '../../common/LoadingIndicator';
-import Moment from 'moment';
-import SideBar from '../Navigation/SideBar';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { lighten, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import DeleteIcon from "@material-ui/icons/Delete";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import { Grid, Box, Link } from "@material-ui/core";
+import { purple } from "@material-ui/core/colors";
+import { getJobHistory } from "../../api/CandidateAPI";
+import LoadingIndicator from "../../common/LoadingIndicator";
+import Moment from "moment";
+import SideBar from "../Navigation/SideBar";
+import { useHistory } from "react-router";
 
-
-Moment.locale('th');
+Moment.locale("th");
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -39,7 +39,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -55,15 +55,33 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'title', numeric: false, disablePadding: true, label: 'Job Titile' },
-  { id: 'companyName', numeric: true, disablePadding: false, label: 'Company' },
-  { id: 'applyDate', numeric: true, disablePadding: false, label: 'Apply Date' },
-  { id: 'viewDate', numeric: true, disablePadding: false, label: 'Viewed Date' },
-  { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
+  { id: "title", numeric: false, disablePadding: true, label: "Job Titile" },
+  { id: "companyName", numeric: true, disablePadding: false, label: "Company" },
+  {
+    id: "applyDate",
+    numeric: true,
+    disablePadding: false,
+    label: "Apply Date",
+  },
+  {
+    id: "viewDate",
+    numeric: true,
+    disablePadding: false,
+    label: "Viewed Date",
+  },
+  { id: "status", numeric: true, disablePadding: false, label: "Status" },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const {
+    classes,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -76,19 +94,19 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
+            inputProps={{ "aria-label": "select all desserts" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               <Typography component="div">
@@ -97,14 +115,15 @@ function EnhancedTableHead(props) {
                 </Box>
                 {orderBy === headCell.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </Typography>
             </TableSortLabel>
           </TableCell>
         ))}
-
       </TableRow>
     </TableHead>
   );
@@ -115,7 +134,7 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
@@ -126,17 +145,17 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   job_title: {
-    flex: '1 1 100%',
+    flex: "1 1 100%",
   },
 }));
 
@@ -151,11 +170,21 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.job_title} color="inherit" variant="subjob_title1" component="div">
+        <Typography
+          className={classes.job_title}
+          color="inherit"
+          variant="subjob_title1"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.job_title} variant="h6" id="tableTitle" component="div">
+        <Typography
+          className={classes.job_title}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
           Application History
         </Typography>
       )}
@@ -168,8 +197,7 @@ const EnhancedTableToolbar = (props) => {
         </Tooltip>
       ) : (
         <Tooltip job_title="Filter list">
-          <IconButton aria-label="filter list"
-            color="inherit">
+          <IconButton aria-label="filter list" color="inherit">
             <FilterListIcon />
           </IconButton>
         </Tooltip>
@@ -185,38 +213,36 @@ EnhancedTableToolbar.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: '100%',
+    width: "100%",
   },
   wrapper: {
-    marginTop: 30
+    marginTop: 30,
   },
   paperBox: {
-    width: '100%',
+    width: "100%",
     backgroundColor: purple[200],
     color: theme.palette.common.white,
     padding: 5,
-
   },
   paper: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing(2),
   },
   navBox: {
-    width: '12%',
-    marginRight: 20
-
+    width: "12%",
+    marginRight: 20,
   },
   table: {
     minWidth: 750,
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
@@ -224,22 +250,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable(props) {
   const classes = useStyles();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('company_name');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("company_name");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [jobList, setJobList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const roles = props.roles.map(r => r.name);
+  const roles = props.roles.map((r) => r.name);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await getJobHistory();
       setJobList(result);
       setLoading(false);
-
     };
     fetchData();
   }, []);
@@ -247,12 +272,10 @@ export default function EnhancedTable(props) {
   console.log(jobList);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -276,7 +299,7 @@ export default function EnhancedTable(props) {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -292,37 +315,37 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
+  const history = useHistory();
+
   const isSelected = (job_title) => selected.indexOf(job_title) !== -1;
 
   if (loading) {
-    return <LoadingIndicator />
+    return <LoadingIndicator />;
   }
 
   return (
-
-    <Grid container spacing={2} justifyContent='center' className={classes.wrapper}>
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      className={classes.wrapper}
+    >
       <Grid item xs={9}>
-        <Grid
-          container
-          spacing={3}
-          direction="row"
-        >
-          <Grid item xs={3} justifyContent='flex-start'>
+        <Grid container spacing={3} direction="row">
+          <Grid item xs={3} justifyContent="flex-start">
             <SideBar select={3} roles={roles} />
           </Grid>
 
           <Grid item>
             <Grid container justify="center" className={classes.wrapper}>
-
               <Paper className={classes.paperBox}>
-
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <Paper className={classes.paper}>
                   <TableContainer>
                     <Table
                       className={classes.table}
                       aria-labelledby="tableTitle"
-                      size='medium'
+                      size="medium"
                       aria-label="enhanced table"
                     >
                       <EnhancedTableHead
@@ -336,7 +359,10 @@ export default function EnhancedTable(props) {
                       />
                       <TableBody>
                         {stableSort(jobList, getComparator(order, orderBy))
-                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
                           .map((row, index) => {
                             const isItemSelected = isSelected(row.job_title);
                             const labelId = `enhanced-table-checkbox-${index}`;
@@ -344,7 +370,9 @@ export default function EnhancedTable(props) {
                             return (
                               <TableRow
                                 hover
-                                onClick={(event) => handleClick(event, row.job_title)}
+                                onClick={(event) =>
+                                  handleClick(event, row.job_title)
+                                }
                                 role="checkbox"
                                 aria-checked={isItemSelected}
                                 tabIndex={-1}
@@ -354,24 +382,47 @@ export default function EnhancedTable(props) {
                                 <TableCell padding="checkbox">
                                   <Checkbox
                                     checked={isItemSelected}
-                                    inputProps={{ 'aria-labelledby': labelId }}
+                                    inputProps={{ "aria-labelledby": labelId }}
                                   />
                                 </TableCell>
-                                <TableCell component="th" id={labelId} scope="row" padding="none">
-                                  {row.job.title}
+                                <TableCell
+                                  component="th"
+                                  id={labelId}
+                                  scope="row"
+                                  padding="none"
+                                >
+                                  <Link
+                                    href=""
+                                    onClick={() => {
+                                      history.push(
+                                        `/job-details/${row.job.id}`
+                                      );
+                                    }}
+                                    color="inherit"
+                                    underline="none"
+                                  >
+                                    {row.job.title}
+                                  </Link>
                                 </TableCell>
-                                <TableCell align="right">{row.job.company.companyName}</TableCell>
-                                <TableCell align="right">{Moment(row.applyDate).format('DD-MMMM-yyyy')}</TableCell>
-                                <TableCell align="right">{row.viewDate ? (
-                                  Moment(row.viewDate).format('DD-MMMM-yyyy')
-                                ) : (
-                                  <p>-</p>
-                                )}</TableCell>
-                                <TableCell align="right">{row.status}</TableCell>
+                                <TableCell align="right">
+                                  {row.job.company.companyName}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {Moment(row.applyDate).format("DD-MMMM-yyyy")}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.viewDate ? (
+                                    Moment(row.viewDate).format("DD-MMMM-yyyy")
+                                  ) : (
+                                    <p>-</p>
+                                  )}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.status}
+                                </TableCell>
                               </TableRow>
                             );
                           })}
-
                       </TableBody>
                     </Table>
                   </TableContainer>

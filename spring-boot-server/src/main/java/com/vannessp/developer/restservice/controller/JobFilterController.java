@@ -4,17 +4,14 @@ package com.vannessp.developer.restservice.controller;
 import com.vannessp.developer.restservice.model.Company.Company;
 import com.vannessp.developer.restservice.model.Company.Job;
 import com.vannessp.developer.restservice.payload.request.FilterRequest;
-import com.vannessp.developer.restservice.payload.request.Resume.JobFilterRequest;
+import com.vannessp.developer.restservice.payload.request.JobFilterRequest;
 import com.vannessp.developer.restservice.repository.CompanyRepository;
 import com.vannessp.developer.restservice.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/job-filter")

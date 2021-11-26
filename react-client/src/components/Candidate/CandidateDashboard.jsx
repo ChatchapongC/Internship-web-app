@@ -25,11 +25,11 @@ import ProfilePic from '../../images/default-job-logo.png'
 import { purple, amber } from '@material-ui/core/colors';
 import SideBar from '../Navigation/SideBar'
 import Calendar from 'react-calendar';
-import { getJobHistory } from '../../api/CandidateAPI';
+import { getFavoriteJob, getJobHistory, getResume, getViewResumeCount } from '../../api/CandidateAPI';
 import { Skeleton } from '@mui/material';
 import { Redirect, useHistory } from "react-router-dom";
-const drawerWidth = 240;
 
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -101,9 +101,23 @@ export default function CandidateDashBoard(props) {
     const [value, onChange] = useState(new Date());
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
-    const [job, setJob] = useState(0);
+    const [applyJobCount, setApplyJobCount] = useState(0);
+    const [favoriteJobCount, setFavoriteJobCount] = useState(0);
+    const [viewResumeCount, setViewResumeCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const steps = getSteps();
+    const [resumeCompleteness, setResumeCompleteness] = useState(0);
+
+    const [resume, setResume] = useState({
+        firstName: null,
+        lastName: null,
+        shortDescription: null,
+        positionTitle: null,
+        educations: [],
+        experiences: [],
+        languages: [],
+        skills: [],
+      });
 
     const isStepOptional = (step) => {
         return step === 1;
@@ -112,12 +126,61 @@ export default function CandidateDashBoard(props) {
     useEffect(() => {
         const fetchData = async () => {
             const result = await getJobHistory();
+            const resultFav = await getFavoriteJob();
+            const viewResumeCount = await getViewResumeCount();
+            const favCount = Object.keys(resultFav).length
             const count = Object.keys(result).length
-            setJob(count);
+            setApplyJobCount(count);
+            setViewResumeCount(viewResumeCount);
+            setFavoriteJobCount(favCount);
+            
             setLoading(false);
         };
         fetchData();
     }, []);
+
+    useEffect( () => {
+        const fetchData = async () => {
+          const res = await getResume();
+          setResume(res);
+          setLoading(false);
+        };
+        if(roles.includes('ROLE_CANDIDATE')){
+          fetchData();
+        }
+    },[])
+
+    useEffect(() => {
+        const countCompleteness = async () => {
+            if ( resume.firstName != null) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if(resume.lastName != null) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if ( resume.shortDescription != null) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if (resume.positionTitle != null) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if (resume.skills.length != 0) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if (resume.educations.length != 0) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if (resume.experiences.length != 0) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+    
+            } else if (resume.languages.length != 0) {
+                setResumeCompleteness(resumeCompleteness => resumeCompleteness + 12.5)
+            }
+        };
+
+        countCompleteness();
+
+      }, []);
 
     const isStepSkipped = (step) => {
         return skipped.has(step);
@@ -175,7 +238,7 @@ export default function CandidateDashBoard(props) {
                                     <Grid item xs={3} >
                                         <Paper className={classes.statusPaper}>
                                             <Typography variant="h5" component="div" color="textPrimary">
-                                                {job}
+                                                {applyJobCount}
                                             </Typography>
                                             <Typography variant="subtitle2" color={purple[100]}>
                                                 APPLIED JOB
@@ -185,7 +248,7 @@ export default function CandidateDashBoard(props) {
                                     <Grid item xs={3}>
                                         <Paper className={classes.statusPaper}>
                                             <Typography variant="h5" component="div" color="textPrimary">
-                                                3
+                                                {favoriteJobCount}
                                             </Typography>
                                             <Typography variant="subtitle2" color={purple[100]}>
                                                 FAVORITE JOB
@@ -195,7 +258,7 @@ export default function CandidateDashBoard(props) {
                                     <Grid item xs={3}>
                                         <Paper className={classes.statusPaper}>
                                             <Typography variant="h5" component="div" color="textPrimary">
-                                                2
+                                                {viewResumeCount}
                                             </Typography>
                                             <Typography variant="subtitle2" color={purple[100]}>
                                                 VIEWD RESUME
@@ -208,7 +271,7 @@ export default function CandidateDashBoard(props) {
                                     <Paper className={classes.profileStatusPaper}>
                                         Resume completion
                                         <Box position="relative">
-                                            <CircularProgress variant="determinate" value={43} size={150} style={{ 'color': amber[500] }} />
+                                            <CircularProgress variant="determinate" value={resumeCompleteness} size={150} style={{ 'color': amber[500] }} />
                                             <Box
                                                 top={0}
                                                 left={0}
@@ -220,14 +283,14 @@ export default function CandidateDashBoard(props) {
                                                 justifyContent="center"
                                             >
                                                 <Typography variant="h6" component="div" color="textSecondary">
-                                                    43%
+                                                    {resumeCompleteness}%
                                                 </Typography>
                                             </Box>
                                         </Box>
                                     </Paper>
                                 </Grid>
 
-                                <Grid item xs={3}>
+                                {/* <Grid item xs={3}>
                                     <Paper className={classes.applicationStatusPaper}>
                                         Application status
                                         Job1:
@@ -251,7 +314,7 @@ export default function CandidateDashBoard(props) {
                                         </Stepper>
 
                                     </Paper>
-                                </Grid>
+                                </Grid> */}
                             </Paper>
                         </Grid>
                     </Grid>

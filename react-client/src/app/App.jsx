@@ -36,6 +36,9 @@ import CompanyDashBoard from "../components/Company/CompanyDashboard.jsx";
 import AppliedList from "../components/Job/AppliedList.jsx";
 import ViewResume from "../components/Company/ViewResume.jsx"
 import JobFilter from "../components/Job/JobFilter.jsx";
+import CandidateListing from "../components/Candidate/CandidateListing.jsx";
+import ViewProfile from "../components/Candidate/Profile.jsx";
+import EmailVerification from "../user/Verification.jsx";
 
 const App = () => {
   const [authenticate, setAuthenticate] = useState(false);
@@ -99,6 +102,8 @@ const App = () => {
           {/* <PrivateRoute path="/resume" component={Resume} authenticated={authenticate} roles={roles} currentUser={currentUser}></PrivateRoute> */}
           <Route path="/view-resume/:cid/:jid"
             render={(props) => <ViewResume authenticated={authenticate} roles={roles} currentUser={currentUser} {...props} />}></Route>
+          <Route path="/view-profile/:cid"
+            render={(props) => <ViewProfile authenticated={authenticate} roles={roles} currentUser={currentUser} {...props} />}></Route>
           <Route path="/login"
             render={(props) => <Login authenticated={authenticate} {...props} />}></Route>
           <Route path="/signup"
@@ -108,11 +113,15 @@ const App = () => {
             render={(props) => <ForgotPassword authenticated={authenticate} {...props} />}></Route>
           <Route path="/resetpassword"
             render={(props) => <ResetPassword authenticated={authenticate} {...props} />}></Route>
+          <Route path="/verify"
+            render={(props) => <EmailVerification authenticated={authenticate} {...props} />}></Route>
           <PrivateRoute path="/admin/users" authenticated={authenticate} currentUser={currentUser}
             component={ListUser}></PrivateRoute>
           <Route path="/job-listing"
-            render={(props) => <Job {...props} />} ></Route>
-           <Route path="/job-filter"
+            render={(props) => <Job authenticated={authenticate} {...props} />} ></Route>
+          <Route path="/candidate-listing"
+            render={(props) => <CandidateListing {...props} />} ></Route>
+          <Route path="/job-filter"
             render={(props) => <JobFilter {...props} />} ></Route>
           <Route path="/apply-candidate"
             render={(props) => <AppliedList {...props} />} ></Route>

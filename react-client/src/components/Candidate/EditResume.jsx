@@ -27,16 +27,17 @@ import {
     from '../../api/CandidateAPI';
 import Moment from 'moment';
 import Alert from "react-s-alert";
-import { InputLabel, Paper, Select, Tooltip, IconButton, Fade, Collapse, Divider } from '@mui/material';
+import { InputLabel, Paper, Select, Tooltip, IconButton, Fade, Collapse, Divider, FormHelperText } from '@mui/material';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineOppositeContent, TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
-import AdapterDateFns from '@mui/lab/AdapterMoment'
+import DateAdapter from '@mui/lab/AdapterMoment'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker'
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 Moment.locale('th');
 
@@ -64,12 +65,11 @@ const useStyles = makeStyles((theme) => ({
     },
     buttonbase: {
         margin: theme.spacing(1),
-        width: "10%",
-        height: "10%"
     },
     addSkill: {
         marginRight: 100
-    }
+    },
+    
 
 }));
 
@@ -135,11 +135,13 @@ export default function EditResume(props) {
                 </div>
             ) : (
                 <Grid container justifyContent='center'>
-                    <FormControl fullWidth required >
+                    
+                    <FormControl fullWidth >
+                    <form onSubmit={handleUpdate}>
                         <Typography variant="h5" component="div" color="textPrimary" className={classes.content}>
                             POSITION TITLE
                         </Typography>
-                        <FormControl required variant="outlined" className={classes.textBox}>
+                        <FormControl required fullWidth variant="outlined" className={classes.textBox}>
                             <TextField
                                 id="position"
                                 name="positionTitle"
@@ -147,9 +149,9 @@ export default function EditResume(props) {
                                 defaultValue={resume.positionTitle}
                                 variant="outlined"
                                 onChange={changeHandler}
-
+                                required
                             />
-                        </FormControl>
+                        
 
                         <Typography variant="h5" component="div" color="textPrimary" className={classes.content}>
                             PROFILE
@@ -163,7 +165,22 @@ export default function EditResume(props) {
                             onChange={changeHandler}
                             multiline
                             rows={4}
+                            required
                         />
+                        </FormControl>
+
+                        <br/>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<SaveAltRoundedIcon />}
+                            type="submit"
+                            className={classes.buttonbase}
+                            >
+                            UPDATE RESUME
+                        </Button>
+                        </form>
                         <Typography variant="h5" component="div" color="textPrimary" className={classes.content}>
                             EDUCATION
                         </Typography>
@@ -191,16 +208,7 @@ export default function EditResume(props) {
                     </FormControl>
                     <br />
 
-                    <Button
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                        startIcon={<SaveAltRoundedIcon />}
-                        onClick={handleUpdate}
-                    >
-                        UPDATE RESUME
-                    </Button>
-
+                    
                 </Grid>
 
 
@@ -217,6 +225,8 @@ const EducationDetails = (props) => {
     const sortedResume = [...resume.educations].sort((a, b) => a.id < b.id ? 1 : -1)
     const [checked, setChecked] = useState(false);
     const [add, setAdd] = useState(false);
+
+    
 
     const handleChange = (i) => {
         console.log("change");
@@ -284,7 +294,7 @@ const EducationDetails = (props) => {
 
                             </TimelineItem>
                             <Collapse in={checked === e}>
-                                <EducationForm educationId={e.id} setChecked={setChecked} />
+                                <EducationForm educationId={e.id} setChecked={setChecked} index={index}/>
                             </Collapse>
                         </>
                     )
@@ -315,6 +325,13 @@ function EducationForm(props) {
     const [education, setEducation] = useState([]);
     const [loading, setLoading] = useState(true);
     const forceUpdate = useForceUpdate();
+    const index = props.index;
+    const [educationLevelError, setEducationLevelError] = useState(false);
+    const [fromDateError, setFromDateError] = useState(false);
+    const [toDateError, setToDateError] = useState(false);
+    const [instituteError, setInstituteError] = useState(false);
+    const [curriculumError, setCurriculumError] = useState(false);
+    const [gpaError, setGpaError] = useState(false);
 
     const [educationRequest, setEducationRequest] = useState({
         educationLevel: '',
@@ -329,29 +346,152 @@ function EducationForm(props) {
 
 
     const changeHandler = e => {
-        setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+        if(e.target.name === "educationLevel"){
+            if(e.target.value === ""){
+                setEducationLevelError(true);
+            }
+            else{
+                setEducationLevelError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if(e.target.name === "fromDate"){
+            if(e.target.value === ""){
+                setFromDateError(true);
+            }
+            else{
+                setFromDateError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if (e.target.name === "toDate"){
+            if(e.target.value === ""){
+                setToDateError(true);
+            }
+            else{
+                setToDateError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if (e.target.name === "institute"){
+            if(e.target.value === ""){
+                setInstituteError(true);
+            }
+            else{
+                setInstituteError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if (e.target.name === "curriculum"){
+            if(e.target.value === ""){
+                setCurriculumError(true);
+            }
+            else{
+                setCurriculumError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if (e.target.name === "gpa"){
+            if(e.target.value === ""){
+                setGpaError(true);
+            }
+            else{
+                setGpaError(false);
+                setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });
+            }
+        }
+        setEducationRequest({ ...educationRequest, [e.target.name]: e.target.value });       
     };
 
+    const dateChangeHandler = (e) => {
+        let newArr = [{...educationRequest}];
+        setEducationRequest({
+            ...educationRequest, "fromDate" : e
+        })
+        console.log(educationRequest.fromDate)
+        // newArr[index] = e.target.value;
+        // setEducationRequest(newArr);
+    }
+
     const handleUpdate = (e) => {
-        props.setChecked(false);
-        updateEducation(educationRequest, id)
-            .then(response => {
-                Alert.success("You're successfully update your education");
-                window.location.reload(false);
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        e.preventDefault();
+      
+
+        if(educationLevelError || educationRequest.educationLevel == ""){
+            setEducationLevelError(true);
+        }
+
+        else if(fromDateError || educationRequest.fromDate == ""){
+            setFromDateError(true);
+        }
+
+        else if(toDateError || educationRequest.toDate == ""){
+            setToDateError(true);
+        }
+
+        else if(instituteError || educationRequest.institute == ""){
+            setInstituteError(true);
+        }
+
+        else if(curriculumError || educationRequest.curriculum == ""){
+            setCurriculumError(true);
+        }
+
+        else if(gpaError || educationRequest.gpa == ""){
+            setGpaError(true);
+        }
+        else {
+
+            props.setChecked(false);
+            updateEducation(educationRequest, id)
+                .then(response => {
+                    Alert.success("You're successfully update your education");
+                    window.location.reload(false);
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+
+        }
+
+       
     }
 
     const handleCreate = (e) => {
-        props.setChecked(false);
-        createEducation(educationRequest)
-            .then(response => {
-                Alert.success("You're successfully create new education");
-                window.location.reload();
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        
+        if(educationLevelError || educationRequest.educationLevel == ""){
+            setEducationLevelError(true);
+        }
+
+        else if(fromDateError || educationRequest.fromDate == ""){
+            setFromDateError(true);
+        }
+
+        else if(toDateError || educationRequest.toDate == ""){
+            setToDateError(true);
+        }
+
+        else if(instituteError || educationRequest.institute == ""){
+            setInstituteError(true);
+        }
+
+        else if(curriculumError || educationRequest.curriculum == ""){
+            setCurriculumError(true);
+        }
+
+        else if(gpaError || educationRequest.gpa == ""){
+            setGpaError(true);
+        }
+        else {
+            props.setChecked(false);
+            createEducation(educationRequest)
+                .then(response => {
+                    Alert.success("You're successfully create new education");
+                    window.location.reload();
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }   
+      
     }
 
     const fetchData = async () => {
@@ -360,6 +500,7 @@ function EducationForm(props) {
         setEducationRequest(educationResult);
         setLoading(false);
     }
+   
 
     useEffect(() => {
         if (id) {
@@ -374,6 +515,7 @@ function EducationForm(props) {
         }
     }, []);
 
+
     return (
         <>
             {loading ? (
@@ -383,34 +525,41 @@ function EducationForm(props) {
                 </div>
             ) : (
                 <>
-                    <FormControl fullWidth required >
+                    <FormControl fullWidth required>
                         <Grid container spacing={1} className={classes.formContent}>
                             <Grid item xs={6}>
-                                <InputLabel htmlFor="outlined-educationLevel">Education Level</InputLabel>
-                                <Select
-                                    native
-                                    onChange={changeHandler}
-                                    name="educationLevel"
-                                    label="Education Level"
-                                    inputProps={{
-                                        id: 'outlined-educationLevel',
-                                    }}
-
-                                >
-                                    {education && (
-                                        <option value={education.educationLevel}>{education.educationLevel}</option>
+                                <FormControl required className={classes.textBox}>
+                                    <InputLabel required htmlFor="outlined-educationLevel">Education Level</InputLabel>
+                                    <Select
+                                        native
+                                        onChange={changeHandler}
+                                        name="educationLevel"
+                                        label="Education Level"
+                                        inputProps={{
+                                            id: 'outlined-educationLevel',
+                                        }}
+                                        error = {educationLevelError}
+                                    >
+                                        {education && (
+                                            <option value={education.educationLevel}>{education.educationLevel}</option>
+                                        )}
+                                        <option>-Not Specify-</option>
+                                        <option>Senior High School Under</option>
+                                        <option>Senior High School</option>
+                                        <option>Vocational</option>
+                                        <option>High Vocational</option>
+                                        <option>Bachelor's Degree</option>
+                                        <option>Master's Degree</option>
+                                        <option>Doctor's Degree</option>
+                                    </Select>
+                                    {educationLevelError && (
+                                        <FormHelperText error> Please select this field </FormHelperText>
                                     )}
-                                    <option>-Not Specify-</option>
-                                    <option>Senior High School Under</option>
-                                    <option>Senior High School</option>
-                                    <option>Vocational</option>
-                                    <option>High Vocational</option>
-                                    <option>Bachelor's Degree</option>
-                                    <option>Master's Degree</option>
-                                    <option>Doctor's Degree</option>
-                                </Select>
+                                </FormControl>
+                                <br/>
                             </Grid>
                             <Grid item xs={6} >
+                                <FormControl required className={classes.textBox}>
                                 <TextField
                                     fullWidth
                                     id="institute"
@@ -423,124 +572,154 @@ function EducationForm(props) {
                                     }
                                     variant="outlined"
                                     onChange={changeHandler}
+                                    required
+                                    hidden
+                                    error = {instituteError}
+                                    helperText = {instituteError ? "Please input this field" : ""}
                                 />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField
-                                    format="dd-mm-yy"
-                                    name="fromDate"
-                                    id="fromDate"
-                                    label="From date"
-                                    variant="outlined"
-                                    type="date"
-                                    defaultValue={
-                                        education && (
-                                            education.fromDate
-                                        )
-                                    }
-                                    className={classes.textField}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={changeHandler}
-                                />
+                                <FormControl required className={classes.textBox}>
+                                    <TextField
+                                        format="dd-mm-yy"
+                                        name="fromDate"
+                                        id="fromDate"
+                                        label="From date"
+                                        variant="outlined"
+                                        type="date"
+                                        defaultValue={
+                                            education && (
+                                                education.fromDate
+                                            )
+                                        }
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={changeHandler}
+                                        required
+                                        error = {fromDateError}
+                                        helperText = {fromDateError ? "Please select the date" : ""}
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} >
-                            <TextField
-                                    format="dd-mm-yy"
-                                    name="toDate"
-                                    id="toDate"
-                                    label="To date"
-                                    variant="outlined"
-                                    type="date"
-                                    defaultValue={
-                                        education && (
-                                            education.toDate
-                                        )
-                                    }
-                                    className={classes.textField}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={changeHandler}
-                                />
+                                <FormControl required className={classes.textBox}>
+                                    <TextField
+                                        format="dd-mm-yy"
+                                        name="toDate"
+                                        id="toDate"
+                                        label="To date"
+                                        variant="outlined"
+                                        type="date"
+                                        defaultValue={
+                                            education && (
+                                                education.toDate
+                                            )
+                                        }
+                                        className={classes.textField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={changeHandler}
+                                        required
+                                        error = {toDateError}
+                                        helperText = {toDateError ? "Please select the date" : ""}
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField
-                                    fullWidth
-                                    id="cirriculum"
-                                    name="cirriculum"
-                                    label="Cirriculum"
-                                    defaultValue={
-                                        education && (
-                                            education.cirriculum
-                                        )
-                                    }
-                                    variant="outlined"
-                                    onChange={changeHandler}
-                                />
+                                <FormControl required className={classes.textBox}>
+                                    <TextField
+                                        fullWidth
+                                        id="curriculum"
+                                        name="curriculum"
+                                        label="Curriculum"
+                                        defaultValue={
+                                            education && (
+                                                education.curriculum
+                                            )
+                                        }
+                                        variant="outlined"
+                                        onChange={changeHandler}
+                                        required
+                                        error = {curriculumError}
+                                        helperText = {curriculumError ? "Please input this field" : ""}
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField
-                                    id="gpa"
-                                    name="gpa"
-                                    label="GPA"
-                                    defaultValue={
-                                        education && (
-                                            education.gpa
-                                        )
-                                    }
-                                    variant="outlined"
-                                    onChange={changeHandler}
-                                />
+                                <FormControl required className={classes.textBox}>
+                                    <TextField
+                                        id="gpa"
+                                        name="gpa"
+                                        label="GPA"
+                                        defaultValue={
+                                            education && (
+                                                education.gpa
+                                            )
+                                        }
+                                        type="number"
+                                        inputProps={{step: "0.01", lang:"en-US"}}
+                                        variant="outlined"
+                                        onChange={changeHandler}
+                                        required
+                                        error = {gpaError}
+                                        helperText = {gpaError ? "Please input this field" : ""}
+                                    />
+                                </FormControl>
                             </Grid>
                             <Grid item xs={6} >
-                                <TextField
-                                    id="description"
-                                    name="description"
-                                    label="Description"
-                                    fullWidth
-                                    defaultValue={
-                                        education && (
-                                            education.description
-                                        )
-                                    }
-                                    variant="outlined"
-                                    onChange={changeHandler}
-                                />
+                                <FormControl required className={classes.textBox} fullWidth>
+                                    <TextField
+                                        id="description"
+                                        name="description"
+                                        label="Description"
+                                        fullWidth
+                                        defaultValue={
+                                            education && (
+                                                education.description
+                                            )
+                                        }
+                                        variant="outlined"
+                                        onChange={changeHandler}
+                                    />
+                                </FormControl>
                             </Grid>
                         </Grid>
-                        <br />
+                        <br/>
+                    
+                        <Grid container justifyContent='flex-end'>
+                            {id ? (
+                                <Button
+                                    size="medium"
+                                    className={classes.buttonbase}
+                                    variant="contained"
+                                    color="primary"
+                                    startIcon={<SaveAltRoundedIcon />}
+                                    onClick={handleUpdate}
+                                >
+                                    UPDATE
+                                </Button>
+
+                            ) : (
+                                <Button
+                                    size="medium"
+                                    className={classes.buttonbase}
+                                    variant="contained"
+                                    color="primary"
+                                    startIcon={<SaveAltRoundedIcon />}
+                                    onClick={handleCreate}
+                                >
+                                    SAVE
+                                </Button>
+
+
+                            )}
+
+                        </Grid>
                     </FormControl >
-                    <Grid container justifyContent='flex-end'>
-                        {id ? (
-                            <Button
-                                size="medium"
-                                className={classes.buttonbase}
-                                variant="contained"
-                                color="primary"
-                                startIcon={<SaveAltRoundedIcon />}
-                                onClick={handleUpdate}
-                            >
-                                SAVE
-                            </Button>
-
-                        ) : (
-                            <Button
-                                size="small"
-                                className={classes.buttonbase}
-                                variant="contained"
-                                color="primary"
-                                startIcon={<SaveAltRoundedIcon />}
-                                onClick={handleCreate}
-                            >
-                                SAVE
-                            </Button>
-
-
-                        )}
-
-                    </Grid>
                 </>
             )}
         </>
@@ -554,15 +733,23 @@ function SkillForm(props) {
     const [skill, setSkill] = useState([]);
     const [loading, setLoading] = useState(true);
     const [add, setAdd] = useState(false);
+    const [skillError, setSkillError] = useState(false);
 
     const setChecked = props.setChecked;
 
     const [skillRequest, setSkillRequest] = useState({
-        skillName: '',
+        skillName: "",
     })
 
-    const changeHandler = e => {
-        setSkillRequest({ ...skillRequest, [e.target.name]: e.target.value });
+    const changeHandler = (e) => {
+        if(e.target.value === ""){
+            setSkillError(true);
+        }
+        else{
+            setSkillError(false);
+            setSkillRequest({ ...skillRequest, [e.target.name]: e.target.value });
+        }
+        
     };
 
     const handleClickAdd = () => {
@@ -570,25 +757,36 @@ function SkillForm(props) {
     }
 
     const handleCreate = (e) => {
-        setAdd(false);
-        createSkill(skillRequest)
+        if(skillError || skillRequest.skillName === "" || skillRequest.skillName === undefined){
+            setSkillError(true);
+        }
+        else{
+            setAdd(false);
+            createSkill(skillRequest)
             .then(response => {
                 Alert.success("You're successfully create new skill");
                 window.location.reload();
             }).catch(error => {
                 Alert.error((error && error.message) || ('something went wrong'));
             });
+        }
+        
     }
 
     const handleUpdate = (e) => {
-        setAdd(false);
-        updateSkill(skillRequest, e.id)
-            .then(response => {
-                Alert.success("You're successfully update your skill");
-                window.location.reload(false);
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        if(skillError || skillRequest.skillName === "" || skillRequest.skillName === undefined){
+            setSkillError(true);
+        }
+        else{
+            setAdd(false);
+            updateSkill(skillRequest, e.id)
+                .then(response => {
+                    Alert.success("You're successfully update your skill");
+                    window.location.reload(false);
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
     }
 
     const handleDelete = (e) => {
@@ -612,6 +810,7 @@ function SkillForm(props) {
         }
         fetchData();
 
+
     }, []);
 
     const skills = skill.map((s) => s);
@@ -627,44 +826,45 @@ function SkillForm(props) {
                 <>
                     {skills.map((s, index) => {
                         return (
-                            <FormControl fullWidth required >
-                                <Grid container spacing={1} className={classes.formContent}>
-
-
-                                    <>
-                                        <Grid item xs={6} key={index}>
-                                            <TextField
-                                                fullWidth
-                                                id="skill"
-                                                name="skillName"
-                                                label="Type Of Skill"
-                                                defaultValue={s.skillName}
-                                                variant="outlined"
-                                                onChange={changeHandler}
-                                            />
-                                        </Grid>
-                                        <Button
-                                            size="medium"
-                                            variant="contained"
-                                            color="primary"
-                                            startIcon={<SaveAltRoundedIcon />}
-                                            onClick={() => handleUpdate(s)}
-                                        >
-                                            UPDATE
-                                        </Button>
-                                        <Tooltip arrow title="Delete" placement="top">
-                                            <IconButton
-                                                style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
-                                                onClick={() => handleDelete(s)}
+                                <FormControl fullWidth required >                                                                                                                                       
+                                    <Grid container spacing={1} className={classes.formContent}>
+                                        <>
+                                            <Grid item xs={6} key={index}>
+                                                <TextField
+                                                    fullWidth
+                                                    id="skill"
+                                                    name="skillName"
+                                                    label="Type Of Skill"
+                                                    defaultValue={s.skillName}
+                                                    variant="outlined"
+                                                    onChange={changeHandler}
+                                                    error = {skillError}
+                                                    helperText = {skillError ? "Please input this field" : ""}
+                                                />
+                                            </Grid>
+                                            <Button
+                                                size="medium"
+                                                variant="contained"
+                                                color="primary"
+                                                startIcon={<SaveAltRoundedIcon />}
+                                                onClick={() => handleUpdate(s)}
                                             >
-                                                <DeleteRoundedIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </>
+                                                UPDATE
+                                            </Button>
+                                            <Tooltip arrow title="Delete" placement="top">
+                                                <IconButton
+                                                    style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+                                                    onClick={() => handleDelete(s)}
+                                                >
+                                                    <DeleteRoundedIcon />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </>
 
-                                </Grid>
-                                <br />
-                            </FormControl >
+                                    </Grid>
+                                    <br />
+                                </FormControl >
+                                                                                                                                                                                         
                         )
                     })}
 
@@ -680,7 +880,8 @@ function SkillForm(props) {
                         </Tooltip>
                     </Grid>
                     <Collapse in={add}>
-                        <FormControl fullWidth required >
+                        
+                        <FormControl fullWidth required>
                             <Grid container spacing={1} className={classes.formContent}>
                                 <Grid item xs={6}>
                                     <TextField
@@ -690,12 +891,14 @@ function SkillForm(props) {
                                         label="Type Of Skill"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
+                                        error={skillError}
+                                        helperText={skillError ? "Please fill the skill name" : ""}
                                     />
                                 </Grid>
 
                                 <Button
                                     size="small"
-
                                     variant="contained"
                                     color="primary"
                                     startIcon={<SaveAltRoundedIcon />}
@@ -706,6 +909,7 @@ function SkillForm(props) {
                             </Grid>
                             <br />
                         </FormControl >
+                        
                     </Collapse>
 
 
@@ -722,7 +926,57 @@ function ExperienceForm(props) {
     const [loading, setLoading] = useState(true);
     const [add, setAdd] = useState(false);
 
+    const [companyNameError, setCompanyNameError] = useState(false);
+    const [fromDateError, setFromDateError] = useState(false);
+    const [toDateError, setToDateError] = useState(false);
+    const [typeOfWorkError, setTypeOfWorkError] = useState(false);
+
+    const [experienceRequest, setExperienceRequest] = useState({
+        companyName:'',
+        fromDate: '',
+        toDate: '',
+        description: '',
+        typeOfWork: ''
+    })
+
     const changeHandler = e => {
+
+        if(e.target.name === "companyName"){
+            if(e.target.value === ""){
+                setCompanyNameError(true);
+            }
+            else{
+                setCompanyNameError(false);
+                setExperienceRequest({ ...experienceRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if(e.target.name === "fromDate"){
+            if(e.target.value === ""){
+                setFromDateError(true);
+            }
+            else{
+                setFromDateError(false);
+                setExperienceRequest({ ...experienceRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if(e.target.name === "toDate"){
+            if(e.target.value === ""){
+                setToDateError(true);
+            }
+            else{
+                setToDateError(false);
+                setExperienceRequest({ ...experienceRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if(e.target.name === "typeOfWork"){
+            if(e.target.value === ""){
+                setTypeOfWorkError(true);
+            }
+            else{
+                setTypeOfWorkError(false);
+                setExperienceRequest({ ...experienceRequest, [e.target.name]: e.target.value });
+            }
+        }
         setExperienceRequest({ ...experienceRequest, [e.target.name]: e.target.value });
     };
 
@@ -731,24 +985,56 @@ function ExperienceForm(props) {
     }
 
     const handleCreate = (e) => {
-        setAdd(false);
-        createExperience(experienceRequest)
+
+        if (companyNameError || experienceRequest.companyName == "" || experienceRequest.companyName === undefined){
+            setCompanyNameError(true);
+        }
+        else if (fromDateError || experienceRequest.fromDate == "" || experienceRequest.fromDate === undefined){
+            setFromDateError(true);
+        }
+        else if (toDateError || experienceRequest.toDate == "" || experienceRequest.toDate === undefined){
+            setToDateError(true);
+        }
+        else if (typeOfWorkError || experienceRequest.typeOfWork == "" || experienceRequest.typeOfWork === undefined){
+            setTypeOfWorkError(true);
+        }
+        else {
+            setAdd(false);
+            createExperience(experienceRequest)
             .then(response => {
                 Alert.success("You're successfully create new experience");
                 window.location.reload();
             }).catch(error => {
                 Alert.error((error && error.message) || ('something went wrong'));
             });
+
+        }  
     }
 
-    const handleUpdate = e => {
-        setAdd(false);
-        updateExperience(experienceRequest, e.id)
-            .then(response => {
-                Alert.success("You're successfully update your experience");
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+    const handleUpdate = (e) => {
+
+        if (companyNameError || experienceRequest.companyName == "" || experienceRequest.companyName === undefined){
+            setCompanyNameError(true);
+        }
+        else if (fromDateError || experienceRequest.fromDate == "" || experienceRequest.fromDate === undefined){
+            setFromDateError(true);
+        }
+        else if (toDateError || experienceRequest.toDate == "" || experienceRequest.toDate === undefined){
+            setToDateError(true);
+        }
+        else if (typeOfWorkError || experienceRequest.typeOfWork == "" || experienceRequest.typeOfWork === undefined){
+            setTypeOfWorkError(true);
+        }
+        else {
+            setAdd(false);
+            updateExperience(experienceRequest, e.id)
+                .then(response => {
+                    Alert.success("You're successfully update your experience");
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
+       
     }
 
     const handleDelete = (e) => {
@@ -773,15 +1059,9 @@ function ExperienceForm(props) {
         fetchData();
     }, []);
 
-    const [experienceRequest, setExperienceRequest] = useState({
-        companyName: experience.companyName,
-        fromDate: '',
-        toDate: '',
-        description: '',
-        typeOfWork: ''
-    })
+    
 
-    console.log(experienceRequest);
+
 
     return (
         <>
@@ -798,19 +1078,25 @@ function ExperienceForm(props) {
                                 <Grid container spacing={1} className={classes.formContent}>
 
                                     <Grid item xs={6} key={index}>
-                                        <TextField
-                                            fullWidth
-                                            id="companyName"
-                                            name="companyName"
-                                            label="Organization Name"
-                                            defaultValue={e.companyName}
-                                            variant="outlined"
-                                            onChange={changeHandler}
-                                        />
+                                        <FormControl required className={classes.textBox}>
+                                            <TextField
+                                                fullWidth
+                                                id="companyName"
+                                                name="companyName"
+                                                label="Organization Name"
+                                                defaultValue={e.companyName}
+                                                variant="outlined"
+                                                onChange={changeHandler}
+                                                required
+                                                error={companyNameError}
+                                                helperText={companyNameError ? "Please input this field" : ""}
+                                            />
+                                        </FormControl>
                                     </Grid>
 
                                     <Grid item xs={6}>
-
+                                    <FormControl required className={classes.textBox}>
+                                    <InputLabel required htmlFor="outlined-educationLevel">Type Of Work</InputLabel>
                                         <Select
                                             native
                                             onChange={changeHandler}
@@ -820,6 +1106,8 @@ function ExperienceForm(props) {
                                             inputProps={{
                                                 id: 'gender-required',
                                             }}
+                                            required
+                                            error={typeOfWorkError}
 
                                         >
                                             <option value={e.typeOfWork}>{e.typeOfWork}</option>
@@ -828,8 +1116,13 @@ function ExperienceForm(props) {
                                             <option >Part-Time</option>
                                             <option>Full-Time</option>
                                         </Select>
+                                        {typeOfWorkError && (
+                                            <FormHelperText error> Please select this field </FormHelperText>
+                                        )}
+                                        </FormControl>
                                     </Grid>
                                     <Grid item xs={6} >
+                                        <FormControl required className={classes.textBox}>
                                         <TextField
                                             format="dd-mm-yy"
                                             name="fromDate"
@@ -843,9 +1136,15 @@ function ExperienceForm(props) {
                                                 shrink: true,
                                             }}
                                             onChange={changeHandler}
+                                            required
+                                            error={fromDateError}
+                                            helperText={fromDateError ? "Please select this field" : ""}
+
                                         />
+                                        </FormControl>
                                     </Grid>
                                     <Grid item xs={6} >
+                                    <FormControl required className={classes.textBox}>
                                         <TextField
                                             format="dd-mm-yy"
                                             name="toDate"
@@ -859,7 +1158,11 @@ function ExperienceForm(props) {
                                                 shrink: true,
                                             }}
                                             onChange={changeHandler}
+                                            required
+                                            error={toDateError}
+                                            helperText={toDateError ? "Please select this field" : ""}
                                         />
+                                        </FormControl>
                                     </Grid>
                                     <Grid item xs={6} key={index}>
                                         <TextField
@@ -919,6 +1222,9 @@ function ExperienceForm(props) {
                                         label="Organization Name"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        required
+                                        error={companyNameError}
+                                        helperText={companyNameError ? "Please input this field" : ""}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -933,7 +1239,8 @@ function ExperienceForm(props) {
                                             inputProps={{
                                                 id: 'gender-required',
                                             }}
-
+                                            required
+                                            error = {typeOfWorkError}
                                         >
                                             <option> -- Type of Work -- </option>
                                             <option>Internship</option>
@@ -941,39 +1248,50 @@ function ExperienceForm(props) {
                                             <option >Part-Time</option>
                                             <option>Full-Time</option>
                                         </Select>
+                                        {typeOfWorkError && (
+                                            <FormHelperText error> Please select this field </FormHelperText>
+                                        )}
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={6} >
-                                    <TextField
-                                        format="dd-mm-yy"
-                                        name="fromDate"
-                                        id="birthDate"
-                                        label="From date"
-                                        variant="outlined"
-                                        type="date"
-
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={changeHandler}
-                                    />
+                                    <FormControl required className={classes.textBox}>
+                                        <TextField
+                                            format="dd-mm-yy"
+                                            name="fromDate"
+                                            id="fromDate"
+                                            label="From date"
+                                            variant="outlined"
+                                            type="date"
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onChange={changeHandler}
+                                            required
+                                            error={fromDateError}
+                                            helperText={fromDateError ? "Please select this field" : ""}
+                                        />
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={6} >
-                                    <TextField
-                                        format="dd-mm-yy"
-                                        name="toDate"
-                                        id="birthDate"
-                                        label="To date"
-                                        variant="outlined"
-                                        type="date"
-
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={changeHandler}
-                                    />
+                                    <FormControl required className={classes.textBox}>
+                                        <TextField
+                                            format="dd-mm-yy"
+                                            name="toDate"
+                                            id="birthDate"
+                                            label="To date"
+                                            variant="outlined"
+                                            type="date"
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onChange={changeHandler}
+                                            required
+                                            error={toDateError}
+                                            helperText={toDateError ? "Please select this field" : ""}
+                                        />
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <TextField
@@ -1017,12 +1335,31 @@ function LanguageForm(props) {
     const [loading, setLoading] = useState(true);
     const [add, setAdd] = useState(false);
 
+    const [languageNameError, setLanguageNameError] = useState(false);
+    const [levelError, setLevelError] = useState(false);
     const [languageRequest, setLanguageRequest] = useState({
         languageName: '',
         level: ''
     })
 
     const changeHandler = (e) => {
+        if (e.target.name === "languageName"){
+            if(e.target.value === ""){
+                setLanguageNameError(true);
+            }
+            else{
+                setLanguageNameError(false);
+                setLanguageRequest({ ...languageRequest, [e.target.name]: e.target.value });
+            }
+        }
+        else if (e.target.name == "level"){
+            if(e.target.value === ""){
+                setLevelError(true);
+            }
+            else {
+                setLanguageRequest({ ...languageRequest, [e.target.name]: e.target.value });
+            }
+        }
         setLanguageRequest({ ...languageRequest, [e.target.name]: e.target.value });
     };
 
@@ -1031,25 +1368,44 @@ function LanguageForm(props) {
     }
 
     const handleCreate = (e) => {
-        setAdd(false);
-        createLanguage(languageRequest)
-            .then(response => {
-                Alert.success("You're successfully create new language");
-                window.location.reload();
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+
+        if(languageRequest.languageName == "" || languageNameError || languageRequest.languageName === undefined){
+            setLanguageNameError(true);
+        }
+
+        else if (languageRequest.level == "" || levelError || languageRequest.level === undefined){
+            setLevelError(true);
+        }
+        else {
+            setAdd(false);
+            createLanguage(languageRequest)
+                .then(response => {
+                    Alert.success("You're successfully create new language");
+                    window.location.reload();
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
     }
 
     const handleUpdate = (e) => {
-        setAdd(false);
-        updateLanguage(languageRequest, e.id)
-            .then(response => {
-                Alert.success("You're successfully update your language");
-                window.location.reload(false);
-            }).catch(error => {
-                Alert.error((error && error.message) || ('something went wrong'));
-            });
+        if(languageRequest.languageName == "" || languageNameError){
+            setLanguageNameError(true);
+        }
+
+        else if (languageRequest.level == "" || levelError){
+            setLevelError(true);
+        }
+        else {
+            setAdd(false);
+            updateLanguage(languageRequest, e.id)
+                .then(response => {
+                    Alert.success("You're successfully update your language");
+                    window.location.reload(false);
+                }).catch(error => {
+                    Alert.error((error && error.message) || ('something went wrong'));
+                });
+        }
     }
 
     const handleDelete = (e) => {
@@ -1097,6 +1453,7 @@ function LanguageForm(props) {
                 <>
                     {language.map((l, index) => {
                         return (
+                        
                             <FormControl fullWidth required key={l} >
                                 <Grid container spacing={1} className={classes.formContent} >
                                     <>
@@ -1109,6 +1466,8 @@ function LanguageForm(props) {
                                                 defaultValue={l.languageName}
                                                 variant="outlined"
                                                 onChange={changeHandler}
+                                                error={languageNameError}
+                                                required
                                             />
                                         </Grid>
                                         <Grid item xs={6}>
@@ -1123,6 +1482,8 @@ function LanguageForm(props) {
                                                     inputProps={{
                                                         id: 'level-required',
                                                     }}
+                                                    error={levelError}
+                                                    required
 
                                                 >
                                                     <option value={l.level}>{l.level}</option>
@@ -1179,6 +1540,8 @@ function LanguageForm(props) {
                                         label="Language"
                                         variant="outlined"
                                         onChange={changeHandler}
+                                        error = {languageNameError}
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -1189,7 +1552,8 @@ function LanguageForm(props) {
                                             onChange={changeHandler}
                                             name="level"
                                             label="Level"
-
+                                            error = {levelError}
+                                            required
                                             inputProps={{
                                                 id: 'level',
                                             }}

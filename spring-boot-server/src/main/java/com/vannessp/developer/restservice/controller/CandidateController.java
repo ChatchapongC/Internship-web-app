@@ -2,11 +2,13 @@ package com.vannessp.developer.restservice.controller;
 
 import com.vannessp.developer.restservice.exception.BadRequestException;
 import com.vannessp.developer.restservice.exception.ResourceNotFoundException;
+import com.vannessp.developer.restservice.model.Candidate.FavoriteJob;
 import com.vannessp.developer.restservice.model.Candidate.JobApplication;
 import com.vannessp.developer.restservice.model.Candidate.Resume.*;
 import com.vannessp.developer.restservice.model.Company.Job;
 import com.vannessp.developer.restservice.model.User.User;
 import com.vannessp.developer.restservice.model.Candidate.Candidate;
+import com.vannessp.developer.restservice.payload.request.JobFilterRequest;
 import com.vannessp.developer.restservice.payload.request.Resume.*;
 import com.vannessp.developer.restservice.payload.request.UserProfileRequest;
 import com.vannessp.developer.restservice.payload.response.ApiResponse;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import java.sql.ResultSet;
 import java.util.*;
 
 @RestController
@@ -55,6 +56,9 @@ public class CandidateController {
 
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private FavoriteJobRepository favoriteJobRepository;
 
     @Autowired
     private UserServices userServices;
@@ -129,6 +133,7 @@ public class CandidateController {
 
         return ResponseEntity.ok(jobApplication);
     }
+
 
     @GetMapping("/resume")
     @PreAuthorize("hasRole('ROLE_CANDIDATE') or hasRole('ROLE_COMPANY')")
@@ -288,6 +293,9 @@ public class CandidateController {
         Resume resume = resumeRepository.findByCandidateId(candidate.getId())
                 .orElseThrow(() -> new BadRequestException("Error resume not found"));
 
+        if(skillRequest.getSkillName().equals("")){
+            throw new BadRequestException("Cant blank");
+        }
         Skill newSkill = new Skill();
         newSkill.setResume(resume);
         newSkill.setSkillName(skillRequest.getSkillName());
@@ -508,4 +516,83 @@ public class CandidateController {
 
     }
 
+//    @PostMapping
+//    public ResponseEntity<List<Job>> filterCandidate(@RequestBody JobFilterRequest jobFilterRequest) {
+//
+//        List<Job> jobs = jobRepository.findJobByTypeAndCategoryAndLocation(
+//                jobFilterRequest.getJobType(),
+//                jobFilterRequest.getJobCategory(),
+//                jobFilterRequest.getLocation()
+//        );
+//
+//        if(jobs == null){
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        return ResponseEntity.ok().body(jobs);
+//    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> candidateListing() {
+
+        List<Candidate> candidates = candidateRepository.findAll();
+
+        return ResponseEntity.ok().body(candidates);
+    }
+
+
+    @GetMapping("/favorite-job")
+    @PreAuthorize("hasRole('ROLE_CANDIDATE')")
+    public ResponseEntity<?> getFavoriteJob(@CurrentUser UserPrincipal userPrincipal){
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Candidate candidate = user.getCandidate();
+        List<FavoriteJob> favoriteJobs = candidate.getFavoriteJobs();
+        return ResponseEntity.ok(favoriteJobs);
+    }
+
+    @GetMapping("/view-resume-count")
+    @PreAuthorize("hasRole('ROLE_CANDIDATE')")
+    public ResponseEntity<?> getViewResumeCount(@CurrentUser UserPrincipal userPrincipal){
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Candidate candidate = user.getCandidate();
+        Resume resume = resumeRepository.findByCandidateId(candidate.getId())
+                .orElseThrow(() -> new BadRequestException("You are already favorite this job"));
+
+        return ResponseEntity.ok(resume.getViewCount());
+    }
+
+    @PutMapping("/favorite-job/{jobId}")
+    @PreAuthorize("hasRole('ROLE_CANDIDATE')")
+    public ResponseEntity<?> updateFavoriteJob(@CurrentUser UserPrincipal userPrincipal, @PathVariable Long jobId){
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+
+        Candidate candidate = user.getCandidate();
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new ResourceNotFoundException("Job", "id", jobId));
+
+        if (favoriteJobRepository.existsByJobAndCandidate(job, candidate)) {
+            throw new BadRequestException("You are already favorite this job");
+        }
+        else {
+            FavoriteJob favoriteJob = new FavoriteJob();
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
+            Date date = calendar.getTime();
+
+            favoriteJob.setJob(job);
+            favoriteJob.setCandidate(candidate);
+            favoriteJob.setApplyDate(date);
+            favoriteJobRepository.save(favoriteJob);
+
+            return ResponseEntity.ok().body(new ApiResponse(true, "Favorite job " + job.getTitle() + " success!"));
+        }
+
+    }
 }

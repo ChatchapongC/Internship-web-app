@@ -140,12 +140,17 @@ SimpleDialog.propTypes = {
 function SimpleDialogDemo() {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
+  const [passwordError, setPasswordError] = useState(true);
   const [signUpRequest, setSignupRequest] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     role: ''
   })
+
+  const [digitCheck, setDigitCheck] = useState(false);
+  const [numberCheck, setNumberCheck] = useState(false);
+  const [alphabetCheck, setAlphabetCheck] = useState(false);
 
   const history = useHistory();
   const handleClickOpen = (e) => {
@@ -164,6 +169,32 @@ function SimpleDialogDemo() {
   };
 
   const handleInputChange = (e) => {
+    if(e.target.name === "password"){
+      let value = e.target.value;
+      if(value.length < 9){
+        setPasswordError(true);
+        setDigitCheck(false);
+      }
+      if(value.length >= 8){
+        setDigitCheck(true);
+      }
+      if(value.match(/[a-zA-Z]/)){
+        setAlphabetCheck(true)
+      }
+      if(!value.match(/[a-zA-Z]/)){
+        setAlphabetCheck(false)
+      }
+      if(value.match(/[0-9]/)){
+        setNumberCheck(true)
+      }
+      if(!value.match(/[0-9]/)){
+        setNumberCheck(false)
+      }
+      else{
+        setPasswordError(false)
+        setSignupRequest({ ...signUpRequest, [e.target.name]: e.target.value });
+      }
+    }
     setSignupRequest({ ...signUpRequest, [e.target.name]: e.target.value });
   }
 
@@ -176,8 +207,19 @@ function SimpleDialogDemo() {
     else if (!selectedValue) {
       Alert.error("Please select Account type")
     }
-    else {
-      signup(signUpRequest)
+    else if (signUpRequest.password.length < 7){
+      Alert.error("Password must be more than 8 characters!")
+    }
+    else if (!signUpRequest.password.match(/[a-zA-Z]/)){
+      Alert.error("Password must contain character!")
+    }
+    else if (!signUpRequest.password.match(/[0-9]/)){
+      Alert.error("Password must contain number!")
+    }
+    else if(passwordError){
+        Alert.error("Password not strong!")
+    } else {
+       signup(signUpRequest)
         .then(response => {
           Alert.success("You're successfully registered. Please login to continue!");
           history.push("/login");
@@ -185,6 +227,7 @@ function SimpleDialogDemo() {
           Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
         });
     }
+    
   }
   console.log(signUpRequest.role)
   return (
@@ -202,8 +245,23 @@ function SimpleDialogDemo() {
           <input type="password" name="password" placeholder="Password"
             className="form-control"
             onChange={handleInputChange} required />
+            {digitCheck ? (
+              <small style={{ color: 'green' }}>&nbsp; Must contain more than 8 characters</small>
+            ):(
+              <small style={{ color: 'red' }}>&nbsp; Must contain more than 8 characters</small>
+            )}
+            {alphabetCheck ? (
+              <small style={{ color: 'green' }}>&nbsp; Must contain alphabet</small>
+            ) : (
+              <small style={{ color: 'red' }}>&nbsp; Must contain alphabet</small>
+            )}
+            {numberCheck ? (
+               <small style={{ color: 'green' }}>&nbsp; Must contain number</small>
+            ):(
+              <small style={{ color: 'red' }}>&nbsp; Must contain number</small>
+            )}
         </div>
-
+        <br/>
         <div className="form-group">
           <label htmlFor="Password"></label>
           <input type="password" name="confirmPassword" placeholder="Confirm Password"

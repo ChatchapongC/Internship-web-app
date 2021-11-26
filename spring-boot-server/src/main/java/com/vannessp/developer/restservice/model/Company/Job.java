@@ -1,6 +1,7 @@
 package com.vannessp.developer.restservice.model.Company;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.vannessp.developer.restservice.model.Candidate.FavoriteJob;
 import com.vannessp.developer.restservice.model.Candidate.JobApplication;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Cascade;
@@ -10,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,25 +27,51 @@ public class Job implements Serializable{
     @NotNull
     private Long id;
 
+    @NotNull
+    @NotBlank
     private String title;
 
+    @NotNull
+    @NotBlank
     private String type;
 
+    @NotNull
+    @NotBlank
     private String category;
 
     private String availablePosition;
 
     private String allowance;
 
+    @NotNull
+    @NotBlank
     private String workingTime;
 
     private String workingHoliday;
 
+    @NotNull
+    @NotBlank
     private String location;
 
+    @NotNull
+    @NotBlank
     private String description;
 
+    @NotNull
+    @NotBlank
     private String contactNumber;
+
+    @NotNull
+    @NotBlank
+    private String educationQualification;
+
+    @NotNull
+    @NotBlank
+    private String gender;
+
+    @NotNull
+    @NotBlank
+    private String experience;
 
     private String contactPersonName;
 
@@ -70,6 +98,11 @@ public class Job implements Serializable{
     @JsonBackReference
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     List<JobApplication> jobApplications;
+
+    @OneToMany(mappedBy = "job", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    List<FavoriteJob> favoriteJobs;
 
     public Job() {
 
@@ -205,6 +238,30 @@ public class Job implements Serializable{
 
     public void setJobApplications(List<JobApplication> jobApplications) {
         this.jobApplications = jobApplications;
+    }
+
+    public String getEducationQualification() {
+        return educationQualification;
+    }
+
+    public void setEducationQualification(String educationQualification) {
+        this.educationQualification = educationQualification;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
 }
 

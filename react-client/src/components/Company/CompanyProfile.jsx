@@ -19,8 +19,6 @@ const CompanyProfile = (props) => {
         fetchData();
     }, [companyId]);
 
-    console.log(company);
-
     return (
         <div className="profile-container">
             <div className="container">

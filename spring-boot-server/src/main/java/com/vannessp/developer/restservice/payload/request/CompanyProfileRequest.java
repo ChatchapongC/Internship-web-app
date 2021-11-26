@@ -1,17 +1,30 @@
 package com.vannessp.developer.restservice.payload.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CompanyProfileRequest {
 
+    @NotNull
+    @NotBlank
     private String companyName;
 
+    @NotNull
+    @NotBlank
     private String companyNameTH;
 
+    @NotNull
+    @NotBlank
     private String typeOfBusiness;
 
+    @NotNull
+    @NotBlank
     private String telephoneNumber;
 
     private String logo;
 
+    @NotNull
+    @NotBlank
     private String address;
 
     private String contactEmail;

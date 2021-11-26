@@ -19,7 +19,7 @@ public class EducationRequest {
 
     private String curriculum;
 
-    public String gpa;
+    public float gpa;
 
     public String description;
 
@@ -63,11 +63,11 @@ public class EducationRequest {
         this.curriculum = curriculum;
     }
 
-    public String getGpa() {
+    public float getGpa() {
         return gpa;
     }
 
-    public void setGpa(String gpa) {
+    public void setGpa(float gpa) {
         this.gpa = gpa;
     }
 

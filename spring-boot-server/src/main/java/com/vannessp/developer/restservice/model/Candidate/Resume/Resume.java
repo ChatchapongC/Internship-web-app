@@ -7,6 +7,7 @@ import com.vannessp.developer.restservice.model.Candidate.Candidate;
 import com.vannessp.developer.restservice.model.Candidate.JobApplication;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -26,6 +27,11 @@ public class Resume implements Serializable {
 
     private String shortDescription;
 
+    @Column
+    private Integer viewCount = 0;
+
+    @NotNull
+    @NotBlank
     private String positionTitle;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -134,5 +140,13 @@ public class Resume implements Serializable {
 
     public void setPositionTitle(String positionTitle) {
         this.positionTitle = positionTitle;
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 }
