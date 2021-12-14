@@ -90,17 +90,19 @@ export default function JobHighlight() {
             </CardContent>
             <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                The Agile management project which allow you to develop real application for company internal usage purpose
-                related to HR application. You will be engage in project planning, designing, coding, testing and deploying application by you own.
+              <Typography paragraph>
+                  Company name : {value.company.companyName}
+                </Typography>
+                <Typography paragraph>
+                  Type : {value.type} 
+                </Typography>
+                <Typography paragraph>
+                  Available Position : {value.availablePosition}
+                </Typography>
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
+
               <IconButton
                 className={clsx(classes.expand, {
                   [classes.expandOpen]: expanded,
@@ -114,17 +116,9 @@ export default function JobHighlight() {
             </CardActions>
             <Collapse in={expanded === value} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>Job Details:</Typography>
-                <Typography paragraph>
-                  Specification :
-                  Bachelor in Science in Computer, IT, etc.
-                  Open minded, willing to learn, responsible and reliable
-                  Ability to perform web application development (coding) any programming languages
-                  Able to perform unit testing
-                  Experience in application deployment
-                  Able to plan project with team
-                  Good at designing or coding
-                  Strong knowledge on HR functions
+                Description :
+                <Typography variant="body1" color="textSecondary" component="p">
+                {value.description}
                 </Typography>
               </CardContent>
             </Collapse>

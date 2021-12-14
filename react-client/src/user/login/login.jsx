@@ -35,12 +35,12 @@ const Login = (props) => {
           </Link>
         </small>
         <div className="footer">
-          <div className="or"><span>or</span></div>
+          {/* <div className="or"><span>or</span></div> */}
         </div>
       </div>
-      <div className="footer">
+      {/* <div className="footer">
         <SocialLogin />
-      </div>
+      </div> */}
     </div>
   );
 }

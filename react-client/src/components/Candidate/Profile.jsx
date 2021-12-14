@@ -275,17 +275,6 @@ function ViewProfile(props) {
                         className={classes.buttonbase}
                         variant="contained"
                         color="primary"
-                        startIcon={<PrintRoundedIcon />}
-                        onClick={() => printDocument()}
-
-                    >
-                        .PDF
-                    </Button>
-                    {/* <Button
-                        size="large"
-                        className={classes.buttonbase}
-                        variant="contained"
-                        color="primary"
                         disabled = {buttonStatus}
                         //startIcon={<PrintRoundedIcon />}
                         onClick={() => handleUpdatePass()}
@@ -305,7 +294,20 @@ function ViewProfile(props) {
 
                     >
                         DECLINE THS CANDIDATE
-                    </Button> */}
+                    </Button>
+
+                    <Button
+                        size="large"
+                        className={classes.buttonbase}
+                        variant="contained"
+                        color="primary"
+                        startIcon={<PrintRoundedIcon />}
+                        onClick={() => printDocument()}
+
+                    >
+                        .PDF
+                    </Button>
+                    
                     <Button
                             size="large"
                             className={classes.buttonbase}

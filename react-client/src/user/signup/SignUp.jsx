@@ -45,11 +45,11 @@ const Register = (props) => {
           </Link>
         </small>
         <div className="footer" />
-        <div className="or"><span>or</span></div>
+        {/* <div className="or"><span>or</span></div> */}
       </div>
-      <div className="footer">
+      {/* <div className="footer">
         <SocialSignUp />
-      </div>
+      </div> */}
     </div>
   );
 }
